@@ -17,7 +17,6 @@ import Vuelidate from 'vuelidate';
 import VTooltip from 'v-tooltip';
 import * as Sentry from '@sentry/vue';
 import { Integrations } from '@sentry/tracing';
-//////////////////////// origin -----------------------------------
 import App from '../dashboard/App';
 import WootUiKit from '../dashboard/components';
 import i18n from '../dashboard/i18n';
@@ -31,19 +30,6 @@ import {
   verifyServiceWorkerExistence,
   registerSubscription,
 } from '../dashboard/helper/pushHelper';
-/////////////////////// cscs define -------------------------------------------------------
-// import App from 'pages/App.vue'
-// import i18n from 'i18n';
-// import { getAlertAudio } from 'shared/helpers/AudioNotificationHelper';
-// import { initFaviconSwitcher } from 'shared/helpers/faviconHelper';
-// import createAxios from 'helper/APIHelper';
-// import commonHelpers, { isJSONValid } from 'helper/commons';
-// import vueActionCable from 'helper/actionCable';
-// import { verifyServiceWorkerExistence, registerSubscription } from 'helper/pushHelper';
-// import constants from 'constants';
-// import router from 'routes'
-// import store from 'store'
-////////////////////////////////////////////----------------------------------------------------------------
 import { ModalPlugin } from 'bootstrap-vue'
 import MdPlugin from './material-ui.js'
 
@@ -59,9 +45,7 @@ if (window.errorLoggingConfig) {
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
-/////////////////////// origin ---------------------------
 Vue.use(WootUiKit);
-//////////////////////-----------------------------------
 Vue.use(Vuelidate);
 Vue.use(VueFormulate, {
   rules: {
