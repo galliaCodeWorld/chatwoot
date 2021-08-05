@@ -7,7 +7,6 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
 import axios from 'axios';
-// Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
 import VueFormulate from '@braid/vue-formulate';
@@ -16,13 +15,14 @@ import WootWizard from 'components/ui/Wizard';
 import { sync } from 'vuex-router-sync';
 import Vuelidate from 'vuelidate';
 import VTooltip from 'v-tooltip';
-import WootUiKit from '../dashboard/components';
+import * as Sentry from '@sentry/vue';
+import { Integrations } from '@sentry/tracing';
+//////////////////////// origin -----------------------------------
 import App from '../dashboard/App';
+import WootUiKit from '../dashboard/components';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import { getAlertAudio } from '../shared/helpers/AudioNotificationHelper';
-import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router from '../dashboard/routes';
 import store from '../dashboard/store';
 import vueActionCable from '../dashboard/helper/actionCable';
@@ -31,9 +31,21 @@ import {
   verifyServiceWorkerExistence,
   registerSubscription,
 } from '../dashboard/helper/pushHelper';
-import * as Sentry from '@sentry/vue';
-import 'vue-easytable/libs/theme-default/index.css';
-import { Integrations } from '@sentry/tracing';
+/////////////////////// cscs define -------------------------------------------------------
+// import App from 'pages/App.vue'
+// import i18n from 'i18n';
+// import { getAlertAudio } from 'shared/helpers/AudioNotificationHelper';
+// import { initFaviconSwitcher } from 'shared/helpers/faviconHelper';
+// import createAxios from 'helper/APIHelper';
+// import commonHelpers, { isJSONValid } from 'helper/commons';
+// import vueActionCable from 'helper/actionCable';
+// import { verifyServiceWorkerExistence, registerSubscription } from 'helper/pushHelper';
+// import constants from 'constants';
+// import router from 'routes'
+// import store from 'store'
+////////////////////////////////////////////----------------------------------------------------------------
+import { ModalPlugin } from 'bootstrap-vue'
+import MdPlugin from './material-ui.js'
 
 Vue.config.env = process.env;
 
@@ -47,7 +59,9 @@ if (window.errorLoggingConfig) {
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
+/////////////////////// origin ---------------------------
 Vue.use(WootUiKit);
+//////////////////////-----------------------------------
 Vue.use(Vuelidate);
 Vue.use(VueFormulate, {
   rules: {
@@ -58,6 +72,11 @@ Vue.use(VTooltip, {
   defaultHtml: false,
 });
 Vue.use(hljs.vuePlugin);
+
+/////////////////////// cscs define 
+Vue.use(ModalPlugin);
+Vue.use(MdPlugin);
+/////////////////////////////////////////
 
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
@@ -102,7 +121,6 @@ window.addEventListener('load', () => {
     .register('/sw.js')
     .then(registration => {
       console.log('ServiceWorker registered: ', registration);
-
       var serviceWorker;
       if (registration.installing) {
         serviceWorker = registration.installing;

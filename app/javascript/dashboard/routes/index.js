@@ -110,15 +110,16 @@ const validateRouteAccess = (to, from, next) => {
 
 // protecting routes
 router.beforeEach((to, from, next) => {
-  if (!to.name) {
-    const user = auth.getCurrentUser();
-    if (user) {
-      return next(frontendURL(`accounts/${user.account_id}/dashboard`));
-    }
-    return next('/app/login');
-  }
+  next()
+  // if (!to.name) {
+  //   const user = auth.getCurrentUser();
+  //   if (user) {
+  //     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+  //   }
+  //   return next('/app/login');
+  // }
 
-  return validateRouteAccess(to, from, next);
+  // return validateRouteAccess(to, from, next);
 });
 
 export default router;
