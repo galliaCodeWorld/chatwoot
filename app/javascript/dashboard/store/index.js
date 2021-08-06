@@ -29,6 +29,13 @@ import teams from './modules/teams';
 import teamMembers from './modules/teamMembers';
 import campaigns from './modules/campaigns';
 import contactNotes from './modules/contactNotes';
+///////////////////////// admin ////////////////////////////////
+import adFields from './modules/admin/fields';
+import adGlobal from './modules/admin/global';
+import adGroups from './modules/admin/groups';
+import adTags from './modules/admin/tags';
+import adUsers from './modules/admin/users';
+
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -61,5 +68,11 @@ export default new Vuex.Store({
     teamMembers,
     campaigns,
     contactNotes,
+    /////////////////////////
+    adFields,
+    adGlobal,
+    adGroups,
+    adTags,
+    adUsers,
   },
 });

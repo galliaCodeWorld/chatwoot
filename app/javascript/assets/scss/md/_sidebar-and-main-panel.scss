@@ -55,17 +55,17 @@
 
 .sidebar,
 .off-canvas-sidebar{
-    position: fixed;
+    position: sticky;
     top: 0;
     bottom: 0;
     left: 0;
     z-index: 9999;
     width: 260px;
-    background: $white-color;
+    // background: $white-color;
     width: 260px;
-    @include shadow-big();
-    background-size: cover;
-    background-position: 50%;
+    // @include shadow-big();
+    // background-size: cover;
+    // background-position: 50%;
 
 
     .navbar-minimize{
@@ -636,7 +636,7 @@
 .sidebar,
 .main-panel,
 .sidebar-wrapper{
-    transition-property: top,bottom, width, background-image;
+    // transition-property: top,bottom, width, background-image;
     transition-duration: .2s,.2s, .35s, .30s;
     transition-timing-function: linear,linear,ease,linear;
     -webkit-overflow-scrolling: touch
