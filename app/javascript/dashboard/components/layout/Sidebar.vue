@@ -1,11 +1,10 @@
 <template>
   <aside class="sidebar animated shrink columns">
-    <div class="logo">
+    <div class="logo mt-3 mb-3">
       <router-link :to="dashboardPath" replace>
         <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
       </router-link>
     </div>
-
     <div class="main-nav">
       <transition-group name="menu-list" tag="ul" class="menu vertical">
         <sidebar-item
@@ -127,6 +126,7 @@ export default {
       return this.filterMenuItemsByRole(menuItems);
     },
     currentRoute() {
+      console.log('test...', this.$store)
       return this.$store.state.route.name;
     },
     shouldShowSidebarItem() {
@@ -329,4 +329,5 @@ export default {
 .teams-sidebar-menu + .nested.vertical.menu {
   padding-left: calc(var(--space-medium) - var(--space-one));
 }
+
 </style>
