@@ -4,14 +4,27 @@
 #
 #  id                    :integer          not null, primary key
 #  auto_resolve_duration :integer
+#  background_info       :string
+#  category              :string(32)
+#  deleted_at            :datetime
 #  domain                :string(100)
+#  email                 :string
 #  feature_flags         :integer          default(0), not null
 #  locale                :integer          default("en")
 #  name                  :string           not null
+#  rating                :integer          default(0), not null
 #  settings_flags        :integer          default(0), not null
+#  subscribed_users      :text
 #  support_email         :string(100)
+#  uuid                  :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  user_id               :integer
+#  users_id              :bigint
+#
+# Indexes
+#
+#  index_accounts_on_users_id  (users_id)
 #
 
 class Account < ApplicationRecord
@@ -30,6 +43,23 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  
+  #  ////////////////////   FFCRM   ///////////////////////////////
+  belongs_to :user, optional: true # TODO: Is this really optional?
+  belongs_to :assignee, class_name: "User", foreign_key: :assigned_to, optional: true
+  has_many :account_contacts, dependent: :destroy
+  has_many :contacts, -> { distinct }, through: :account_contacts
+  has_many :account_opportunities, dependent: :destroy
+  has_many :opportunities, -> { order("opportunities.id DESC").distinct }, through: :account_opportunities
+  has_many :pipeline_opportunities, -> { order("opportunities.id DESC").distinct.pipeline }, through: :account_opportunities, source: :opportunity
+  has_many :tasks, as: :asset, dependent: :destroy # , :order => 'created_at DESC'
+  has_one :billing_address, -> { where(address_type: "Billing") }, dependent: :destroy, as: :addressable, class_name: "Address"
+  has_one :shipping_address, -> { where(address_type: "Shipping") }, dependent: :destroy, as: :addressable, class_name: "Address"
+  has_many :addresses, dependent: :destroy, as: :addressable, class_name: "Address" # advanced search uses this
+  has_many :emails, as: :mediator
+
+  #  ////////////////////////   FFCRM  ///////////////////////
+
 
   has_many :account_users, dependent: :destroy
   has_many :agent_bot_inboxes, dependent: :destroy
@@ -60,6 +90,52 @@ class Account < ApplicationRecord
   has_many :teams, dependent: :destroy
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
+
+
+  #   /////////////////////////   FFCRM  //////////////////
+
+  serialize :subscribed_users, Set
+
+  accepts_nested_attributes_for :billing_address,  allow_destroy: true, reject_if: proc { |attributes| Address.reject_address(attributes) }
+  accepts_nested_attributes_for :shipping_address, allow_destroy: true, reject_if: proc { |attributes| Address.reject_address(attributes) }
+
+  scope :state, lambda { |filters|
+    where('category IN (?)' + (filters.delete('other') ? ' OR category IS NULL' : ''), filters)
+  }
+  scope :created_by,  ->(user) { where(user_id: user.id) }
+  scope :assigned_to, ->(user) { where(assigned_to: user.id) }
+
+  scope :text_search, ->(query) { ransack('name_or_email_cont' => query).result }
+
+  scope :visible_on_dashboard, lambda { |user|
+    # Show accounts which either belong to the user and are unassigned, or are assigned to the user
+    where('(user_id = :user_id AND assigned_to IS NULL) OR assigned_to = :user_id', user_id: user.id)
+  }
+
+  scope :by_name, -> { order(:name) }
+
+  # uses_user_permissions
+  # acts_as_commentable
+  # uses_comment_extensions
+  # acts_as_taggable_on :tags
+  # has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
+  # has_fields
+  # exportable
+  # sortable by: ["name ASC", "rating DESC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
+
+  # has_ransackable_associations %w[contacts opportunities tags activities emails addresses comments tasks]
+  # ransack_can_autocomplete
+
+  validates_presence_of :name, message: :missing_account_name
+  validates_uniqueness_of :name, scope: :deleted_at, if: -> { Setting.require_unique_account_names }
+  validates :rating, inclusion: { in: 0..5 }, allow_blank: true
+  validates :category, inclusion: { in: proc { Setting.unroll(:account_category).map { |s| s.last.to_s } } }, allow_blank: true
+  validate :users_for_shared_access
+
+  before_save :nullify_blank_category
+  #    ///////////////////////   FFCRM  /////////////////////
+
+  
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
   after_create_commit :notify_creation

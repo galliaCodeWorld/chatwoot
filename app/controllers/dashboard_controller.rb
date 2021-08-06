@@ -28,8 +28,8 @@ class DashboardController < ActionController::Base
       APP_VERSION: Chatwoot.config[:version],
       INSTALLATION_NAME: @logo.title,
       installationName: @logo.title,
-      LOGO: url_for(@logo.avatar),
-      LOGO_THUMBNAIL: url_for(@logo.avatar)
+      LOGO: url_for(@logo.avatar.name),
+      LOGO_THUMBNAIL: url_for(@logo.avatar.name)
     )
   end
 

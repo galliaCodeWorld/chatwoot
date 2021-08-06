@@ -4,13 +4,18 @@
 #
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
+#  alt_email             :string
+#  background_info       :string
 #  custom_attributes     :jsonb
+#  deleted_at            :datetime
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
 #  name                  :string
 #  phone_number          :string
 #  pubsub_token          :string
+#  skype                 :string(128)
+#  subscribed_users      :text
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
