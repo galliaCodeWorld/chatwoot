@@ -3,6 +3,8 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
+#  admin                  :boolean          default(FALSE), not null
+#  alt_email              :string
 #  availability           :integer          default("online")
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
@@ -21,6 +23,7 @@
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
+#  suspended_at           :datetime
 #  tokens                 :json
 #  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
@@ -82,6 +85,25 @@ class User < ApplicationRecord
   has_many :notification_subscriptions, dependent: :destroy
   has_many :team_members, dependent: :destroy
   has_many :teams, through: :team_members
+  
+
+  # /////////////   FFCRM    /////////////
+
+  has_one :avatar, as: :entity, dependent: :destroy  # Personal avatar.
+  has_many :avatars                                  # As owner who uploaded it, ex. Contact avatar.
+  has_many :comments, as: :commentable               # As owner who created a comment.
+  has_many :accounts
+  has_many :campaigns
+  has_many :leads
+  has_many :contacts
+  has_many :opportunities
+  has_many :assigned_opportunities, class_name: 'Opportunity', foreign_key: 'assigned_to'
+  has_many :permissions, dependent: :destroy
+  has_many :preferences, dependent: :destroy
+  has_many :lists
+  has_and_belongs_to_many :groups
+
+  #   ///////////  FFCRM  //////////////////
 
   before_validation :set_password_and_uid, on: :create
 
