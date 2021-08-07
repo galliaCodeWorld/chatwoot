@@ -51,6 +51,82 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
 
+  # ///////////////////////   FFCRM  /////////////////////
+  belongs_to :user
+  belongs_to :lead, optional: true # TODO: Is this really optional?
+  belongs_to :assignee, class_name: "User", foreign_key: :assigned_to, optional: true # TODO: Is this really optional?
+  belongs_to :reporting_user, class_name: "User", foreign_key: :reports_to, optional: true # TODO: Is this really optional?
+  has_one :account_contact, dependent: :destroy
+  has_one :account, through: :account_contact
+  has_many :contact_opportunities, dependent: :destroy
+  has_many :opportunities, -> { order("opportunities.id DESC").distinct }, through: :contact_opportunities
+  has_many :tasks, as: :asset, dependent: :destroy # , :order => 'created_at DESC'
+  has_one :business_address, -> { where(address_type: "Business") }, dependent: :destroy, as: :addressable, class_name: "Address"
+  has_many :addresses, dependent: :destroy, as: :addressable, class_name: "Address" # advanced search uses this
+  has_many :emails, as: :mediator
+
+  delegate :campaign, to: :lead, allow_nil: true
+
+  has_ransackable_associations %w[account opportunities tags activities emails addresses comments tasks]
+  ransack_can_autocomplete
+
+  serialize :subscribed_users, Set
+
+  accepts_nested_attributes_for :business_address, allow_destroy: true, reject_if: proc { |attributes| Address.reject_address(attributes) }
+
+  scope :created_by,  ->(user) { where(user_id: user.id) }
+  scope :assigned_to, ->(user) { where(assigned_to: user.id) }
+
+  scope :text_search, lambda { |query|
+    t = Contact.arel_table
+    # We can't always be sure that names are entered in the right order, so we must
+    # split the query into all possible first/last name permutations.
+    name_query = if query.include?(" ")
+                   scope, *rest = query.name_permutations.map do |first, last|
+                     t[:first_name].matches("%#{first}%").and(t[:last_name].matches("%#{last}%"))
+                   end
+                   rest.map { |r| scope = scope.or(r) } if scope
+                   scope
+                 else
+                   t[:first_name].matches("%#{query}%").or(t[:last_name].matches("%#{query}%"))
+    end
+
+    other = t[:email].matches("%#{query}%").or(t[:alt_email].matches("%#{query}%"))
+    other = other.or(t[:phone].matches("%#{query}%")).or(t[:mobile].matches("%#{query}%"))
+
+    where(name_query.nil? ? other : name_query.or(other))
+  }
+
+  uses_user_permissions
+  acts_as_commentable
+  uses_comment_extensions
+  acts_as_taggable_on :tags
+  has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
+
+  has_fields
+  exportable
+  sortable by: ["first_name ASC", "last_name ASC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
+
+  validates_presence_of :first_name, message: :missing_first_name, if: -> { Setting.require_first_names }
+  validates_presence_of :last_name,  message: :missing_last_name,  if: -> { Setting.require_last_names  }
+  validate :users_for_shared_access
+
+  validates_length_of :first_name, maximum: 64
+  validates_length_of :last_name, maximum: 64
+  validates_length_of :title, maximum: 64
+  validates_length_of :department, maximum: 64
+  validates_length_of :email, maximum: 254
+  validates_length_of :alt_email, maximum: 254
+  validates_length_of :phone, maximum: 32
+  validates_length_of :mobile, maximum: 32
+  validates_length_of :fax, maximum: 32
+  validates_length_of :blog, maximum: 128
+  validates_length_of :linkedin, maximum: 128
+  validates_length_of :facebook, maximum: 128
+  validates_length_of :twitter, maximum: 128
+  validates_length_of :skype, maximum: 128
+  # //////////////////////////////////////////////////////////
+
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
@@ -97,4 +173,98 @@ class Contact < ApplicationRecord
   def dispatch_update_event
     Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self)
   end
+
+  # /////////////////////////  FFCRM  /////////////////////
+  def self.per_page
+    20
+  end
+
+  def self.first_name_position
+    "before"
+  end
+
+  #----------------------------------------------------------------------------
+  def full_name(format = nil)
+    if format.nil? || format == "before"
+      "#{first_name} #{last_name}"
+    else
+      "#{last_name}, #{first_name}"
+    end
+  end
+  alias name full_name
+
+  # Backend handler for [Create New Contact] form (see contact/create).
+  #----------------------------------------------------------------------------
+  def save_with_account_and_permissions(params)
+    save_account(params)
+    result = save
+    opportunities << Opportunity.find(params[:opportunity]) unless params[:opportunity].blank?
+    result
+  end
+
+  # Backend handler for [Update Contact] form (see contact/update).
+  #----------------------------------------------------------------------------
+  def update_with_account_and_permissions(params)
+    save_account(params)
+    # Must set access before user_ids, because user_ids= method depends on access value.
+    self.access = params[:contact][:access] if params[:contact][:access]
+    self.attributes = params[:contact]
+    save
+  end
+
+  # Attach given attachment to the contact if it hasn't been attached already.
+  #----------------------------------------------------------------------------
+  def attach!(attachment)
+    send(attachment.class.name.tableize) << attachment unless send("#{attachment.class.name.downcase}_ids").include?(attachment.id)
+  end
+
+  # Discard given attachment from the contact.
+  #----------------------------------------------------------------------------
+  def discard!(attachment)
+    if attachment.is_a?(Task)
+      attachment.update_attribute(:asset, nil)
+    else # Opportunities
+      send(attachment.class.name.tableize).delete(attachment)
+    end
+  end
+
+  # Class methods.
+  #----------------------------------------------------------------------------
+  def self.create_for(model, account, opportunity, params)
+    attributes = {
+      lead_id:     model.id,
+      user_id:     params[:account][:user_id] || account.user_id,
+      assigned_to: params[:account][:assigned_to],
+      access:      params[:access]
+    }
+    %w[first_name last_name title source email alt_email phone mobile blog linkedin facebook twitter skype do_not_call background_info].each do |name|
+      attributes[name] = model.send(name.intern)
+    end
+
+    contact = Contact.new(attributes)
+
+    # Set custom fields.
+    if model.class.respond_to?(:fields)
+      model.class.fields.each do |field|
+        contact.send "#{field.name}=", model.send(field.name) if contact.respond_to?(field.name)
+      end
+    end
+
+    contact.business_address = Address.new(street1: model.business_address.street1, street2: model.business_address.street2, city: model.business_address.city, state: model.business_address.state, zipcode: model.business_address.zipcode, country: model.business_address.country, full_address: model.business_address.full_address, address_type: "Business") unless model.business_address.nil?
+
+    # Save the contact only if the account and the opportunity have no errors.
+    if account.errors.empty? && opportunity.errors.empty?
+      # Note: contact.account = account doesn't seem to work here.
+      contact.account_contact = AccountContact.new(account: account, contact: contact) unless account.id.blank?
+      if contact.access != "Lead" || model.nil?
+        contact.save
+      else
+        contact.save_with_model_permissions(model)
+      end
+      contact.opportunities << opportunity unless opportunity.id.blank? # must happen after contact is saved
+    end
+    contact
+  end
+
+  # ////////////////////////////////////////////////////////
 end

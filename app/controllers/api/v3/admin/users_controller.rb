@@ -5,7 +5,7 @@
 # Fat Free CRM is freely distributable under the terms of MIT license.
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-class Api::Admin::UsersController < Api::Admin::ApplicationController
+class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
 
   # GET /admin/users
   # GET /admin/users.xml                                                   HTML

@@ -76,6 +76,8 @@ gem 'pundit'
 gem 'administrate'
 gem 'administrate-field-active_storage'
 gem "image_processing"
+gem 'ransack_ui'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
