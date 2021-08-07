@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_143110) do
+ActiveRecord::Schema.define(version: 2021_08_07_221304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -438,21 +438,22 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
   create_table "fields", id: :serial, force: :cascade do |t|
     t.string "type"
     t.integer "field_group_id"
+    t.string "klass_name", limit: 32
     t.integer "position"
     t.string "name", limit: 64
     t.string "label", limit: 128
     t.string "hint"
     t.string "placeholder"
     t.string "as", limit: 32
-    t.text "collection"
+    t.string "collection"
     t.boolean "disabled"
     t.boolean "required"
     t.integer "maxlength"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "pair_id"
-    t.text "settings"
+    t.integer "minlength"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["field_group_id"], name: "index_fields_on_field_group_id"
+    t.index ["klass_name"], name: "index_fields_on_klass_name"
     t.index ["name"], name: "index_fields_on_name"
   end
 
@@ -875,34 +876,53 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
     t.string "name", null: false
     t.string "display_name"
-    t.string "email"
     t.json "tokens"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "pubsub_token"
     t.integer "availability", default: 0
     t.jsonb "ui_settings", default: {}
+    t.string "username", limit: 32, default: "", null: false
+    t.string "email", limit: 254, default: "", null: false
+    t.string "first_name", limit: 32
+    t.string "last_name", limit: 32
+    t.string "title", limit: 64
+    t.string "company", limit: 64
+    t.string "alt_email", limit: 254
+    t.string "phone", limit: 32
+    t.string "mobile", limit: 32
+    t.string "aim", limit: 32
+    t.string "yahoo", limit: 32
+    t.string "google", limit: 32
+    t.string "skype", limit: 32
+    t.string "encrypted_password", default: "", null: false
+    t.string "password_salt", default: "", null: false
+    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at"
+    t.string "last_sign_in_ip"
+    t.string "current_sign_in_ip"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean "admin", default: false, null: false
     t.datetime "suspended_at"
-    t.string "alt_email"
+    t.string "unconfirmed_email", limit: 254
+    t.string "reset_password_token"
+    t.string "remember_token"
+    t.string "authentication_token"
+    t.string "confirmation_token", limit: 255
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username", "deleted_at"], name: "index_users_on_username_and_deleted_at", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 

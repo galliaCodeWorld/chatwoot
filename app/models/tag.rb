@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2008-2013 Michael Dvorkin and contributors.
+# == Schema Information
 #
-# Fat Free CRM is freely distributable under the terms of MIT license.
-# See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
-#------------------------------------------------------------------------------
+# Table name: tags
+#
+#  id             :integer          not null, primary key
+#  name           :string
+#  taggings_count :integer          default(0)
+#
+# Indexes
+#
+#  index_tags_on_name  (name) UNIQUE
+#
 class Tag < ActsAsTaggableOn::Tag
   before_destroy :no_associated_field_groups
 

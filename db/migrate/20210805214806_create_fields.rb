@@ -16,6 +16,7 @@ class CreateFields < ActiveRecord::Migration[4.2]
       t.boolean :disabled
       t.boolean :required
       t.integer :maxlength,   limit: 4
+      t.integer :minlength,   limit: 4
       t.timestamps
     end
     add_index :fields, :name

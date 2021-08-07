@@ -28,19 +28,20 @@
 							"formdata": [
 								{
 									"key": "query",
-									"value": "h",
+									"value": "",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/users",
+							"raw": "localhost:3000/api/v3/admin/users",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"users"
 							]
@@ -54,16 +55,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/users/2",
+							"raw": "localhost:3000/api/v3/admin/users/1",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"users",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -79,24 +81,24 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "caption",
+									"value": "caption1",
 									"description": "validation",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "caption@admin.com",
+									"value": "caption1@admin.com",
 									"description": "validation",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "123",
+									"value": "Password1!",
 									"type": "text"
 								},
 								{
 									"key": "password_confirmation",
-									"value": "123",
+									"value": "Password1!",
 									"type": "text"
 								},
 								{
@@ -128,29 +130,37 @@
 								{
 									"key": "group_ids[]",
 									"value": "11",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "group_ids[]",
 									"value": "12",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "commit",
 									"value": "Save User",
 									"type": "text",
 									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Admin1",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/users",
+							"raw": "localhost:3000/api/v3/admin/users",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"users"
 							]
@@ -161,7 +171,7 @@
 				{
 					"name": "admin user update",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "formdata",
@@ -180,13 +190,14 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/users/10",
+							"raw": "localhost:3000/api/v3/admin/users/10",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"users",
 								"10"
@@ -198,20 +209,20 @@
 				{
 					"name": "admin user delete",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/users/10/delete",
+							"raw": "localhost:3000/api/v3/admin/users/10",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"users",
-								"10",
-								"delete"
+								"10"
 							]
 						}
 					},
@@ -234,13 +245,14 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/users/7/suspend",
+							"raw": "localhost:3000/api/v3/admin/users/7/suspend",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"users",
 								"7",
@@ -256,13 +268,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/users/7/reactivate",
+							"raw": "localhost:3000/api/v3/admin/users/7/reactivate",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"users",
 								"7",
@@ -283,13 +296,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/groups",
+							"raw": "localhost:3000/api/v3/admin/groups",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"groups"
 							]
@@ -300,7 +314,7 @@
 				{
 					"name": "admin group update",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "formdata",
@@ -319,16 +333,17 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/groups/11",
+							"raw": "localhost:3000/api/v3/admin/groups/1",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"groups",
-								"11"
+								"1"
 							],
 							"query": [
 								{
@@ -366,16 +381,17 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/groups/11",
+							"raw": "localhost:3000/api/v3/admin/groups/1",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"groups",
-								"11"
+								"1"
 							],
 							"query": [
 								{
@@ -398,13 +414,14 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "test3 group",
+									"value": "Test Group 1sad",
 									"type": "text"
 								},
 								{
 									"key": "user_ids[]",
 									"value": "1",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "user_ids[]",
@@ -421,13 +438,14 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/groups",
+							"raw": "localhost:3000/api/v3/admin/groups",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"groups"
 							],
@@ -450,20 +468,20 @@
 				{
 					"name": "admin group delete",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/groups/11/delete",
+							"raw": "localhost:3000/api/v3/admin/groups/1",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"groups",
-								"11",
-								"delete"
+								"1"
 							]
 						}
 					},
@@ -500,13 +518,14 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/field_groups",
+							"raw": "localhost:3000/api/v3/admin/field_groups",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"field_groups"
 							]
@@ -517,7 +536,7 @@
 				{
 					"name": "admin field_group update",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "formdata",
@@ -540,16 +559,17 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/field_groups/2",
+							"raw": "localhost:3000/api/v3/admin/field_groups/6",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"field_groups",
-								"2"
+								"6"
 							]
 						}
 					},
@@ -558,20 +578,20 @@
 				{
 					"name": "admin field_group delete",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/field_groups/2/delete",
+							"raw": "localhost:3000/api/v3/admin/field_groups/7",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"field_groups",
-								"2",
-								"delete"
+								"7"
 							]
 						}
 					},
@@ -616,16 +636,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/field_groups/3",
+							"raw": "localhost:3000/api/v3/admin/field_groups/6",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"field_groups",
-								"3"
+								"6"
 							]
 						}
 					},
@@ -771,13 +792,14 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/fields/",
+							"raw": "localhost:3000/api/v3/admin/fields/",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"fields",
 								""
@@ -881,16 +903,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/fields/3",
+							"raw": "localhost:3000/api/v3/admin/fields/9",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"fields",
-								"3"
+								"9"
 							]
 						}
 					},
@@ -899,7 +922,7 @@
 				{
 					"name": "admin field update",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "formdata",
@@ -920,16 +943,17 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:3000/api/admin/fields/2",
+							"raw": "localhost:3000/api/v3/admin/fields/9",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"fields",
-								"2"
+								"9"
 							],
 							"query": [
 								{
@@ -961,20 +985,20 @@
 				{
 					"name": "admin field delete",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/admin/fields/2/delete",
+							"raw": "localhost:3000/api/v3/admin/fields/2",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"v3",
 								"admin",
 								"fields",
-								"2",
-								"delete"
+								"2"
 							]
 						}
 					},
