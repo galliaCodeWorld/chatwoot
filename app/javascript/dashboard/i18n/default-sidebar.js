@@ -19,6 +19,7 @@ export const getSidebarItems = accountId => ({
       'conversations_through_team',
       'notifications_index',
       'post_form',
+      'admin_dashboard',
     ],
     menuItems: {
       assignedToMe: {
@@ -64,6 +65,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/dashboard/posts`),
         toStateName: "contacts_dashboard",
+      },
+      admin: {
+        icon: 'ion-android-desktop',
+        label: 'ADMIN',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/admin`),
+        toStateName: 'admin_dashboard',
       },
     },
   },
@@ -160,6 +168,51 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/general`),
         toStateName: 'general_settings_index',
+      },
+    },
+  },
+  admin: {
+    routes: [
+      'admin_dashboard_users',
+      'admin_dashboard_fields',
+      'admin_dashboard_tags',
+      'admin_dashboard_groups',
+    ],
+    menuItems: {
+      back: {
+        icon: 'ion-ios-arrow-back',
+        label: 'HOME',
+        hasSubMenu: false,
+        toStateName: 'home',
+        toState: frontendURL(`accounts/${accountId}/dashboard`),
+      },
+      users: {
+        icon: 'ion-ios-people',
+        label: 'USERS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/admin/users`),
+        toStateName: 'admin_dashboard_users',
+      },
+      fields: {
+        icon: 'ion-document',
+        label: 'FIELDS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/admin/fields`),
+        toStateName: 'admin_dashboard_fields',
+      },
+      tags: {
+        icon: 'ion-pricetags',
+        label: 'TAGS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/admin/tags`),
+        toStateName: 'admin_dashboard_tags',
+      },
+      groups: {
+        icon: 'ion-compose',
+        label: 'GROUPS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/admin/groups`),
+        toStateName: 'admin_dashboard_groups',
       },
     },
   },

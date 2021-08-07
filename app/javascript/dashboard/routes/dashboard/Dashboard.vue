@@ -1,5 +1,6 @@
 <template>
   <div class="app-wrapper">
+    <notifications />
     <section class="app-content columns" :class="contentClassName">
        <zoom-center-transition :duration="100" mode="out-in">
         <router-view></router-view>

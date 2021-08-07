@@ -3,7 +3,6 @@ import mutations from './mutations.js'
 import actions from './actions.js'
 
 const state = {
-  error: null,
   categories: {
     Account: [],
     Campaign: [],

@@ -1,7 +1,7 @@
 import types from '../../../mutation-types'
 import ApiClient from '../../../../api/ApiClient.js'
 
-const apiVersion = 'v4'
+const apiVersion = 'v3'
 const resource = 'admin/tags'
 
 const actions = {
@@ -10,10 +10,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(resource, {apiVersion}).get()
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
-          else if (res.data) context.commit(types.admin.tags.get, JSON.parse(res.data));
-          // if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
-          // else if (res.data.data) context.commit(types.admin.tags.get, JSON.parse(res.data.data));
+          // if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          // else if (res.data) context.commit(types.admin.tags.get, JSON.parse(res.data));
+          if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
+          else if (res.data.data) context.commit(types.admin.tags.get, JSON.parse(res.data.data));
           resolve()
         })
         .catch(err => {

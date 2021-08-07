@@ -1,9 +1,6 @@
 import types from '../../../mutation-types'
 
 const mutations = {
-  [types.SET_ERROR](state, error) {
-    state.error = error;
-  },
   [types.admin.users.query](state, query) {
     state.query = query
   },

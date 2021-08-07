@@ -11,14 +11,14 @@
 #
 #  id               :integer          not null, primary key
 #  access           :string(8)        default("Public")
-#  alt_email        :string(64)
+#  alt_email        :string(254)
 #  assigned_to      :integer
 #  background_info  :string
 #  blog             :string(128)
 #  company          :string(64)
 #  deleted_at       :datetime
 #  do_not_call      :boolean          default(FALSE), not null
-#  email            :string(64)
+#  email            :string(254)
 #  facebook         :string(128)
 #  first_name       :string(64)       default(""), not null
 #  last_name        :string(64)       default(""), not null

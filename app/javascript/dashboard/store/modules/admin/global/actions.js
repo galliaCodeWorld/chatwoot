@@ -1,8 +1,14 @@
-import {admin} from '../../../mutation-types'
+import types from '../../../mutation-types'
 
 const actions = {
-  search: async (context, creds) => {
+  viewSearch: async (context, creds) => {
     context.commit(types.admin.viewsearch, creds)
+  },
+  setError: async (context, err) => {
+    context.commit(types.SET_ERROR, err)
+  },
+  setMsg: async (context, msg) => {
+    context.commit(types.SET_MSG, msg)
   }
 };
 

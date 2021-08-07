@@ -189,8 +189,8 @@ Rails.application.routes.draw do
 
         resources :tags do
           member do
-            post :delete
-            post :update
+            # post :delete
+            # post :update
           end
         end
 

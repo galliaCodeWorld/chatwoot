@@ -67,14 +67,14 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
+    t.integer "user_id"
     t.bigint "users_id"
     t.string "background_info"
     t.integer "rating", default: 0, null: false
     t.string "category", limit: 32
     t.text "subscribed_users"
     t.string "uuid"
-    t.string "email"
-    t.integer "user_id"
+    t.string "email", limit: 254
     t.datetime "deleted_at"
     t.index ["users_id"], name: "index_accounts_on_users_id"
   end
@@ -318,7 +318,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
 
   create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.string "email"
+    t.string "email", limit: 254
     t.string "phone_number"
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
@@ -331,7 +331,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
     t.string "background_info"
     t.string "skype", limit: 128
     t.text "subscribed_users"
-    t.string "alt_email"
+    t.string "alt_email", limit: 254
     t.datetime "deleted_at"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
@@ -591,8 +591,8 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
     t.string "source", limit: 32
     t.string "status", limit: 32
     t.string "referred_by", limit: 64
-    t.string "email", limit: 64
-    t.string "alt_email", limit: 64
+    t.string "email", limit: 254
+    t.string "alt_email", limit: 254
     t.string "phone", limit: 32
     t.string "mobile", limit: 32
     t.string "blog", limit: 128
@@ -890,7 +890,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
     t.string "unconfirmed_email"
     t.string "name", null: false
     t.string "display_name"
-    t.string "email"
+    t.string "email", limit: 254
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -899,7 +899,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_143110) do
     t.jsonb "ui_settings", default: {}
     t.boolean "admin", default: false, null: false
     t.datetime "suspended_at"
-    t.string "alt_email"
+    t.string "alt_email", limit: 254
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

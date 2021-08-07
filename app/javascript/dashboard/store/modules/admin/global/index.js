@@ -4,6 +4,8 @@ import actions from './actions.js'
 
 const state = {
   viewsearch: true,
+  error: null,
+  msg: null,
 };
 
 export default {

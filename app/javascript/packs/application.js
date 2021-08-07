@@ -10,13 +10,13 @@ import axios from 'axios';
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
 import VueFormulate from '@braid/vue-formulate';
-import WootSwitch from 'components/ui/Switch';
-import WootWizard from 'components/ui/Wizard';
+import { ModalPlugin } from 'bootstrap-vue'
 import { sync } from 'vuex-router-sync';
 import Vuelidate from 'vuelidate';
 import VTooltip from 'v-tooltip';
 import * as Sentry from '@sentry/vue';
 import { Integrations } from '@sentry/tracing';
+
 import App from '../dashboard/App';
 import WootUiKit from '../dashboard/components';
 import i18n from '../dashboard/i18n';
@@ -30,7 +30,9 @@ import {
   verifyServiceWorkerExistence,
   registerSubscription,
 } from '../dashboard/helper/pushHelper';
-import { ModalPlugin } from 'bootstrap-vue'
+import WootSwitch from 'components/ui/Switch';
+import WootWizard from 'components/ui/Wizard';
+
 import MdPlugin from './material-ui.js'
 
 Vue.config.env = process.env;
@@ -45,7 +47,6 @@ if (window.errorLoggingConfig) {
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
-Vue.use(WootUiKit);
 Vue.use(Vuelidate);
 Vue.use(VueFormulate, {
   rules: {
@@ -56,11 +57,9 @@ Vue.use(VTooltip, {
   defaultHtml: false,
 });
 Vue.use(hljs.vuePlugin);
-
-/////////////////////// cscs define 
 Vue.use(ModalPlugin);
+Vue.use(WootUiKit);
 Vue.use(MdPlugin);
-/////////////////////////////////////////
 
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
