@@ -168,6 +168,7 @@ export default {
   DELETE_CONTACT_NOTE: 'DELETE_CONTACT_NOTE',
 
   SET_ERROR: 'SET_ERROR',
+  SET_MSG: 'SET_MSG',
   // Admin
   admin: {
     viewsearch: 'MAUsersViewSearch',

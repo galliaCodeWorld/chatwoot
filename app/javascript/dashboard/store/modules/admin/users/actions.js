@@ -1,14 +1,15 @@
 import types from '../../../mutation-types'
 import ApiClient from '../../../../api/ApiClient.js'
 
-const apiVersion = 'v4'
+const apiVersion = 'v3'
 const resource = 'admin/users'
 
 const actions = {
   //////////////////////// with Api ////////////////////////
   search: (context) => {
     return new Promise((resolve, reject) => {
-      let query = context.getters.adUsersStates.query
+      console.log('test...', context.state.query)
+      let query = context.state.query
       let url = query ? `${resource}?query=${query}` : resource
       new ApiClient(url, {apiVersion}).get()
         .then(res => {

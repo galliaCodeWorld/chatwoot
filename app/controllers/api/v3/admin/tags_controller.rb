@@ -40,7 +40,7 @@ class Api::V3::Admin::TagsController < Api::V3::Admin::ApplicationController
     end
   end
   
-  def delete
+  def destroy
     @tag = Tag.find_by_id(params[:id])
     if @tag.destroy
      render json: {data: @tag, success: true}, status: 200

@@ -111,6 +111,7 @@ export default {
     accessibleMenuItems() {
       // get all keys in menuGroup
       const groupKey = Object.keys(this.sidemenuItems);
+      // common, settings, admin
 
       let menuItems = [];
       // Iterate over menuGroup to find the correct group
@@ -122,11 +123,9 @@ export default {
           menuItems = Object.values(groupItem.menuItems);
         }
       }
-
       return this.filterMenuItemsByRole(menuItems);
     },
     currentRoute() {
-      console.log('test...', this.$store)
       return this.$store.state.route.name;
     },
     shouldShowSidebarItem() {

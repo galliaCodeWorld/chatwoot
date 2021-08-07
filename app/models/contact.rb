@@ -4,11 +4,11 @@
 #
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
-#  alt_email             :string
+#  alt_email             :string(254)
 #  background_info       :string
 #  custom_attributes     :jsonb
 #  deleted_at            :datetime
-#  email                 :string
+#  email                 :string(254)
 #  identifier            :string
 #  last_activity_at      :datetime
 #  name                  :string

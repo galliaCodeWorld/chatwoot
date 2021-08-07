@@ -194,24 +194,6 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :field_groups do
-          collection do
-            post :sort
-          end
-          member do
-            get :confirm
-            # post :delete
-            # post :update
-          end
-        end
-
-        resources :fields do
-          member do
-            # post :delete
-            # post :update
-          end
-        end
-
         resources :users do
           # collection do
           #   match :auto_complete, via: %i[get post]

@@ -1,7 +1,7 @@
 import types from '../../../mutation-types'
 import ApiClient from '../../../../api/ApiClient.js'
 
-const apiVersion = 'v4'
+const apiVersion = 'v3'
 const resource = {
   fields: 'admin/fields',
   fieldGroup: 'admin/field_groups'

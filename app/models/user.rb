@@ -4,7 +4,7 @@
 #
 #  id                     :integer          not null, primary key
 #  admin                  :boolean          default(FALSE), not null
-#  alt_email              :string
+#  alt_email              :string(254)
 #  availability           :integer          default("online")
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
@@ -12,7 +12,7 @@
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  display_name           :string
-#  email                  :string
+#  email                  :string(254)
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
