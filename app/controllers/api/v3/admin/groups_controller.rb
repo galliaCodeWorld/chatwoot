@@ -5,10 +5,8 @@
 # Fat Free CRM is freely distributable under the terms of MIT license.
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-class Api::Admin::GroupsController < Api::Admin::ApplicationController
-  # before_action :setup_current_tab, only: %i[index show]
+class Api::V3::Admin::GroupsController < Api::V3::Admin::ApplicationController
 
-  # load_resource
   respond_to :json
 
   # POST /groups
@@ -26,14 +24,14 @@ class Api::Admin::GroupsController < Api::Admin::ApplicationController
   # POST /groups
   def index
     @group = Group.all
-    render json: @group.to_json(include: [:users]), status: 200
+    render json: {data: @group.to_json(include: [:users]), success: true }, status: 200
     # render json: {success: true, data: group}
   end
 
   # POST /groups/:id
   def show
     @group = Group.find_by(id: params[:id])
-    render json: @group.to_json(include: [:users]), status: 200
+    render json: {data: @group.to_json(include: [:users]), success: true }, status: 200
   end
 
   # PUT /groups/1
@@ -52,7 +50,7 @@ class Api::Admin::GroupsController < Api::Admin::ApplicationController
 
   # DELETE /groups/1
   #----------------------------------------------------------------------------
-  def delete
+  def destroy
     @group = Group.find(params[:id])
     render json: @group.destroy
   end

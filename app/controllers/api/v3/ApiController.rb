@@ -84,6 +84,17 @@ class Api::V3::ApiController < Api::BaseController
     headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token'
     headers['Access-Control-Max-Age'] = "1728000"
   end
+  def find_class(asset)
+    # Rails.application.eager_load! unless Rails.application.config.cache_classes
+    classes = ActiveRecord::Base.descendants.map(&:name)
+    find = classes.find { |m| m == asset.classify }
+    if find
+      find.safe_constantize
+    else
+      # raise "Unknown resource"
+      asset
+    end
+  end
   # def current_user
   #   @current_user = session['dan@example.com']
   # end

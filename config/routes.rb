@@ -180,50 +180,50 @@ Rails.application.routes.draw do
     end
     namespace :v3 do
       namespace :admin do
-        # resources :groups do
-        #   member do
-        #     post :delete
-        #     post :update
-        #   end
-        # end
-
-        resources :tags do
+        resources :groups do
           member do
-            post :delete
-            post :update
+            # post :delete
+            # post :update
           end
         end
 
-        # resources :field_groups do
-        #   collection do
-        #     post :sort
-        #   end
-        #   member do
-        #     get :confirm
-        #     post :delete
-        #     post :update
-        #   end
-        # end
+        resources :tags do
+          member do
+            # post :delete
+            # post :update
+          end
+        end
 
-        # resources :fields do
-        #   member do
-        #     post :delete
-        #     post :update
-        #   end
-        # end
+        resources :field_groups do
+          collection do
+            post :sort
+          end
+          member do
+            get :confirm
+            # post :delete
+            # post :update
+          end
+        end
 
-        # resources :users do
-        #   # collection do
-        #   #   match :auto_complete, via: %i[get post]
-        #   # end
-        #   member do
-        #     get :confirm
-        #     post :suspend
-        #     post :reactivate
-        #     post :delete
-        #     post :update
-        #   end
-        # end
+        resources :fields do
+          member do
+            # post :delete
+            # post :update
+          end
+        end
+
+        resources :users do
+          # collection do
+          #   match :auto_complete, via: %i[get post]
+          # end
+          member do
+            get :confirm
+            post :suspend
+            post :reactivate
+            # post :delete
+            # post :update
+          end
+        end
       end
     end
   end

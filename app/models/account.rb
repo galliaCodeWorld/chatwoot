@@ -173,6 +173,60 @@ class Account < ApplicationRecord
     super || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] || ENV.fetch('MAILER_SENDER_EMAIL', 'Abrand <accounts@chatwoot.com>')
   end
 
+  # //////////////////  FFCRM  ///////////
+  def self.per_page
+    20
+  end
+
+  # Extract last line of billing address and get rid of numeric zipcode.
+  #----------------------------------------------------------------------------
+  def location
+    return "" unless self[:billing_address]
+
+    location = self[:billing_address].strip.split("\n").last
+    location&.gsub(/(^|\s+)\d+(:?\s+|$)/, " ")&.strip
+  end
+
+  # Attach given attachment to the account if it hasn't been attached already.
+  #----------------------------------------------------------------------------
+  def attach!(attachment)
+    send(attachment.class.name.tableize) << attachment unless send("#{attachment.class.name.downcase}_ids").include?(attachment.id)
+  end
+
+  # Discard given attachment from the account.
+  #----------------------------------------------------------------------------
+  def discard!(attachment)
+    if attachment.is_a?(Task)
+      attachment.update_attribute(:asset, nil)
+    else # Contacts, Opportunities
+      send(attachment.class.name.tableize).delete(attachment)
+    end
+  end
+
+  # Class methods.
+  #----------------------------------------------------------------------------
+  def self.create_or_select_for(model, params)
+    # Attempt to find existing account
+    return Account.find(params[:id]) if params[:id].present?
+
+    if params[:name].present?
+      account = Account.find_by(name: params[:name])
+      return account if account
+    end
+
+    # Fallback to create new account
+    params[:user] = model.user if model
+    account = Account.new(params)
+    if account.access != "Lead" || model.nil?
+      account.save
+    else
+      account.save_with_model_permissions(model)
+    end
+    account
+  end
+
+  # /////////////////  FFCRM ////////////////
+
   private
 
   def notify_creation
@@ -186,4 +240,18 @@ class Account < ApplicationRecord
   trigger.name('camp_dpid_before_insert').after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
   end
+
+  #  ////////////////////////////////////////  FFCRM  /////////////
+
+  # Make sure at least one user has been selected if the account is being shared.
+  #----------------------------------------------------------------------------
+  def users_for_shared_access
+    errors.add(:access, :share_account) if self[:access] == "Shared" && permissions.none?
+  end
+
+  def nullify_blank_category
+    self.category = nil if category.blank?
+  end
+
+  # //////////////  FFCRM  ////////////////////
 end

@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/activerecord-hackery/ransack.git
+  revision: 16ce9110cbaee6682aca6e06ccb9d66a0c7a46c3
+  specs:
+    ransack (2.4.2)
+      activerecord (>= 5.2.4)
+      activesupport (>= 5.2.4)
+      i18n
+
+GIT
   remote: https://github.com/sds/mock_redis
   revision: 16d00789f0341a3aac35126c0ffe97a596753ff9
   ref: 16d00789f0341a3aac35126c0ffe97a596753ff9
@@ -100,7 +109,7 @@ GEM
     ast (2.4.2)
     attr_extras (6.2.4)
     aws-eventstream (1.1.1)
-    aws-partitions (1.483.0)
+    aws-partitions (1.484.0)
     aws-sdk-core (3.119.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -147,6 +156,7 @@ GEM
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
     byebug (11.1.3)
+    chronic (0.10.2)
     coderay (1.1.3)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -467,6 +477,11 @@ GEM
       thor (~> 1.0)
     rainbow (3.0.0)
     rake (13.0.6)
+    ransack_chronic (1.1.0)
+      chronic (>= 0.6.7)
+    ransack_ui (1.4.0)
+      ransack (~> 2.0)
+      ransack_chronic (>= 1.1.0)
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -519,7 +534,7 @@ GEM
       rubocop-ast (>= 1.8.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.8.0)
+    rubocop-ast (1.9.0)
       parser (>= 3.0.1.1)
     rubocop-performance (1.11.4)
       rubocop (>= 1.7.0, < 2.0)
@@ -743,6 +758,8 @@ DEPENDENCIES
   pundit
   rack-cors
   rails
+  ransack!
+  ransack_ui
   redis
   redis-namespace
   redis-rack-cache
