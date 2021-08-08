@@ -5,9 +5,9 @@ class Api::V3::ApiController < Api::BaseController
   before_action :configure_devise_parameters, if: :devise_controller?
   # before_action :authenticate_user
   # before_action :set_paper_trail_whodunnit
-  before_action :cors_preflight_check
+  # before_action :cors_preflight_check
   
-  after_action :cors_set_access_control_headers
+  # after_action :cors_set_access_control_headers
   
   helper_method :klass
   

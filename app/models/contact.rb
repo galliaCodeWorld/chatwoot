@@ -97,9 +97,9 @@ class Contact < ApplicationRecord
     where(name_query.nil? ? other : name_query.or(other))
   }
 
-  uses_user_permissions
+  # uses_user_permissions
   acts_as_commentable
-  uses_comment_extensions
+  # uses_comment_extensions
   acts_as_taggable_on :tags
   has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
 
@@ -109,7 +109,7 @@ class Contact < ApplicationRecord
 
   validates_presence_of :first_name, message: :missing_first_name, if: -> { Setting.require_first_names }
   validates_presence_of :last_name,  message: :missing_last_name,  if: -> { Setting.require_last_names  }
-  validate :users_for_shared_access
+  # validate :users_for_shared_access
 
   validates_length_of :first_name, maximum: 64
   validates_length_of :last_name, maximum: 64

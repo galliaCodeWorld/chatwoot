@@ -115,13 +115,13 @@ class Account < ApplicationRecord
   scope :by_name, -> { order(:name) }
 
   # uses_user_permissions
-  # acts_as_commentable
+  acts_as_commentable
   # uses_comment_extensions
-  # acts_as_taggable_on :tags
-  # has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
-  # has_fields
-  # exportable
-  # sortable by: ["name ASC", "rating DESC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
+  acts_as_taggable_on :tags
+  has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
+  has_fields
+  exportable
+  sortable by: ["name ASC", "rating DESC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
 
   # has_ransackable_associations %w[contacts opportunities tags activities emails addresses comments tasks]
   # ransack_can_autocomplete
@@ -224,6 +224,9 @@ class Account < ApplicationRecord
     end
     account
   end
+  def users_for_shared_access
+    errors.add(:access, :share_account) if self[:access] == "Shared" && permissions.none?
+  end
 
   # /////////////////  FFCRM ////////////////
 
@@ -245,9 +248,7 @@ class Account < ApplicationRecord
 
   # Make sure at least one user has been selected if the account is being shared.
   #----------------------------------------------------------------------------
-  def users_for_shared_access
-    errors.add(:access, :share_account) if self[:access] == "Shared" && permissions.none?
-  end
+
 
   def nullify_blank_category
     self.category = nil if category.blank?
