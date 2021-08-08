@@ -8,7 +8,7 @@
 #  category              :string(32)
 #  deleted_at            :datetime
 #  domain                :string(100)
-#  email                 :string
+#  email                 :string(254)
 #  feature_flags         :integer          default(0), not null
 #  locale                :integer          default("en")
 #  name                  :string           not null

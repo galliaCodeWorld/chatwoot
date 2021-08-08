@@ -11,7 +11,7 @@ end
 
 ## Seeds for Local Development
 #unless Rails.env.production?
-  SuperAdmin.create!(email: 'admin@admin.com', password: '1Qazxsw@3edc')
+  SuperAdmin.create!(email: 'admin3@admin.com', password: '1Qazxsw@3edc')
 
   account = Account.create!(
     name: 'Social'
@@ -21,7 +21,7 @@ end
     name: 'Social'
   )
 
-  user = User.new(name: 'Administrator', email: 'admin@admin.com', password: '1Qazxsw@3edc')
+  user = User.new(name: 'Administrator', email: 'admin3@admin.com', password: '1Qazxsw@3edc')
   user.skip_confirmation!
   user.save!
 
@@ -48,7 +48,7 @@ end
   inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
   InboxMember.create!(user: user, inbox: inbox)
 
-  contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '+2320000', account: account)
+  contact = Contact.create!(name: 'jane', email: 'jane3@example.com', phone_number: '+22320000', account: account)
   contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id, hmac_verified: true)
   conversation = Conversation.create!(
     account: account,
@@ -63,7 +63,7 @@ end
   # sample email collect
   WootMessageSeeder.create_sample_email_collect_message conversation
 
-  Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+  Message.create!(content: 'Hello every one', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
 
   # sample card
   WootMessageSeeder.create_sample_cards_message conversation
