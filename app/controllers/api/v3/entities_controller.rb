@@ -13,7 +13,7 @@ class Api::V3::EntitiesController < Api::V3::ApiController
 
   # load_and_authorize_resource
 
-  after_action :update_recently_viewed, only: :show
+  # after_action :update_recently_viewed, only: :show
 
   helper_method :entity, :entities
 

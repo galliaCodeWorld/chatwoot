@@ -79,6 +79,35 @@ gem "image_processing"
 gem 'ransack_ui'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 
+# ///////////////////  FFRCM  /////////////////
+gem 'rails-observers'
+gem 'responders'
+gem 'jquery-rails'
+gem 'jquery-migrate-rails'
+gem 'jquery-ui-rails'
+gem 'select2-rails'
+gem 'haml'
+gem 'sass'
+gem 'acts_as_commentable'
+gem 'acts_as_list'
+gem 'acts-as-taggable-on'
+gem 'responds_to_parent'
+gem 'dynamic_form'
+gem 'paperclip'
+gem 'simple_form'
+gem 'will_paginate'
+gem 'paper_trail'
+gem 'cancan'
+gem 'rails3-jquery-autocomplete'
+gem 'ffaker'
+gem 'premailer'
+gem 'nokogiri'
+gem 'font-awesome-rails'
+gem 'thor'
+gem 'rails_autolink'
+
+# /////////////////////////////////////////////////
+
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
