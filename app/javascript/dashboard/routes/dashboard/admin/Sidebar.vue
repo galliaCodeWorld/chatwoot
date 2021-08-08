@@ -1,5 +1,5 @@
 <template>
-  <div class="md-layout mt-3 admin-dashbord-sidebar">
+  <div class="md-layout mt-3 ad-sidebar">
     <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20 ad-leftdock">
       <md-card v-show="globalState.viewsearch">
         <md-card-header class="text-center">
@@ -31,7 +31,7 @@ import { ZoomCenterTransition } from "vue2-transitions";
 import {notifyVue} from '../../../helper/notify';
 
 export default {
-  name: 'admin-dashbord-sidebar',
+  name: 'ad-sidebar',
   components: {
     ZoomCenterTransition,
   },
@@ -59,14 +59,17 @@ export default {
   },
   methods: {
     searchUsers() {
-      this.$store.dispatch('adUsers/search')
+      this.$store.dispatch('adUsers/search', this.userState.query)
     }
   },
 };
 </script>
 
 <style lang="scss">
-.admin-dashbord-sidebar {
+.md-button:not(.md-just-icon) .md-button-content i {
+  height: -7px;
+}
+.ad-sidebar {
   .md-card .md-card-header {
     padding: 0 12px;
   }
