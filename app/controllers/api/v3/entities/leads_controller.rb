@@ -18,9 +18,11 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
 
   # GET /leads/1
   def show
-    @comment = Comment.new
-    @timeline = timeline(@lead)
-    respond_with(@lead)
+    # @comment = Comment.new
+    # @timeline = timeline(@lead)
+    # respond_with(@lead)
+    @lead = Lead.find(params[:id])
+    render json: {data: @lead.to_json(), success: true}, status: 200
   end
 
   # GET /leads/new
@@ -57,9 +59,9 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
   def create
     # get_campaigns
     @comment_body = params[:comment_body]
-
+    @lead = Lead.new
     if @lead.save_with_permissions(params.permit!)
-      @lead.add_comment_by_user(@comment_body, current_user)
+      # @lead.add_comment_by_user(@comment_body, current_user)
       @leads = get_leads
       render json: {data: @lead, success: true}, status: 200
     else
@@ -72,6 +74,7 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
   #----------------------------------------------------------------------------
   def update
     # Must set access before user_ids, because user_ids= method depends on access value.
+    @lead = Lead.find(params[:id])
     @lead.access = resource_params[:access] if resource_params[:access]
     if @lead.update_with_lead_counters(resource_params)
     else
@@ -86,7 +89,9 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
 
   # DELETE /leads/1
   #----------------------------------------------------------------------------
-  def delete
+  def destroy
+    @lead = Lead.find(params[:id])
+    puts @lead
     if @lead.destroy
       render json: {data: @lead.to_json, success: true}, status: 200
     else
@@ -98,8 +103,9 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
   # POST /leads/1/convert
   #----------------------------------------------------------------------------
   def convert
+    @lead = Lead.find(params[:id])
     @account = Account.new(user: current_user, name: @lead.company, access: "Lead")
-    @accounts = Account.my(current_user).order('name')
+    # @accounts = Account.my(current_user).order('name')
     @opportunity = Opportunity.new(user: current_user, access: "Lead", stage: "prospecting", campaign: @lead.campaign, source: @lead.source)
 
     render json: {account: @account.to_json, accounts: @accounts.to_json, opportunity: @opportunity.to_json, success: true}, status:200
@@ -107,8 +113,9 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
 
 
   def promote
+    @lead = Lead.find(params[:id]);
     @account, @opportunity, @contact = @lead.promote(params.permit!)
-    @accounts = Account.my(current_user).order('name')
+    # @accounts = Account.my(current_user).order('name')
     @stage = Setting.unroll(:opportunity_stage)
 
       if @account.errors.empty? && @opportunity.errors.empty? && @contact.errors.empty?
@@ -127,6 +134,7 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
   # POST /leads/1/reject
   #----------------------------------------------------------------------------
   def reject
+    @lead = Lead.find(params[:id])
     if @lead.reject
       render json: {data: @lead.to_json, success: true}, status: 200
     else
@@ -194,6 +202,7 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
 
   #----------------------------------------------------------------------------
   def get_campaigns
+    puts Campaign
     @campaigns = Campaign.my(current_user).order('name')
   end
 

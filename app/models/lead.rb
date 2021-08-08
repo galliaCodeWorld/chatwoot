@@ -171,6 +171,9 @@ class Lead < ActiveRecord::Base
     end
   end
   alias name full_name
+  def users_for_shared_access
+    errors.add(:access, :share_lead) if self[:access] == "Shared" && permissions.none?
+  end
 
   private
 
@@ -186,9 +189,6 @@ class Lead < ActiveRecord::Base
 
   # Make sure at least one user has been selected if the lead is being shared.
   #----------------------------------------------------------------------------
-  def users_for_shared_access
-    errors.add(:access, :share_lead) if self[:access] == "Shared" && permissions.none?
-  end
 
-  ActiveSupport.run_load_hooks(:fat_free_crm_lead, self)
+
 end

@@ -318,7 +318,6 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
 
   create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.string "email"
     t.string "phone_number"
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
@@ -328,11 +327,36 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at"
+
+    t.integer "user_id"
+    t.integer "lead_id"
+    t.integer "assigned_to"
+    t.integer "reports_to"
+    t.string "first_name", limit: 64, default: "", null: false
+    t.string "last_name", limit: 64, default: "", null: false
+    t.string "access", limit: 8, default: "Public"
+    t.string "title", limit: 64
+    t.string "department", limit: 64
+    t.string "source", limit: 32
+    t.string "email", limit: 254
+    t.string "alt_email", limit: 254
+    t.string "phone", limit: 32
+    t.string "mobile", limit: 32
+    t.string "fax", limit: 32
+    t.string "blog", limit: 128
+    t.string "linkedin", limit: 128
+    t.string "facebook", limit: 128
+    t.string "twitter", limit: 128
+    t.date "born_on"
+    t.boolean "do_not_call", default: false, null: false
+    t.datetime "deleted_at"
     t.string "background_info"
     t.string "skype", limit: 128
     t.text "subscribed_users"
-    t.string "alt_email"
-    t.datetime "deleted_at"
+    t.index ["assigned_to"], name: "index_contacts_on_assigned_to"
+    t.index ["user_id", "last_name", "deleted_at"], name: "id_last_name_deleted", unique: true
+
+    
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true

@@ -59,9 +59,9 @@ class Campaign < ApplicationRecord
 
   scope :text_search, ->(query) { ransack('name_cont' => query).result }
 
-  uses_user_permissions
+  # uses_user_permissions
   acts_as_commentable
-  uses_comment_extensions
+  # uses_comment_extensions
   acts_as_taggable_on :tags
   has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
   has_fields

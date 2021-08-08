@@ -182,15 +182,13 @@ Rails.application.routes.draw do
       namespace :admin do
         resources :groups do
           member do
-            # post :delete
-            # post :update
+
           end
         end
 
         resources :tags do
           member do
-            # post :delete
-            # post :update
+
           end
         end
 
@@ -200,15 +198,11 @@ Rails.application.routes.draw do
           end
           member do
             get :confirm
-            # post :delete
-            # post :update
           end
         end
 
         resources :fields do
           member do
-            # post :delete
-            # post :update
           end
         end
 
@@ -220,8 +214,54 @@ Rails.application.routes.draw do
             get :confirm
             post :suspend
             post :reactivate
-            # post :delete
-            # post :update
+          end
+        end
+      end
+      resources :tasks, id: /\d+/ do
+        collection do
+          post :filter
+          match :auto_complete, via: %i[get post]
+        end
+        member do
+          post :complete
+          post :uncomplete
+          post :update
+          post :delete
+        end
+      end
+
+      namespace :entities do
+        resources :accounts, id: /\d+/ do
+          member do
+            post :delete
+            post :update
+          end
+        end
+        resources :leads, id: /\d+/ do
+          member do
+            post :delete
+            post :update
+            post :convert
+            post :reject
+            post :promote
+          end
+        end
+        resources :contacts, id: /\d+/ do
+          member do
+            post :delete
+            post :update
+          end
+        end
+        resources :opportunities, id: /\d+/ do
+          member do
+            post :delete
+            post :update
+          end
+        end
+        resources :campaigns, id: /\d+/ do
+          member do
+            post :delete
+            post :update
           end
         end
       end
