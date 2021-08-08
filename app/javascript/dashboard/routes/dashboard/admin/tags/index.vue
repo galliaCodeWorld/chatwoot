@@ -1,16 +1,16 @@
 <template>
   <div>
-    <EditTags :tags="tagState.tags"/>
-    <md-card class="admin-dashbord-tags">
+    <EditTag :tags="tagState.tags"/>
+    <md-card class="ad-tags">
       <md-card-header>
         <div class="d-flex justify-content-between align-baseline">
           <p class="category" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Tags</p>
-          <md-button class="md-default" @click="showModal">create tag</md-button>
+          <md-button class="md-default md-dense" @click="showModal">create tag</md-button>
         </div>
       </md-card-header>
       <md-card-content>
         <div v-for="(tag,n) in tagState.tags" :key="'ts-'+n" class="tag-info">
-          <DetailTags :tag="tag"/>
+          <DetailTag :tag="tag"/>
           <md-divider class="md-hr md-theme-demo-light" />
         </div>
       </md-card-content>
@@ -21,14 +21,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import store from '../../../../store'
-import DetailTags from './detail.vue';
-import EditTags from './edit.vue';
+import EditTag from './edit.vue';
+import DetailTag from './detail.vue';
 
 export default {
   name: 'ad-tags',
   components: {
-    EditTags,
-    DetailTags,
+    EditTag,
+    DetailTag,
   },
   props: {
     contactId: {
@@ -46,7 +46,6 @@ export default {
       store.dispatch('adTags/get'),
       store.dispatch('adGlobal/viewSearch', false),
     ]).then(() => {
-      console.log('test api...', store)
       next();
     });
   },
@@ -59,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss">
-.admin-dashbord-tags {
+.ad-tags {
   .md-card .md-card-header {
     padding: 0 12px;
   }

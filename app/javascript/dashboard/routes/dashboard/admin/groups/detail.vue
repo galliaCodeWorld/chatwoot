@@ -1,16 +1,20 @@
 <template>
-  <div class="md-layout d-flex justify-content-between align-baseline pt-1 pb-1 ad-tags-detail" 
+  <div class="md-layout d-flex justify-content-between align-baseline pt-1 pb-1 ad-groups-detail" 
     @mouseover="btToggle = true" @mouseleave="btToggle = false">
     <div class="d-flex">
       <div class="strip" style="background: #add8e6; width: auto;">
-        <strong style="font-size: 15px;" v-html="tag.name" />
+        <strong style="font-size: 15px;" v-html="group.name" />
+      </div>
+      <div v-for="(user, n) in group.users" :key="`user-${n}`" class="pl-2">
+        <md-divider class="md-hr md-theme-demo-light" />
+        <a href="#" style="color: saddlebrown; font-weight: 700;"  v-html="fullUserName(user)" />
       </div>
     </div>
     <div class="md-group" :style="btToggle ? 'visibility: visible;' : 'visibility: hidden;'">
       <md-button class="md-icon-button md-info md-raised md-dense" @click="showModal">
         <i class="icon ion-edit"></i>	
       </md-button>
-      <md-button class="md-icon-button md-danger md-raised md-dense" @click="deleteTag">
+      <md-button class="md-icon-button md-danger md-raised md-dense" @click="deleteGroup">
         <i class="icon ion-android-delete"></i>
       </md-button>
     </div>
@@ -21,9 +25,9 @@
 import Swal from "sweetalert2";
 
 export default {
-  name: 'ad-tags-detail',
+  name: 'ad-groups-detail',
   props: {
-    tag: {
+    group: {
       type: Object,
       default: () => {}
     }
@@ -34,22 +38,38 @@ export default {
     };
   },
   methods: {
+    fullUserName(user) {
+      let tmp = ''
+      if (user.first_name && user.last_name) tmp = `${user.first_name} ${user.last_name}`
+      else {
+        if (user.first_name) tmp = user.first_name
+        if (user.last_name) tmp = user.last_name
+      }
+      if (!tmp) {
+        if (user.username) tmp = user.username
+        if (user.email) tmp = user.email
+      }
+      return tmp
+    },
     showModal() {
-      this.$store.dispatch('adTags/editID', this.$props.tag.id)
+      this.$store.dispatch('adGroups/editID', this.$props.group.id)
     },
     deleteTag() {
-      let tmp = JSON.stringify(this.$props.tag.name)
+      let tmp = JSON.stringify(this.$props.group.name)
       Swal.fire({
         title: 'Are you sure?',
-        text: `You will not be able to recover "${tmp}" tag!`,
+        text: `You will not be able to recover "${tmp}" group!`,
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, keep it'
       }).then((result) => {
         if (result.value) {
-          this.$store.dispatch('adTags/delete', this.$props.tag.id).then(() => {
-            this.$store.dispatch('adTags/get').then(() => {
-              this.$store.dispatch('adGlobal/setMsg', `Deleted "${tmp}" tag..`)
+          this.$store.dispatch('adGroups/delete', this.$props.group.id).then(() => {
+            Promise.all([
+              this.$store.dispatch('adGroups/get'),
+              this.$store.dispatch('adUsers/search')
+            ]).then(() => {
+              this.$store.dispatch('adGlobal/setMsg', `Deleted "${tmp}" group..`)
             })
           })
         }
@@ -60,10 +80,10 @@ export default {
 </script>
 
 <style lang="scss">
-.ad-tags-detail:hover {
+.ad-groups-detail:hover {
   background: #efefef;;
 }
-.ad-tags-detail{
+.ad-groups-detail{
   .strip {
     height: 25px;
     width: auto;

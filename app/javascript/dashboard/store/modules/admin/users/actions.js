@@ -6,10 +6,8 @@ const resource = 'admin/users'
 
 const actions = {
   //////////////////////// with Api ////////////////////////
-  search: (context) => {
+  search: (context, query) => {
     return new Promise((resolve, reject) => {
-      console.log('test...', context.state.query)
-      let query = context.state.query
       let url = query ? `${resource}?query=${query}` : resource
       new ApiClient(url, {apiVersion}).get()
         .then(res => {

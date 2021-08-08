@@ -11,7 +11,7 @@ end
 
 ## Seeds for Local Development
 #unless Rails.env.production?
-  SuperAdmin.create!(email: 'admin3@admin.com', password: '1Qazxsw@3edc')
+  SuperAdmin.create!(email: 'admin1@admin.com', password: '1Qazxsw@3edc')
 
   account = Account.create!(
     name: 'Social'
@@ -21,7 +21,7 @@ end
     name: 'Social'
   )
 
-  user = User.new(name: 'Administrator', email: 'admin3@admin.com', password: '1Qazxsw@3edc')
+  user = User.new(username: "Admin", name: 'Administrator', email: 'admin1@admin.com', password: '1Qazxsw@3edc')
   user.skip_confirmation!
   user.save!
 

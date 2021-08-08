@@ -930,6 +930,7 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "confirmed_at"
     t.boolean "admin", default: false, null: false
     t.datetime "suspended_at"
     t.index ["email"], name: "index_users_on_email"
