@@ -88,8 +88,8 @@ class Contact < ApplicationRecord
 
   delegate :campaign, to: :lead, allow_nil: true
 
-  has_ransackable_associations %w[account opportunities tags activities emails addresses comments tasks]
-  ransack_can_autocomplete
+  # has_ransackable_associations %w[account opportunities tags activities emails addresses comments tasks]
+  # ransack_can_autocomplete
 
   serialize :subscribed_users, Set
 
@@ -119,10 +119,10 @@ class Contact < ApplicationRecord
   }
 
   # uses_user_permissions
-  acts_as_commentable
+  # acts_as_commentable
   # uses_comment_extensions
-  acts_as_taggable_on :tags
-  has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
+  # acts_as_taggable_on :tags
+  # has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
   # has_fields
   # exportable
   # sortable by: ["first_name ASC", "last_name ASC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
@@ -285,6 +285,25 @@ class Contact < ApplicationRecord
     end
     contact
   end
+  def users_for_shared_access
+    errors.add(:access, :share_contact) if self[:access] == "Shared" && permissions.none?
+  end
+  private
 
+  # Make sure at least one user has been selected if the contact is being shared.
+  #----------------------------------------------------------------------------
+  
+
+  # Handles the saving of related accounts
+  #----------------------------------------------------------------------------
+  def save_account(params)
+    account_params = params[:account]
+    valid_account = account_params && (account_params[:id].present? || account_params[:name].present?)
+    self.account = if valid_account
+                     Account.create_or_select_for(self, account_params)
+                   else
+                     nil
+                   end
+  end
   # ////////////////////////////////////////////////////////
 end

@@ -63,6 +63,7 @@ class Api::V3::Entities::ContactsController < Api::V3::EntitiesController
   # POST /contacts
   #----------------------------------------------------------------------------
   def create
+    @contact = Contact.new()
     @comment_body = params[:comment_body]
     if @contact.save_with_account_and_permissions(params.permit!)
       @contact.add_comment_by_user(@comment_body, current_user)

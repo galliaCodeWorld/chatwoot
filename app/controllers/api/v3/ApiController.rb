@@ -3,7 +3,7 @@ class Api::V3::ApiController < Api::BaseController
   include ActionController::Helpers
   
   before_action :configure_devise_parameters, if: :devise_controller?
-  # before_action :authenticate_user
+  before_action :authenticate_user
   # before_action :set_paper_trail_whodunnit
   # before_action :cors_preflight_check
   
@@ -99,27 +99,27 @@ class Api::V3::ApiController < Api::BaseController
   #   @current_user = session['dan@example.com']
   # end
 
-  # def authenticate_user
+  def authenticate_user
     
-  #   # if !session['dan@example.com']
-  #   if true
-  #     user = session['dan@example.com']
-  #     # @current_user = User.find(user["id"])
-  #     @current_user = User.find(2)
-  #   else
-  #     render json: {success: false, msg: "you should login"}, status: 200
-  #   end
+    # if !session['dan@example.com']
+    if true
+      # user = session['dan@example.com']
+      # @current_user = User.find(user["id"])
+      @current_user = User.find(1)
+    else
+      render json: {success: false, msg: "you should login"}, status: 200
+    end
 
-  #   # if request.headers['Authorization'].present?
-  #   #   authenticate_or_request_with_http_token do |token|
-  #   #     begin
-  #   #       jwt_payload = JWT.decode(token, Rails.application.secrets.secret_key_base).first
+    # if request.headers['Authorization'].present?
+    #   authenticate_or_request_with_http_token do |token|
+    #     begin
+    #       jwt_payload = JWT.decode(token, Rails.application.secrets.secret_key_base).first
 
-  #   #       @current_user_id = jwt_payload['id']
-  #   #     rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
-  #   #       head :unauthorized
-  #   #     end
-  #   #   end
-  #   # end
-  # end
+    #       @current_user_id = jwt_payload['id']
+    #     rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
+    #       head :unauthorized
+    #     end
+    #   end
+    # end
+  end
 end
