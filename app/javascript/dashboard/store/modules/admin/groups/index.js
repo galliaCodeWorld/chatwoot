@@ -4,7 +4,6 @@ import actions from './actions.js'
 
 const state = {
   groups: [],
-  group: {},
   editID: -1,
 };
 

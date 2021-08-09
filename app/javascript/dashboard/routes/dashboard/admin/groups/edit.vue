@@ -71,12 +71,8 @@ export default {
       id: null,
       name: null,
       ins: [],
-      users: [],
       sending: false,
     };
-  },
-  mounted() {
-    console.log(this.$props.tags)
   },
   computed: mapState({
     editID: state => state.adGroups.editID,
@@ -84,9 +80,6 @@ export default {
   watch: {
     editID(newValue, oldValue) {
       if (newValue !== -1) {
-        this.users = this.$props.users.map((u, i) => {
-          return {id: u.id, username: u.username, email: u.email}
-        })
         let group = this.$props.groups.find(k => k.id === newValue)
         if (group) {
           group = JSON.parse(JSON.stringify(group))
@@ -110,7 +103,6 @@ export default {
       this.id = null
       this.name = null
       this.ins = []
-      this.users = []
       this.sending = false
       this.$store.dispatch('adGroups/editID', -1)
     },
@@ -119,24 +111,25 @@ export default {
       let formData = new FormData()
       formData.append('name', this.name)
       if (Array.isArray(this.ins)) {
-        let tmp = this.ins.map((u, i) => {
+        let users = this.ins.map((u, i) => {
           return u.id
         })
-        formData.append('users', tmp)
+        formData.append('users', users)
       }
       this.$store.dispatch('adGroups/update', {id: this.id, formData})
-        .then(() => {
-          Promise.all([
-            this.$store.dispatch('adGroups/get'),
-            this.$store.dispatch('adUsers/search')
-          ]).then(() => {
-            let msg = this.id 
-              ? `Updated a "${this.name}" group..`
-              : `Added a new "${this.name}" group..`
-            this.$bvModal.hide('adGroupsEditModal');
-            this.$store.dispatch('adGlobal/setMsg', msg)
-          })
+      .then(() => {
+        Promise.all([
+          this.$store.dispatch('adGroups/get'),
+          this.$store.dispatch('adUsers/search')
+        ]).then(() => {
+          let msg = this.id 
+            ? `Updated a "${this.name}" group..`
+            : `Added a new "${this.name}" group..`
+          this.$bvModal.hide('adGroupsEditModal');
+          this.$store.dispatch('adGlobal/setMsg', msg)
+          console.log('test....', this.$props.groups)
         })
+      })
     },
     cancel() {
       this.$bvModal.hide('adGroupsEditModal');

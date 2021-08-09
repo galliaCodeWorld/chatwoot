@@ -35,7 +35,13 @@ export default {
   },
   methods: {
     showModal() {
-      this.$store.dispatch('adTags/editID', this.$props.tag.id)
+      this.$store.dispatch('adTags/get', this.$props.tag.id).then(tag => {
+        if (tag) {
+          this.$store.dispatch('adTags/get').then(() => {
+            this.$store.dispatch('adTags/editID', this.$props.tag.id)
+          })
+        }
+      })
     },
     deleteTag() {
       let tmp = JSON.stringify(this.$props.tag.name)

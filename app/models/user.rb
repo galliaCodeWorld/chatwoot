@@ -221,6 +221,10 @@ class User < ApplicationRecord
     self.suspended_at = Time.now if Setting.user_signup == :needs_approval && !admin
   end
 
+  def name
+    first_name.blank? ? username : first_name
+  end
+
   private
 
   def update_presence_in_redis
@@ -231,10 +235,6 @@ class User < ApplicationRecord
 
   #  ///////////////   FFCRM  ///////////////
   
-  def name
-    first_name.blank? ? username : first_name
-  end
-
   #----------------------------------------------------------------------------
   def full_name
     first_name.blank? && last_name.blank? ? email : "#{first_name} #{last_name}".strip

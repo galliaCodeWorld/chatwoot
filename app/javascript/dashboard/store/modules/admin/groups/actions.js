@@ -11,8 +11,8 @@ const actions = {
       id 
       ? new ApiClient(resource, {apiVersion}).show(id)
           .then(res => {
-            context.commit(types.admin.groups.getall, res.data);
-            resolve(res.data)
+            if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
+            res.data.data ? resolve(JSON.parse(res.data.data)) : resolve()
           }) 
           .catch(err => {
             context.commit(types.SET_ERROR, err);
@@ -20,8 +20,9 @@ const actions = {
           })
       : new ApiClient(resource, {apiVersion}).get()
           .then(res => {
-            context.commit(types.admin.groups.getone, res.data);
-            resolve(res.data)
+            if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
+            else if (res.data.data) context.commit(types.admin.groups.get, JSON.parse(res.data.data));
+            resolve()
           })
           .catch(err => {
             context.commit(types.SET_ERROR, err);
@@ -34,7 +35,7 @@ const actions = {
       id
       ? new ApiClient(resource, {apiVersion}).update(id, formData)
           .then(res => {
-            if (res.msg) context.commit(types.SET_ERROR, res.msg)
+            if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
             resolve()
           })
           .catch(err => {
@@ -43,7 +44,7 @@ const actions = {
           })
       : new ApiClient(resource, {apiVersion}).create(formData)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
           resolve()
         })
         .catch(err => {
@@ -57,7 +58,7 @@ const actions = {
       id 
       ? new ApiClient(resource, {apiVersion}).delete(id)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
           resolve()
         })
         .catch(err => {

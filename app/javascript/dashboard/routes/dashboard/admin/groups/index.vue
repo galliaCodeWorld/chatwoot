@@ -4,7 +4,7 @@
     <md-card class="ad-groups">
       <md-card-header>
         <div class="d-flex justify-content-between align-baseline">
-          <p class="category" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Tags</p>
+          <p class="category" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Groups</p>
           <md-button class="md-default md-dense" @click="showModal">create group</md-button>
         </div>
       </md-card-header>
@@ -44,10 +44,11 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     Promise.all([
+      store.dispatch('adGlobal/viewSearch', false),
       store.dispatch('adUsers/search'),
       store.dispatch('adGroups/get'),
-      store.dispatch('adGlobal/viewSearch', false),
     ]).then(() => {
+      console.log(store)
       next();
     });
   },
