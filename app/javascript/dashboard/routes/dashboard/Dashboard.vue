@@ -1,12 +1,12 @@
 <template>
   <div class="app-wrapper">
     <notifications />
+    <sidebar :route="currentRoute"></sidebar>
     <section class="app-content columns" :class="contentClassName">
        <zoom-center-transition :duration="100" mode="out-in">
         <router-view></router-view>
       </zoom-center-transition>
     </section> 
-    <sidebar :route="currentRoute"></sidebar>
   </div>
 </template>
 
