@@ -43,8 +43,8 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     Promise.all([
-      store.dispatch('adTags/get'),
       store.dispatch('adGlobal/viewSearch', false),
+      store.dispatch('adTags/get'),
     ]).then(() => {
       next();
     });

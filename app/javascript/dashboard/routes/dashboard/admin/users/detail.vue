@@ -44,6 +44,10 @@ import Swal from "sweetalert2";
 export default {
   name: 'ad-users-detail',
   props: {
+    query: {
+      type: String,
+      default: null
+    },
     user: {
       type: Object,
       default: () => {}
@@ -54,6 +58,7 @@ export default {
       btToggle: false
     };
   },
+  
   computed: {
     fullUserName() {
       let user = this.$props.user
@@ -96,7 +101,13 @@ export default {
   },
   methods: {
     showModal() {
-      this.$store.dispatch('adUsers/editID', this.$props.user.id)
+      this.$store.dispatch('adUsers/show', this.$props.user.id).then(user => {
+        if (user) {
+          this.$store.dispatch('adUsers/search', this.$props.query).then(() => {
+            if (this.$props.user.id) this.$store.dispatch('adUsers/editID', this.$props.user.id)
+          })
+        }
+      })
     },
     deleteUser() {
       let username = JSON.stringify(this.$props.user.username)

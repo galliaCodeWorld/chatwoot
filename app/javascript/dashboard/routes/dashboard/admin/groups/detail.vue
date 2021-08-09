@@ -52,9 +52,16 @@ export default {
       return tmp
     },
     showModal() {
+      this.$store.dispatch('adGroups/get', this.$props.group.id).then(group => {
+        if (group) {
+          this.$store.dispatch('adGroups/get').then(() => {
+            this.$store.dispatch('adGroups/editID', this.$props.group.id)
+          })
+        }
+      })
       this.$store.dispatch('adGroups/editID', this.$props.group.id)
     },
-    deleteTag() {
+    deleteGroup() {
       let tmp = JSON.stringify(this.$props.group.name)
       Swal.fire({
         title: 'Are you sure?',

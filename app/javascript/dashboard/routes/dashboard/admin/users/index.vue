@@ -10,7 +10,7 @@
       </md-card-header>
       <md-card-content>
         <div v-for="(user,n) in userState.users" :key="'us-'+n" class="user-info">
-          <!-- <DetailGroup :user="user"/> -->
+          <DetailGroup :query="userState.query" :user="user"/>
           <md-divider class="md-hr md-theme-demo-light" />
         </div>
       </md-card-content>
@@ -22,13 +22,13 @@
 import { mapGetters } from 'vuex';
 import store from '../../../../store'
 // import EditGroup from './edit.vue';
-// import DetailGroup from './detail.vue';
+import DetailGroup from './detail.vue';
 
 export default {
   name: 'ad-users',
   components: {
     // EditGroup,
-    // DetailGroup,
+    DetailGroup,
   },
   props: {
     contactId: {
@@ -44,9 +44,9 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     Promise.all([
+      store.dispatch('adGlobal/viewSearch', true),
       store.dispatch('adUsers/search'),
       store.dispatch('adGroups/get'),
-      store.dispatch('adGlobal/viewSearch', true),
     ]).then(() => {
       next();
     });

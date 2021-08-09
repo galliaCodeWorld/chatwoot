@@ -28,6 +28,13 @@ class Api::V3::Admin::GroupsController < Api::V3::Admin::ApplicationController
     # render json: {success: true, data: group}
   end
 
+  # GET /admin/groups/1
+  #----------------------------------------------------------------------------
+  def show
+    @group = Group.find_by_id(params[:id])
+    render json: {data: @group.to_json, success: true}, status: 200
+  end
+
   # POST /groups/:id
   def show
     @group = Group.find_by(id: params[:id])

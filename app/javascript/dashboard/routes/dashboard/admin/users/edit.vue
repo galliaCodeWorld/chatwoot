@@ -9,13 +9,12 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="username"
-                  :rules="'required|min:'+minlen.name"
+                  :rules="`required|min:${minlen.name || 3}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                     <label>User Name</label>
-                    <md-input v-model="username" type="text"> </md-input>
-
+                    <md-input name="username" v-model="user.username" type="text" />
                     <md-icon class="error" v-show="failed">close</md-icon>
                     <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -29,8 +28,7 @@
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                   <label>Email Adress</label>
-                  <md-input v-model="email" type="email"> </md-input>
-
+                  <md-input name="email" v-model="user.email" type="email" />
                   <md-icon class="error" v-show="failed">close</md-icon>
                   <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -39,13 +37,12 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="password"
-                  :rules="'required|confirmed:confirmpass|min:'+minlen.pass"
+                  :rules="`required|confirmed:confirmpass|min:${minlen.pass || 5}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                   <label>Password</label>
-                  <md-input v-model="password" type="password"> </md-input>
-
+                  <md-input name="password" v-model="user.password" type="password" />
                   <md-icon class="error" v-show="failed">close</md-icon>
                   <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -54,13 +51,12 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   vid="confirmpass"
-                  :rules="'required|confirmed:password|min:'+minlen.pass"
+                  :rules="`required|confirmed:password|min:${minlen.pass || 5}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                   <label>Confirm Password</label>
-                  <md-input v-model="confirmpass" type="password"> </md-input>
-
+                  <md-input v-model="confirmpass" type="password" />
                   <md-icon class="error" v-show="failed">close</md-icon>
                   <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -73,7 +69,7 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="first_name"
-                  :rules="'required|min:'+minlen.name"
+                  :rules="`required|min:'+minlen.name`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
@@ -208,9 +204,8 @@ export default {
   },
   data() {
     return {
-      minlen: MIN_LEN,
+      minlen: {},
       sending: false,
-      saved: true,
 
       id: null,
       username: null,

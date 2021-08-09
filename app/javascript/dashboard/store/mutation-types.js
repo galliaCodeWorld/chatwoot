@@ -179,8 +179,7 @@ export default {
     },
     groups: {
       editID: 'MAGroupsEditID',
-      getall: 'MAGroupsGetAll',
-      getone: 'MAGroupsGetOne',
+      get: 'MAGroupsGet',
     },
     fields: {
       selectCatename: 'MAFieldsSelectCatename',
