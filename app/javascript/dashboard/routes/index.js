@@ -3,14 +3,12 @@ import VueRouter from 'vue-router';
 import auth from '../api/auth';
 import login from './login/login.routes';
 import dashboard from './dashboard/dashboard.routes';
-import user from './dashboard/user.routes';
 import authRoute from './auth/auth.routes';
 import { frontendURL } from '../helper/URLHelper';
 
 const routes = [
   ...login.routes,
   ...dashboard.routes,
-  ...user.routes,
   ...authRoute.routes,
   {
     path: '/',
