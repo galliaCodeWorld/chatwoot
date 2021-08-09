@@ -1,11 +1,15 @@
 <template>
   <div>
+<<<<<<< HEAD
     <EditGroup />
+=======
+    <EditGroup :fieldState="fieldState" :tagState="tagState" />
+>>>>>>> master
     <md-card class="ad-fields">
       <md-card-header>
         <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Custom Fields</strong>
       </md-card-header>
-      <md-card-cotent>
+      <md-card-content>
         <strong class="title" slot="header-title" style="padding: 0; text-align: left; color: black;">
           Custom fields are displayed in groups. Create a new field group, or add fields to one of the groups below. You can drag and drop fields to change their display order or move them between field groups.
         </strong>
@@ -49,7 +53,7 @@
             </div>
           </template>
         </tabs>
-      </md-card-cotent>
+      </md-card-content>
     </md-card>
   </div>
 </template>
@@ -68,9 +72,21 @@ export default {
     EditGroup,
     Group,
   },
+<<<<<<< HEAD
   data() {
     return {
     };
+=======
+  beforeRouteEnter(to, from, next) {
+    Promise.all([
+      store.dispatch('adGlobal/viewSearch', false),
+      store.dispatch('adFields/gSearch', 'Account'),
+      store.dispatch('adTags/get')
+    ]).then(() => {
+      console.log('test fields index...', store.getters)
+      next();
+    });
+>>>>>>> master
   },
   computed: mapState({
     ...mapGetters({
@@ -79,6 +95,7 @@ export default {
     }),
     ceGroupID: state => state.adFields.ceGroupID,
   }),
+<<<<<<< HEAD
   beforeRouteEnter(to, from, next) {
     Promise.all([
       store.dispatch('adFields/gSearch', 'Account'),
@@ -87,6 +104,8 @@ export default {
       next();
     });
   },
+=======
+>>>>>>> master
   methods: {
     tabChange(active) {
       Promise.all([

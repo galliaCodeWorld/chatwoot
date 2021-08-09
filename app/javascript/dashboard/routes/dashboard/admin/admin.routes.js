@@ -12,7 +12,7 @@ export default {
       name: 'admin_dashboard',
       roles: ['administrator'],
       component: Sidebar,
-      redirect: frontendURL('accounts/:accountId/admin/field'),
+      redirect: frontendURL('accounts/:accountId/admin/fields'),
       children: [
         {
           path: 'fields',
