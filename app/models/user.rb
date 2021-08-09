@@ -220,6 +220,9 @@ class User < ApplicationRecord
   def suspend_if_needs_approval
     self.suspended_at = Time.now if Setting.user_signup == :needs_approval && !admin
   end
+  def name
+    first_name.blank? ? username : first_name
+  end
 
   private
 
@@ -231,9 +234,7 @@ class User < ApplicationRecord
 
   #  ///////////////   FFCRM  ///////////////
   
-  def name
-    first_name.blank? ? username : first_name
-  end
+
 
   #----------------------------------------------------------------------------
   def full_name
