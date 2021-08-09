@@ -1,6 +1,5 @@
 /* eslint arrow-body-style: 0 */
 import Sidebar from './Sidebar.vue'
-import Users from './users'
 import Fileds from './fields'
 import Tags from './tags'
 import Groups from './groups'
@@ -13,14 +12,8 @@ export default {
       name: 'admin_dashboard',
       roles: ['administrator'],
       component: Sidebar,
-      redirect: frontendURL('accounts/:accountId/admin/users'),
+      redirect: frontendURL('accounts/:accountId/admin/field'),
       children: [
-        {
-          path: 'users',
-          name: 'admin_dashboard_users',
-          roles: ['administrator'],
-          component: Users,
-        },
         {
           path: 'fields',
           name: 'admin_dashboard_fields',

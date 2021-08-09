@@ -173,7 +173,6 @@ export const getSidebarItems = accountId => ({
   },
   admin: {
     routes: [
-      'admin_dashboard_users',
       'admin_dashboard_fields',
       'admin_dashboard_tags',
       'admin_dashboard_groups',
@@ -185,13 +184,6 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toStateName: 'home',
         toState: frontendURL(`accounts/${accountId}/dashboard`),
-      },
-      users: {
-        icon: 'ion-ios-people',
-        label: 'USERS',
-        hasSubMenu: false,
-        toState: frontendURL(`accounts/${accountId}/admin/users`),
-        toStateName: 'admin_dashboard_users',
       },
       fields: {
         icon: 'ion-document',

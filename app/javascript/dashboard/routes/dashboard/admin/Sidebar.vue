@@ -3,17 +3,26 @@
     <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20 ad-leftdock">
       <md-card v-show="globalState.viewsearch">
         <md-card-header class="text-center">
-          <strong class="title" style="color: blue; font-weight: 700; margin-bottom: 0; padding: 10px 0 0 0">Search users</strong>
+          <strong class="title" style="color: blue;">Global Lists</strong>
         </md-card-header>
         <md-card-content>
-          <md-autocomplete
-            class="search"
-            v-model="userState.query"
-            :md-options="[]"
-            :md-open-on-focus="false"
-            @md-changed="searchUsers">
-            <label>Search...</label>
-          </md-autocomplete>
+          <p>No saved lists</p>
+        </md-card-content>
+      </md-card>
+      <md-card v-show="globalState.viewsearch">
+        <md-card-header class="text-center">
+          <strong class="title" style="color: blue;">My lists</strong>
+        </md-card-header>
+        <md-card-content>
+          <p>No saved lists</p>
+        </md-card-content>
+      </md-card>
+      <md-card v-show="globalState.viewsearch">
+        <md-card-header class="text-center">
+          <strong class="title" style="color: blue;">Recent Items</strong>
+        </md-card-header>
+        <md-card-content>
+          <p>map.((item, i)=> {iterature...})</p>
         </md-card-content>
       </md-card>
     </div>
@@ -43,7 +52,6 @@ export default {
   },
   computed: mapState({
     ...mapGetters({
-      userState: 'adUsers/getState',
       globalState: 'adGlobal/getState',
     }),
     error: state => state.adGlobal.error,
@@ -55,11 +63,6 @@ export default {
     },
     msg(newValue, oldValue) {
       if (newValue) notifyVue({m: newValue, c: 'success'}, this)
-    }
-  },
-  methods: {
-    searchUsers() {
-      this.$store.dispatch('adUsers/search', this.userState.query)
     }
   },
 };
@@ -81,6 +84,11 @@ export default {
   }
   .p {
     margin-bottom: 0;
+  }
+  .title {
+    font-weight: 700; 
+    margin-bottom: 0; 
+    padding: 10px 0 0 0
   }
 }
 </style> 
