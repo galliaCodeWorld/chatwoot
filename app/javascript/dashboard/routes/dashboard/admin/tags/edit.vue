@@ -13,7 +13,7 @@
               >
                 <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                   <label>Tag name</label>
-                  <md-input v-model="name" type="text"> </md-input>
+                  <md-input v-model="name" type="text" />
                   <md-icon class="error" v-show="failed">close</md-icon>
                   <md-icon class="success" v-show="passed">done</md-icon>
                 </md-field>

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <!-- <EditGroup :tags="tagState.tags" :groups="groupState.groups"/> -->
+    <Edit :tags="tagState.tags" :groups="groupState.groups"/>
     <md-card class="ad-users">
       <md-card-header>
         <div class="d-flex justify-content-between align-baseline">
-          <p class="category" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Users</p>
-          <md-button class="md-default md-dense" @click="showModal">create user</md-button>
+          <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Users</strong>
+          <md-button class="md-default md-raised md-dense" @click="showModal">create user</md-button>
         </div>
       </md-card-header>
       <md-card-content>
         <div v-for="(user,n) in userState.users" :key="'us-'+n" class="user-info">
-          <DetailGroup :query="userState.query" :user="user"/>
+          <Detail :query="userState.query" :user="user"/>
           <md-divider class="md-hr md-theme-demo-light" />
         </div>
       </md-card-content>
@@ -21,14 +21,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import store from '../../../../store'
-// import EditGroup from './edit.vue';
-import DetailGroup from './detail.vue';
+import Edit from './edit.vue';
+import Detail from './detail.vue';
 
 export default {
   name: 'ad-users',
   components: {
-    // EditGroup,
-    DetailGroup,
+    Edit,
+    Detail,
   },
   props: {
     contactId: {

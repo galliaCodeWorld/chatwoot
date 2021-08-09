@@ -11,7 +11,6 @@ const actions = {
       id
       ? new ApiClient(resource, {apiVersion}).show(id)
           .then(res => {
-            console.log('test api...', res.data, context)
             if (res.data.msg) context.commit(types.SET_ERROR, res.data.msg)
             res.data.data ? resolve(JSON.parse(res.data.data)) : resolve()
           })

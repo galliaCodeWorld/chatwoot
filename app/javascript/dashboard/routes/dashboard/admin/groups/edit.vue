@@ -13,7 +13,7 @@
               >
                 <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                   <label>Group name</label>
-                  <md-input v-model="name" type="text"> </md-input>
+                  <md-input v-model="name" type="text" />
                   <md-icon class="error" v-show="failed">close</md-icon>
                   <md-icon class="success" v-show="passed">done</md-icon>
                 </md-field>
@@ -25,18 +25,17 @@
                 label="username" track-by="id" 
                 :multiple="true" :taggable="true" 
                 :options="users" 
-              >
-              </multiselect>
+              />
             </div>
             <md-progress-bar md-mode="indeterminate" v-if="sending" />
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
-                <md-button type="submit" class="md-success md-dense" :disabled="sending"
+                <md-button type="submit" class="md-success md-raised md-dense" :disabled="sending"
                   v-html="id ? 'update' : 'create'"
                 />
               </div>
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
-                <md-button class="md-danger md-dense" :disabled="sending" @click="cancel">cancel</md-button>
+                <md-button class="md-danger md-raised md-dense" :disabled="sending" @click="cancel">cancel</md-button>
               </div>
             </div>
           </div>
@@ -127,7 +126,6 @@ export default {
             : `Added a new "${this.name}" group..`
           this.$bvModal.hide('adGroupsEditModal');
           this.$store.dispatch('adGlobal/setMsg', msg)
-          console.log('test....', this.$props.groups)
         })
       })
     },
