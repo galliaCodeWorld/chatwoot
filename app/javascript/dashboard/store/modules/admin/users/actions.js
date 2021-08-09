@@ -25,7 +25,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(resource, {apiVersion}).show(id)
         .then(res => {
-          console.log('api test...', res.data)
           if (res.msg) context.commit(types.SET_ERROR, res.msg)
           res.data ? resolve(res.data) : resolve()
         })

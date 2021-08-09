@@ -30,10 +30,14 @@
       </div>
     </div>
     <div class="md-group h-75" :style="btToggle ? 'visibility: visible;' : 'visibility: hidden;'">
-      <md-button class="md-info" @click="showModal">Edit</md-button>
-      <md-button class="md-warning" @click="suspendUser" 
+      <md-button class="md-icon-button md-info md-raised md-dense" @click="showModal">
+        <i class="icon ion-edit"></i>	
+      </md-button>
+      <md-button class="md-warning md-raised md-dense" @click="suspendUser" 
         v-html="user.suspended_at ? 'Reactive' : 'Suspended'" />
-      <md-button class="md-danger" @click="deleteUser">Delete?</md-button>
+      <md-button class="md-icon-button md-danger md-raised md-dense" @click="deleteUser">
+        <i class="icon ion-android-delete"></i>
+      </md-button>
     </div>
   </div>
 </template>

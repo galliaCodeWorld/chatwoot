@@ -37,7 +37,7 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="password"
-                  :rules="`required|confirmed:confirmpass|min:${minlen.pass || 5}`"
+                  :rules="`required|confirmed:confirmpass|min:${minlen.pass || 6}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
@@ -51,7 +51,7 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   vid="confirmpass"
-                  :rules="`required|confirmed:password|min:${minlen.pass || 5}`"
+                  :rules="`required|confirmed:password|min:${minlen.pass || 6}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
@@ -69,13 +69,12 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="first_name"
-                  :rules="`required|min:'+minlen.name`"
+                  :rules="`required|min:${minlen.name || 3}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                     <label>First Name</label>
-                    <md-input v-model="first_name" type="text"> </md-input>
-
+                    <md-input name="first_name" v-model="user.first_name" type="text" />
                     <md-icon class="error" v-show="failed">close</md-icon>
                     <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -84,13 +83,12 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="last_name"
-                  :rules="'required|min:'+minlen.name"
+                  :rules="`required|min:${minlen.name || 3}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                     <label>Last Name</label>
-                    <md-input v-model="last_name" type="text"> </md-input>
-
+                    <md-input name="last_name" v-model="user.last_name" type="text" />
                     <md-icon class="error" v-show="failed">close</md-icon>
                     <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -99,13 +97,12 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="title"
-                  :rules="'required|min:'+minlen.title"
+                  :rules="`required|min:${minlen.title || 5}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                     <label>Title</label>
-                    <md-input v-model="title" type="text"> </md-input>
-
+                    <md-input name="title" v-model="user.title" type="text" />
                     <md-icon class="error" v-show="failed">close</md-icon>
                     <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -114,13 +111,12 @@
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
                 <ValidationProvider
                   name="company"
-                  :rules="'required|min:'+minlen.company"
+                  :rules="`required|min:${minlen.title || 5}`"
                   v-slot="{ passed, failed }"
                 >
                   <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                     <label>Company</label>
-                    <md-input v-model="company" type="text"> </md-input>
-
+                    <md-input name="company" v-model="user.company" type="text" />
                     <md-icon class="error" v-show="failed">close</md-icon>
                     <md-icon class="success" v-show="passed">done</md-icon>
                   </md-field>
@@ -130,28 +126,26 @@
             <h4 class="title">Group Memberships</h4>
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-                <label class="typo__label">Select groups</label>
-                <multiselect ref="aueg_select" v-model="groups" 
+                <multiselect v-model="user.groups" 
                   placeholder="Search group" 
                   label="name" track-by="id" 
                   :options="groups.map((g, i) => {
                     return {id: g.id, name: g.name, created_at: g.created_at, updated_at: g.updated_at}
                   })" 
                   :multiple="true" :taggable="true" 
-                >
-                </multiselect>
+                />
               </div>
             </div>
           </div>
           <md-progress-bar md-mode="indeterminate" v-if="sending" />
           <div class="md-layout">
              <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
-              <md-button type="submit" class="md-success md-dense" :disabled="sending"
+              <md-button type="submit" class="md-success md-raised md-dense" :disabled="sending"
                 v-html="id ? 'Update' : 'Create'"
               />
             </div>
             <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
-              <md-button class="md-danger md-dense" :disabled="sending" @click="cancel">Cancel</md-button>
+              <md-button class="md-danger md-raised md-dense" :disabled="sending" @click="cancel">Cancel</md-button>
             </div>
           </div>
         </form>
@@ -190,13 +184,8 @@ export default {
         let user = this.users.find(k => k.id === newValue)
         if (user) {
           this.user = JSON.parse(JSON.stringify(user))
-          this.id = user.id
-          Array.isArray(this.user.groups) ? this.groups = user.groups : this.groups = []
-        } else {
-          this.id = null
-          this.user = {}
-          this.groups = []
-        }
+          if (!Array.isArray(this.user.groups)) this.user.groups = []
+        } else this.user = {groups: []}
         this.confirmpass = null
         this.$bvModal.show('adUsersEditModal');
       }
@@ -206,90 +195,52 @@ export default {
     return {
       minlen: {},
       sending: false,
-
-      id: null,
-      username: null,
-      email: null,
-      password: null,
+      user: {groups: []},
       confirmpass: null,
-      admin: false,
-      first_name: null,
-      last_name: null,
-      title: null,
-      company: null,
-      groups: [],
     }
   },
   methods: {
     clearForm() {
       this.$refs.edit_form.reset()
-      this.id = null
-      this.username = null
-      this.email = null
-      this.password = null
+      this.user = {groups: []}
       this.confirmpass = null
-      this.admin = false
-      this.first_name = null
-      this.last_name = null
-      this.title = null
-      this.company = null
-      this.groups = []
-
       this.sending = false
       this.$store.dispatch('adUsers/editID', -1)
     },
     submit() {
       this.sending = true
       let formData = new FormData()
-      formData.append('username', this.username)
-      formData.append('email', this.email)
-      formData.append('password', this.password)
-      formData.append('confirmpass', this.confirmpass)
-      formData.append('admin', this.admin)
-      formData.append('first_name', this.first_name)
-      formData.append('last_name', this.last_name)
-      formData.append('title', this.title)
-      formData.append('company', this.company)
-      if (Array.isArray(this.groups)) {
-        let tmp = this.groups.map((g, i) => {
-          return g.id
-        })
-        formData.append('groups', tmp)
-      }
-      Promise.all([
-        store.dispatch(act_admin.users.update, {formData, id: this.id}),
-      ]).then(() => {
-        Promise.all([
-          store.dispatch(act_admin.users.search),
-          store.dispatch(act_admin.groups.get)
-        ]).then(() => {
-          this.clearForm()
-          this.saved = true
-          this.$bvModal.hide('adUsersEditModal');
-        }).catch(err => {
-          
-          this.saved = false
-          this.sending = false
-        })
-      }).catch(err=> {
-        
-        this.saved = false
-        this.sending = false
-      })
+      formData.append('username', this.user.username)
+      formData.append('email', this.user.email)
+      formData.append('password', this.user.password)
+      formData.append('confirmpass', this.user.confirmpass)
+      formData.append('admin', this.user.admin)
+      formData.append('first_name', this.user.first_name)
+      formData.append('last_name', this.user.last_name)
+      formData.append('title', this.user.title)
+      formData.append('company', this.user.company)
+      console.log('test ad-users-edit multiselect groups..', this.user.groups)
+      // if (Array.isArray(this.user.groups)) {
+      //   let tmp = this.groups.map((g, i) => {
+      //     return g.id
+      //   })
+      //   formData.append('groups', tmp)
+      // }
+      // this.$store.dispatch('adUsers/update', {id: this.user.id, formData})
+      // .then(() => {
+      //   Promise.all([
+      //     this.$store.dispatch('adUsers/search'),
+      //     this.$store.dispatch('adGroups/get')
+      //   ]).then(() => {
+      //     this.$bvModal.hide('adUsersEditModal');
+      //   })
+      // })
     },
     cancel() {
-      this.clearForm();
-      this.saved = false
       this.$bvModal.hide('adUsersEditModal');
     }
   }
 }
 </script>
 <style lang="scss">
-  .md-progress-bar {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-  }
 </style>
