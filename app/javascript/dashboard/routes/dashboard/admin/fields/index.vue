@@ -1,10 +1,6 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <EditGroup />
-=======
     <EditGroup :fieldState="fieldState" :tagState="tagState" />
->>>>>>> master
     <md-card class="ad-fields">
       <md-card-header>
         <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Custom Fields</strong>
@@ -72,22 +68,6 @@ export default {
     EditGroup,
     Group,
   },
-<<<<<<< HEAD
-  data() {
-    return {
-    };
-=======
-  beforeRouteEnter(to, from, next) {
-    Promise.all([
-      store.dispatch('adGlobal/viewSearch', false),
-      store.dispatch('adFields/gSearch', 'Account'),
-      store.dispatch('adTags/get')
-    ]).then(() => {
-      console.log('test fields index...', store.getters)
-      next();
-    });
->>>>>>> master
-  },
   computed: mapState({
     ...mapGetters({
       fieldState: 'adFields/getState',
@@ -95,7 +75,6 @@ export default {
     }),
     ceGroupID: state => state.adFields.ceGroupID,
   }),
-<<<<<<< HEAD
   beforeRouteEnter(to, from, next) {
     Promise.all([
       store.dispatch('adFields/gSearch', 'Account'),
@@ -104,8 +83,6 @@ export default {
       next();
     });
   },
-=======
->>>>>>> master
   methods: {
     tabChange(active) {
       Promise.all([
