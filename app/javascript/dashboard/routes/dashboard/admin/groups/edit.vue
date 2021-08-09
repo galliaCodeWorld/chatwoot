@@ -13,7 +13,7 @@
               >
                 <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                   <label>Group name</label>
-                  <md-input v-model="name" type="text"> </md-input>
+                  <md-input v-model="name" type="text" />
                   <md-icon class="error" v-show="failed">close</md-icon>
                   <md-icon class="success" v-show="passed">done</md-icon>
                 </md-field>
@@ -25,18 +25,17 @@
                 label="username" track-by="id" 
                 :multiple="true" :taggable="true" 
                 :options="users" 
-              >
-              </multiselect>
+              />
             </div>
             <md-progress-bar md-mode="indeterminate" v-if="sending" />
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
-                <md-button type="submit" class="md-success md-dense" :disabled="sending"
+                <md-button type="submit" class="md-success md-raised md-dense" :disabled="sending"
                   v-html="id ? 'update' : 'create'"
                 />
               </div>
               <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
-                <md-button class="md-danger md-dense" :disabled="sending" @click="cancel">cancel</md-button>
+                <md-button class="md-danger md-raised md-dense" :disabled="sending" @click="cancel">cancel</md-button>
               </div>
             </div>
           </div>
@@ -71,12 +70,8 @@ export default {
       id: null,
       name: null,
       ins: [],
-      users: [],
       sending: false,
     };
-  },
-  mounted() {
-    console.log(this.$props.tags)
   },
   computed: mapState({
     editID: state => state.adGroups.editID,
@@ -84,9 +79,6 @@ export default {
   watch: {
     editID(newValue, oldValue) {
       if (newValue !== -1) {
-        this.users = this.$props.users.map((u, i) => {
-          return {id: u.id, username: u.username, email: u.email}
-        })
         let group = this.$props.groups.find(k => k.id === newValue)
         if (group) {
           group = JSON.parse(JSON.stringify(group))
@@ -110,7 +102,6 @@ export default {
       this.id = null
       this.name = null
       this.ins = []
-      this.users = []
       this.sending = false
       this.$store.dispatch('adGroups/editID', -1)
     },
@@ -119,24 +110,24 @@ export default {
       let formData = new FormData()
       formData.append('name', this.name)
       if (Array.isArray(this.ins)) {
-        let tmp = this.ins.map((u, i) => {
+        let users = this.ins.map((u, i) => {
           return u.id
         })
-        formData.append('users', tmp)
+        formData.append('users', users)
       }
       this.$store.dispatch('adGroups/update', {id: this.id, formData})
-        .then(() => {
-          Promise.all([
-            this.$store.dispatch('adGroups/get'),
-            this.$store.dispatch('adUsers/search')
-          ]).then(() => {
-            let msg = this.id 
-              ? `Updated a "${this.name}" group..`
-              : `Added a new "${this.name}" group..`
-            this.$bvModal.hide('adGroupsEditModal');
-            this.$store.dispatch('adGlobal/setMsg', msg)
-          })
+      .then(() => {
+        Promise.all([
+          this.$store.dispatch('adGroups/get'),
+          this.$store.dispatch('adUsers/search')
+        ]).then(() => {
+          let msg = this.id 
+            ? `Updated a "${this.name}" group..`
+            : `Added a new "${this.name}" group..`
+          this.$bvModal.hide('adGroupsEditModal');
+          this.$store.dispatch('adGlobal/setMsg', msg)
         })
+      })
     },
     cancel() {
       this.$bvModal.hide('adGroupsEditModal');

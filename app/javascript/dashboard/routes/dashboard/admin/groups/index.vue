@@ -1,16 +1,16 @@
 <template>
   <div>
-    <EditGroup :groups="groupState.groups" :users="userState.users"/>
+    <Edit :groups="groupState.groups" :users="userState.users"/>
     <md-card class="ad-groups">
       <md-card-header>
         <div class="d-flex justify-content-between align-baseline">
-          <p class="category" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Tags</p>
-          <md-button class="md-default md-dense" @click="showModal">create group</md-button>
+          <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Groups</strong>
+          <md-button class="md-default md-raised md-dense" @click="showModal">create group</md-button>
         </div>
       </md-card-header>
       <md-card-content>
         <div v-for="(group,n) in groupState.groups" :key="'gs-'+n" class="group-info">
-          <DetailGroup :group="group"/>
+          <Detail :group="group"/>
           <md-divider class="md-hr md-theme-demo-light" />
         </div>
       </md-card-content>
@@ -21,14 +21,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import store from '../../../../store'
-import EditGroup from './edit.vue';
-import DetailGroup from './detail.vue';
+import Edit from './edit.vue';
+import Detail from './detail.vue';
 
 export default {
   name: 'ad-groups',
   components: {
-    EditGroup,
-    DetailGroup,
+    Edit,
+    Detail,
   },
   props: {
     contactId: {
@@ -44,10 +44,11 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     Promise.all([
+      store.dispatch('adGlobal/viewSearch', false),
       store.dispatch('adUsers/search'),
       store.dispatch('adGroups/get'),
-      store.dispatch('adGlobal/viewSearch', false),
     ]).then(() => {
+      console.log(store)
       next();
     });
   },

@@ -3,7 +3,7 @@
     <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20 ad-leftdock">
       <md-card v-show="globalState.viewsearch">
         <md-card-header class="text-center">
-          <p class="category" style="color: blue; font-weight: 700; margin-bottom: 0; padding: 10px 0 0 0">Search users</p>
+          <strong class="title" style="color: blue; font-weight: 700; margin-bottom: 0; padding: 10px 0 0 0">Search users</strong>
         </md-card-header>
         <md-card-content>
           <md-autocomplete
@@ -68,6 +68,12 @@ export default {
 <style lang="scss">
 .md-button:not(.md-just-icon) .md-button-content i {
   height: -7px;
+}
+.md-progress-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
 }
 .ad-sidebar {
   .md-card .md-card-header {

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <EditTag :tags="tagState.tags"/>
+    <Edit :tags="tagState.tags"/>
     <md-card class="ad-tags">
       <md-card-header>
         <div class="d-flex justify-content-between align-baseline">
-          <p class="category" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Tags</p>
-          <md-button class="md-default md-dense" @click="showModal">create tag</md-button>
+          <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Tags</strong>
+          <md-button class="md-default md-raised md-dense" @click="showModal">create tag</md-button>
         </div>
       </md-card-header>
       <md-card-content>
         <div v-for="(tag,n) in tagState.tags" :key="'ts-'+n" class="tag-info">
-          <DetailTag :tag="tag"/>
+          <Detail :tag="tag"/>
           <md-divider class="md-hr md-theme-demo-light" />
         </div>
       </md-card-content>
@@ -21,14 +21,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import store from '../../../../store'
-import EditTag from './edit.vue';
-import DetailTag from './detail.vue';
+import Edit from './edit.vue';
+import Detail from './detail.vue';
 
 export default {
   name: 'ad-tags',
   components: {
-    EditTag,
-    DetailTag,
+    Edit,
+    Detail,
   },
   props: {
     contactId: {
@@ -43,8 +43,8 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     Promise.all([
-      store.dispatch('adTags/get'),
       store.dispatch('adGlobal/viewSearch', false),
+      store.dispatch('adTags/get'),
     ]).then(() => {
       next();
     });

@@ -21,6 +21,19 @@ const actions = {
         })
     })
   },
+  show: (context, id) => {
+    return new Promise((resolve, reject) => {
+      new ApiClient(resource, {apiVersion}).show(id)
+        .then(res => {
+          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          res.data ? resolve(res.data) : resolve()
+        })
+        .catch(err => {
+          context.commit(types.SET_ERROR, err);
+          reject(err)
+        })
+    })
+  },
   update: (context, {id, formData}) => {
     return new Promise((resolve, reject) => {
       id 
