@@ -4,7 +4,6 @@ import conversation from './conversation/conversation.routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as notificationRoutes } from './notifications/routes';
 import admin from './admin/admin.routes'
-// import user from '/user/user.routes'
 import { frontendURL } from '../../helper/URLHelper';
 
 export default {
@@ -16,7 +15,6 @@ export default {
         ...conversation.routes,
         ...settings.routes,
         ...admin.routes,
-        // ...user.routes,
         ...contactRoutes,
         ...notificationRoutes,
       ],

@@ -42,10 +42,7 @@ export default {
     }),
   },
   beforeRouteEnter(to, from, next) {
-    Promise.all([
-      store.dispatch('adGlobal/viewSearch', false),
-      store.dispatch('adTags/get'),
-    ]).then(() => {
+    store.dispatch('adTags/get').then(() => {
       next();
     });
   },

@@ -44,7 +44,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     Promise.all([
-      store.dispatch('adGlobal/viewSearch', false),
       store.dispatch('adUsers/search'),
       store.dispatch('adGroups/get'),
     ]).then(() => {

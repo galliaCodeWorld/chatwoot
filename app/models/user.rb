@@ -73,8 +73,8 @@ class User < ApplicationRecord
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id
 
-  # validates :email, :name, presence: true
-  # validates_length_of :name, minimum: 1
+  validates :email, :name, presence: true
+  validates_length_of :name, minimum: 1
 
   has_many :account_users, dependent: :destroy
   has_many :accounts, through: :account_users
@@ -217,11 +217,10 @@ class User < ApplicationRecord
       type: 'user'
     }
   end
-  
   def suspend_if_needs_approval
     self.suspended_at = Time.now if Setting.user_signup == :needs_approval && !admin
   end
-  
+
   def name
     first_name.blank? ? username : first_name
   end
@@ -235,6 +234,7 @@ class User < ApplicationRecord
   end
 
   #  ///////////////   FFCRM  ///////////////
+  
   #----------------------------------------------------------------------------
   def full_name
     first_name.blank? && last_name.blank? ? email : "#{first_name} #{last_name}".strip
