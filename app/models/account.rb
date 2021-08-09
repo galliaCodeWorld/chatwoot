@@ -3,20 +3,28 @@
 # Table name: accounts
 #
 #  id                    :integer          not null, primary key
+#  access                :string(8)        default("Public")
+#  assigned_to           :integer
 #  auto_resolve_duration :integer
 #  background_info       :string
 #  category              :string(32)
+#  contacts_count        :integer          default(0)
 #  deleted_at            :datetime
 #  domain                :string(100)
 #  email                 :string(254)
+#  fax                   :string(32)
 #  feature_flags         :integer          default(0), not null
 #  locale                :integer          default("en")
-#  name                  :string           not null
+#  name                  :string(64)       default(""), not null
+#  opportunities_count   :integer          default(0)
+#  phone                 :string(32)
 #  rating                :integer          default(0), not null
 #  settings_flags        :integer          default(0), not null
 #  subscribed_users      :text
 #  support_email         :string(100)
+#  toll_free_phone       :string(32)
 #  uuid                  :string
+#  website               :string(64)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  user_id               :integer
@@ -24,7 +32,9 @@
 #
 # Indexes
 #
-#  index_accounts_on_users_id  (users_id)
+#  index_accounts_on_assigned_to                      (assigned_to)
+#  index_accounts_on_user_id_and_name_and_deleted_at  (user_id,name,deleted_at) UNIQUE
+#  index_accounts_on_users_id                         (users_id)
 #
 
 class Account < ApplicationRecord
@@ -58,7 +68,7 @@ class Account < ApplicationRecord
   has_many :addresses, dependent: :destroy, as: :addressable, class_name: "Address" # advanced search uses this
   has_many :emails, as: :mediator
 
-  #  ////////////////////////   FFCRM  ///////////////////////
+  #  //////////////////////// //// ///////////////////////
 
 
   has_many :account_users, dependent: :destroy
@@ -115,13 +125,13 @@ class Account < ApplicationRecord
   scope :by_name, -> { order(:name) }
 
   # uses_user_permissions
-  acts_as_commentable
+  # acts_as_commentable
   # uses_comment_extensions
-  acts_as_taggable_on :tags
-  has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
-  has_fields
-  exportable
-  sortable by: ["name ASC", "rating DESC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
+  # acts_as_taggable_on :tags
+  # has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
+  # has_fields
+  # exportable
+  # sortable by: ["name ASC", "rating DESC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
 
   # has_ransackable_associations %w[contacts opportunities tags activities emails addresses comments tasks]
   # ransack_can_autocomplete
@@ -133,7 +143,7 @@ class Account < ApplicationRecord
   validate :users_for_shared_access
 
   before_save :nullify_blank_category
-  #    ///////////////////////   FFCRM  /////////////////////
+  #    ///////////////////////////////////////////////////////////
 
   
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
@@ -228,7 +238,7 @@ class Account < ApplicationRecord
     errors.add(:access, :share_account) if self[:access] == "Shared" && permissions.none?
   end
 
-  # /////////////////  FFCRM ////////////////
+  # ////////////////////////////////////////////////
 
   private
 
@@ -254,5 +264,5 @@ class Account < ApplicationRecord
     self.category = nil if category.blank?
   end
 
-  # //////////////  FFCRM  ////////////////////
+  # //////////////////////////////////////////// ////////////////////
 end

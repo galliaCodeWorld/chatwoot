@@ -66,6 +66,7 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
   # POST /opportunities
   #----------------------------------------------------------------------------
   def create
+    @opportunity = Opportunity.new()
     @comment_body = params[:comment_body]
     if @opportunity.save_with_account_and_permissions(params.permit!)
       @opportunity.add_comment_by_user(@comment_body, current_user)
@@ -79,10 +80,11 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
       # end
       render json: {data: @opportunity.to_json(include: [:account]), success: true}, status: 200
     else
-      @accounts = Account.my(current_user).order('name')
+      # @accounts = Account.my(current_user).order('name')
       @account = guess_related_account(params[:account][:id], request.referer, current_user)
       @contact = Contact.find(params[:contact]) unless params[:contact].blank?
       @campaign = Campaign.find(params[:campaign]) unless params[:campaign].blank?
+      render json: {data: @opportunity.to_json(include: [:account]), success: true}, status: 200
     end
   end
 
