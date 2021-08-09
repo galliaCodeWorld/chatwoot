@@ -24,7 +24,6 @@ class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
   # POST /admin/users
   def create
     @user = User.new(user_params)
-
     @user.suspend_if_needs_approval
     if @user.save
       render json: @user, status: 200
@@ -82,7 +81,7 @@ class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
     params[:password_confirmation] = nil if params[:password_confirmation].blank?
     params[:email].try(:strip!)
     params[:alt_email].try(:strip!)
-
+    puts params
     params.permit(
       :admin,
       :username,

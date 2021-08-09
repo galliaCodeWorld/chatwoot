@@ -1,6 +1,6 @@
 <template>
   <b-modal id="adUsersEditModal" hide-footer hide-header-close size='lg' @hidde="clearForm">
-    <template #modal-title>{{id ? 'Edit User' : 'Create User'}}</template>
+    <template #modal-title>{{user.id ? 'Edit User' : 'Create User'}}</template>
     <div class="d-block text-center user-edit">
       <ValidationObserver v-slot="{ handleSubmit }">
         <form ref="edit_form" @submit.prevent="handleSubmit(submit)">
@@ -62,7 +62,7 @@
                   </md-field>
                 </ValidationProvider>
               </div>
-              <md-checkbox v-model="admin"><a>The user is Administrator.</a></md-checkbox>
+              <md-checkbox v-model="user.admin"><a>The user is Administrator.</a></md-checkbox>
             </div>
             <h5 class="title">Personal Information</h5>
             <div class="md-layout pers-info">
@@ -141,7 +141,7 @@
           <div class="md-layout">
              <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
               <md-button type="submit" class="md-success md-raised md-dense" :disabled="sending"
-                v-html="id ? 'Update' : 'Create'"
+                v-html="user.id ? 'Update' : 'Create'"
               />
             </div>
             <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50">
@@ -171,8 +171,8 @@ export default {
       default: () => []
     },
     users: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
     }
   },
   computed: mapState({
@@ -219,22 +219,22 @@ export default {
       formData.append('last_name', this.user.last_name)
       formData.append('title', this.user.title)
       formData.append('company', this.user.company)
-      console.log('test ad-users-edit multiselect groups..', this.user.groups)
       // if (Array.isArray(this.user.groups)) {
       //   let tmp = this.groups.map((g, i) => {
       //     return g.id
       //   })
       //   formData.append('groups', tmp)
       // }
-      // this.$store.dispatch('adUsers/update', {id: this.user.id, formData})
-      // .then(() => {
-      //   Promise.all([
-      //     this.$store.dispatch('adUsers/search'),
-      //     this.$store.dispatch('adGroups/get')
-      //   ]).then(() => {
-      //     this.$bvModal.hide('adUsersEditModal');
-      //   })
-      // })
+      console.log('test ad-users-edit...',this.user)
+      this.$store.dispatch('adUsers/update', {id: this.user.id, formData})
+      .then(() => {
+        Promise.all([
+          this.$store.dispatch('adUsers/search'),
+          this.$store.dispatch('adGroups/get')
+        ]).then(() => {
+          this.$bvModal.hide('adUsersEditModal');
+        })
+      })
     },
     cancel() {
       this.$bvModal.hide('adUsersEditModal');

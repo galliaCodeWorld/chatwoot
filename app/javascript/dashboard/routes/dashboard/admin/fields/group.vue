@@ -7,17 +7,21 @@
         >
           <h5 style="margin-bottom: 0; color: black; font-weight: 700" v-html="group.name" />
           <div class="md-group" :style="btToggle ? 'visibility: visible;' : 'visibility: hidden;'">
-            <md-button class="md-info" style="padding: 0;" @click="editGroup">EDIT GROUP</md-button>
+            <md-button class="md-icon-button md-info md-raised md-dense" style="padding: 0;" @click="editGroup">
+              <i class="icon ion-edit"></i> 
+            </md-button>
             <md-button class="md-raised md-dense" :class="openModal ? 'md-primary' : 'md-success'" style="padding: 0;" @click="toggleCEField">
               {{openModal ? 'Cancel Field' : 'New Field'}}
             </md-button>
-            <md-button class="md-danger" style="padding: 0;" @click="deleteGroup">DELETE?</md-button>
+            <md-button class="md-icon-button md-danger md-raised md-dense" style="padding: 0;" @click="deleteGroup">
+              <i class="icon ion-android-delete"></i>
+            </md-button>
           </div>
         </div>
         <md-divider class="md-hr md-theme-demo-light"></md-divider>
       </div>
       <div v-for="(field, n) in group.fields" :key="`agff-${n}`">
-        <Field :gid="group.id ? String(group.id) : null" :field="field" />
+        <Field :gid="group.id ? String(group.id) : null" :field="field" :ceFieldData="ceFieldData" />
         <md-divider class="md-hr md-theme-demo-light"></md-divider>
       </div>
     </div>
@@ -25,7 +29,7 @@
     <EditField 
       :openModal="openModal" 
       :gid="Number(group.id)"
-      :field="ceFieldData[group.id]?.new ? ceFieldData[group.id].new : {id: 'new'}"
+      :field="ceFieldData[group.id] && ceFieldData[group.id].new ? ceFieldData[group.id].new : {id: 'new'}"
       @closeCEFieldModal="toggleCEField" />
     <br/>
   </div>
@@ -94,7 +98,7 @@
           : Object.assign(data, {add: {new: {id: 'new'}}})
         this.$store.dispatch('adFields/setCEFieldData', data)
         .then(() => {
-          this.openModal = this.$props.ceFieldData[this.$props.group.id]?.new ? true : false
+          this.openModal = this.$props.ceFieldData[this.$props.group.id] && this.$props.ceFieldData[this.$props.group.id].new ? true : false
         })
       },
     },

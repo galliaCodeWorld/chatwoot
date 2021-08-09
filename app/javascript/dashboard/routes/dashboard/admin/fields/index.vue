@@ -1,11 +1,11 @@
 <template>
   <div>
-    <Edit />
+    <EditGroup :fieldState="fieldState" :tagState="tagState" />
     <md-card class="ad-fields">
       <md-card-header>
         <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Custom Fields</strong>
       </md-card-header>
-      <md-card-cotent>
+      <md-card-content>
         <strong class="title" slot="header-title" style="padding: 0; text-align: left; color: black;">
           Custom fields are displayed in groups. Create a new field group, or add fields to one of the groups below. You can drag and drop fields to change their display order or move them between field groups.
         </strong>
@@ -25,31 +25,31 @@
         >
           <template slot="tab-pane-1">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[0]]" :key="`gacc-${n}`">
-              <Group :group="g"/>
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
             </div>
           </template>
           <template slot="tab-pane-2">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[1]]" :key="`gcom-${n}`">
-              <Group :group="g"/>
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
             </div>
           </template>
           <template slot="tab-pane-3">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[2]]" :key="`gcon-${n}`">
-              <Group :group="g"/>
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
             </div>
           </template>
           <template slot="tab-pane-4">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[3]]" :key="`glead-${n}`">
-              <Group :group="g"/>
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
             </div>
           </template>
           <template slot="tab-pane-5">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[4]]" :key="`gopp-${n}`">
-              <Group :group="g"/>
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
             </div>
           </template>
         </tabs>
-      </md-card-cotent>
+      </md-card-content>
     </md-card>
   </div>
 </template>
@@ -58,11 +58,16 @@
 import { mapState, mapGetters} from "vuex"
 import store from '../../../../store'
 import { Tabs } from '../../../../components/md';
-import Edit from './Edit.vue'
+import EditGroup from './editGroup.vue'
 import Group from './group.vue'
 
 export default {
   name: 'ad-fields',
+  components: {
+    Tabs,
+    EditGroup,
+    Group,
+  },
   beforeRouteEnter(to, from, next) {
     Promise.all([
       store.dispatch('adGlobal/viewSearch', false),
@@ -80,15 +85,6 @@ export default {
     }),
     ceGroupID: state => state.adFields.ceGroupID,
   }),
-  components: {
-    Tabs,
-    Edit,
-    Group,
-  },
-  data() {
-    return {
-    };
-  },
   methods: {
     tabChange(active) {
       Promise.all([

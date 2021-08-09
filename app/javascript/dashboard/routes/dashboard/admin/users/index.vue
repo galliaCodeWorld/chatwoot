@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Edit :tags="tagState.tags" :groups="groupState.groups"/>
+    <Edit :users="userState.users" :groups="groupState.groups"/>
     <md-card class="ad-users">
       <md-card-header>
         <div class="d-flex justify-content-between align-baseline">
