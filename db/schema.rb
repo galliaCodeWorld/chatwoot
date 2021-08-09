@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
   end
 
   create_table "accounts", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "locale", default: 0
@@ -67,15 +66,26 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
-    t.integer "user_id"
     t.bigint "users_id"
-    t.string "background_info"
     t.integer "rating", default: 0, null: false
     t.string "category", limit: 32
     t.text "subscribed_users"
     t.string "uuid"
-    t.string "email", limit: 254
+    t.integer "user_id"
+    t.integer "assigned_to"
+    t.string "name", limit: 64, default: "", null: false
+    t.string "access", limit: 8, default: "Public"
+    t.string "website", limit: 64
+    t.string "toll_free_phone", limit: 32
+    t.string "phone", limit: 32
+    t.string "fax", limit: 32
     t.datetime "deleted_at"
+    t.string "email", limit: 254
+    t.string "background_info"
+    t.integer "contacts_count", default: 0
+    t.integer "opportunities_count", default: 0
+    t.index ["assigned_to"], name: "index_accounts_on_assigned_to"
+    t.index ["user_id", "name", "deleted_at"], name: "index_accounts_on_user_id_and_name_and_deleted_at", unique: true
     t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
@@ -327,7 +337,6 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at"
-
     t.integer "user_id"
     t.integer "lead_id"
     t.integer "assigned_to"
@@ -353,12 +362,12 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.string "background_info"
     t.string "skype", limit: 128
     t.text "subscribed_users"
-    t.index ["assigned_to"], name: "index_contacts_on_assigned_to"
-    t.index ["user_id", "last_name", "deleted_at"], name: "id_last_name_deleted", unique: true
     t.index ["account_id"], name: "index_contacts_on_account_id"
+    t.index ["assigned_to"], name: "index_contacts_on_assigned_to"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
+    t.index ["user_id", "last_name", "deleted_at"], name: "id_last_name_deleted", unique: true
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|

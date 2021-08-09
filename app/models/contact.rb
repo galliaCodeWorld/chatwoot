@@ -3,26 +3,47 @@
 # Table name: contacts
 #
 #  id                    :integer          not null, primary key
+#  access                :string(8)        default("Public")
 #  additional_attributes :jsonb
 #  alt_email             :string(254)
+#  assigned_to           :integer
 #  background_info       :string
+#  blog                  :string(128)
+#  born_on               :date
 #  custom_attributes     :jsonb
 #  deleted_at            :datetime
+#  department            :string(64)
+#  do_not_call           :boolean          default(FALSE), not null
 #  email                 :string(254)
+#  facebook              :string(128)
+#  fax                   :string(32)
+#  first_name            :string(64)       default(""), not null
 #  identifier            :string
 #  last_activity_at      :datetime
+#  last_name             :string(64)       default(""), not null
+#  linkedin              :string(128)
+#  mobile                :string(32)
 #  name                  :string
+#  phone                 :string(32)
 #  phone_number          :string
 #  pubsub_token          :string
+#  reports_to            :integer
 #  skype                 :string(128)
+#  source                :string(32)
 #  subscribed_users      :text
+#  title                 :string(64)
+#  twitter               :string(128)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
+#  lead_id               :integer
+#  user_id               :integer
 #
 # Indexes
 #
+#  id_last_name_deleted                 (user_id,last_name,deleted_at) UNIQUE
 #  index_contacts_on_account_id         (account_id)
+#  index_contacts_on_assigned_to        (assigned_to)
 #  index_contacts_on_pubsub_token       (pubsub_token) UNIQUE
 #  uniq_email_per_account_contact       (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact  (identifier,account_id) UNIQUE
@@ -67,8 +88,8 @@ class Contact < ApplicationRecord
 
   delegate :campaign, to: :lead, allow_nil: true
 
-  has_ransackable_associations %w[account opportunities tags activities emails addresses comments tasks]
-  ransack_can_autocomplete
+  # has_ransackable_associations %w[account opportunities tags activities emails addresses comments tasks]
+  # ransack_can_autocomplete
 
   serialize :subscribed_users, Set
 
@@ -98,10 +119,10 @@ class Contact < ApplicationRecord
   }
 
   # uses_user_permissions
-  acts_as_commentable
+  # acts_as_commentable
   # uses_comment_extensions
-  acts_as_taggable_on :tags
-  has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
+  # acts_as_taggable_on :tags
+  # has_paper_trail versions: { class_name: 'Version' }, ignore: [:subscribed_users]
   # has_fields
   # exportable
   # sortable by: ["first_name ASC", "last_name ASC", "created_at DESC", "updated_at DESC"], default: "created_at DESC"
@@ -264,6 +285,25 @@ class Contact < ApplicationRecord
     end
     contact
   end
+  def users_for_shared_access
+    errors.add(:access, :share_contact) if self[:access] == "Shared" && permissions.none?
+  end
+  private
 
+  # Make sure at least one user has been selected if the contact is being shared.
+  #----------------------------------------------------------------------------
+  
+
+  # Handles the saving of related accounts
+  #----------------------------------------------------------------------------
+  def save_account(params)
+    account_params = params[:account]
+    valid_account = account_params && (account_params[:id].present? || account_params[:name].present?)
+    self.account = if valid_account
+                     Account.create_or_select_for(self, account_params)
+                   else
+                     nil
+                   end
+  end
   # ////////////////////////////////////////////////////////
 end
