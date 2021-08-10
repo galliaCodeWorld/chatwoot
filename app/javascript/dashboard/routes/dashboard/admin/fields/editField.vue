@@ -115,12 +115,12 @@
           <br />
           <div class="md-layout">
             <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50 float-left">
-              <md-button type="submit" class="md-success w-100">
-                {{field.id === 'new' ? 'Create' : 'Update'}}
+              <md-button type="submit" class="md-success md-raised md-dense w-100">
+                {{field.id === 'new' ? 'create' : 'update'}}
               </md-button>
             </div>
             <div class="md-layout-item md-medium-size-50 md-xsmall-size-50 md-size-50 float-right">
-              <md-button class="md-primary" :disabled="sending" @click="cancel">Cancel</md-button>
+              <md-button class="md-primary md-raised md-dense w-100" :disabled="sending" @click="cancel">cancel</md-button>
             </div>
           </div>
         </div>
@@ -218,11 +218,11 @@ export default {
       formData.append(`field[field_group_id]`, this.$props.gid)
       Promise.all([
         this.data.id === 'new'
-        ? this.$store.dispatch('adFileds/fCreate', formData)
-        : this.$store.dispatch('adFileds/fUpdate', {id: this.data.id, formData}),
+        ? this.$store.dispatch('adFields/fCreate', formData)
+        : this.$store.dispatch('adFields/fUpdate', {id: this.data.id, formData}),
         this.$store.dispatch('adTags/get')
       ]).then(() => {
-        this.$props.dispatch('adGlobal/setMsg', `${this.data.id === 'new' ? 'Added' : 'Updated'} "${JSON.stringify(this.data.label)}" field!`)
+        this.$store.dispatch('adGlobal/setMsg', `${this.data.id === 'new' ? 'Added' : 'Updated'} "${JSON.stringify(this.data.label)}" field!`)
       })
     },
     cancel() {
