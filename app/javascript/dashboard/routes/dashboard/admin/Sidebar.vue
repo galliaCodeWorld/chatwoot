@@ -82,12 +82,7 @@ export default {
   .md-card .md-card-header {
     padding: 0 12px;
   }
-  .p {
-    margin-bottom: 0;
-  }
   .title {
-    font-weight: 700; 
-    margin-bottom: 0; 
     padding: 10px 0 0 0
   }
 }
