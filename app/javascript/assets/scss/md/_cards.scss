@@ -3,12 +3,10 @@
     flex-direction: column;
     position: relative;
     width: 100%;
-    margin: 30px 0;
     overflow: unset;
     font-size: .875rem;
     box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
     border-radius: $border-radius-base + 3;
-    color: $mdb-card-body-text;
     background: $mdb-card-body-background;
 
     .card-height-indicator {
@@ -21,7 +19,6 @@
 
     &:hover [data-header-animation="true"]{
       transform: translate3d(0,-50px,0);
-
     }
 
     &.row-space{
@@ -50,8 +47,8 @@
         color: $gray-color;
     }
     .md-card-content{
-        padding: 0 12px;
-        line-height: 1.75em;
+        padding: 0 10px;
+        line-height: 1;
         position: relative;
 
         .category{
@@ -63,8 +60,8 @@
           font-weight: 400;
           margin-bottom: 0;
           font-size: inherit;
-          line-height: 1.5;
-          padding: 20px 5px 0 0;
+          line-height: 1;
+          padding: 10px 5px 0 0;
           text-align: right;
         }
     }
@@ -83,8 +80,8 @@
         }
 
         .btn {
-            padding-left: 12px;
-            padding-right: 12px;
+            padding-left: 10px;
+            padding-right: 10px;
         }
         .fix-broken-card {
             position: absolute;
@@ -129,8 +126,8 @@
             position: relative;
             padding: 0;
             z-index: 2;
-            margin-left: 15px;
-            margin-right: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
             margin-top: -30px;
             border-radius: $border-radius-large;
 
@@ -156,7 +153,7 @@
           background-color: $gray-color;
           padding: 15px;
           margin-top: -20px;
-          margin-right: 15px;
+          margin-right: 10px;
           float: left;
 
           i{

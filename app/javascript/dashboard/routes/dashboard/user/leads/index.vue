@@ -1,9 +1,27 @@
 <template>
   <div class="md-layout">
     <div class="md-layout-item md-medium-size-20 md-xsmall-size-100 md-size-100 lead">
-      <stats-card header-color="">
+      <md-card>
+        <md-card-header>
+          <div class="d-flex jusify-content-between align-baseline"> 
+            <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Leads</strong>
+            <div class="md-group">
+              <md-button class="md-icon-button md-raised md-dense"></md-button>
+              <md-button class="md-icon-button md-raised md-dense"></md-button>
+              <md-button class="md-default md-raised md-dense">
+                <span>
+                  <i class="icon ion-arrow-return-left" />
+                  <p class="mb-0 text-uppercase">create lead</p>
+                </span>
+              </md-button>
+            </div>
+          </div>
+        </md-card-header>
+          
+        <md-card-content>
+
+        </md-card-content>
         <template slot="header" style="padding-top: 10px">
-          <p class="category" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Leads</p>
           <p class="category create-lead" style="float: right; color: blue; font-weight: 700; padding-top: 5px;" @click="createTask" >Create Lead</p>
         </template>
         
@@ -13,7 +31,7 @@
             <md-divider class="md-hr md-theme-demo-light" />
           </div>
         </template>
-      </stats-card>
+      </md-card>
     </div>
     <div class="md-layout-item md-medium-size-80 md-xsmall-size-100 md-size-80">
       <!-- <LeadBar /> -->
@@ -44,7 +62,7 @@ import { AllCommunityModules } from '@ag-grid-community/all-modules';
 import LeadStatus from './main/leadStatus.vue'
 
 // import EditUser from "./edit.vue";
-import { StatsCard } from "@/components";
+import { mdCard } from "@/components";
 // import LeadBar from "./sidebar";
 import DetailLead from "./detail.vue";
 
@@ -61,7 +79,7 @@ export default {
   },
   components: {
     AgGridVue,
-    StatsCard,
+    mdCard,
     DetailLead,
     // LeadBar
   },
