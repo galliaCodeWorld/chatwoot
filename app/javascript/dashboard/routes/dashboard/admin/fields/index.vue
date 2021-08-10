@@ -1,10 +1,6 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <EditGroup />
-=======
     <EditGroup :fieldState="fieldState" :tagState="tagState" />
->>>>>>> master
     <md-card class="ad-fields">
       <md-card-header>
         <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Custom Fields</strong>
@@ -29,27 +25,27 @@
         >
           <template slot="tab-pane-1">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[0]]" :key="`gacc-${n}`">
-              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" :selectCatename="fieldState.selectCatename" />
             </div>
           </template>
           <template slot="tab-pane-2">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[1]]" :key="`gcom-${n}`">
-              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" :selectCatename="fieldState.selectCatename" />
             </div>
           </template>
           <template slot="tab-pane-3">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[2]]" :key="`gcon-${n}`">
-              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" :selectCatename="fieldState.selectCatename" />
             </div>
           </template>
           <template slot="tab-pane-4">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[3]]" :key="`glead-${n}`">
-              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" :selectCatename="fieldState.selectCatename" />
             </div>
           </template>
           <template slot="tab-pane-5">
             <div v-for="(g, n) in fieldState.categories[Object.keys(fieldState.categories)[4]]" :key="`gopp-${n}`">
-              <Group :group="g" :ceFieldData="fieldState.ceFieldData" />
+              <Group :group="g" :ceFieldData="fieldState.ceFieldData" :selectCatename="fieldState.selectCatename" />
             </div>
           </template>
         </tabs>
@@ -72,21 +68,13 @@ export default {
     EditGroup,
     Group,
   },
-<<<<<<< HEAD
-  data() {
-    return {
-    };
-=======
   beforeRouteEnter(to, from, next) {
     Promise.all([
-      store.dispatch('adGlobal/viewSearch', false),
       store.dispatch('adFields/gSearch', 'Account'),
       store.dispatch('adTags/get')
     ]).then(() => {
-      console.log('test fields index...', store.getters)
       next();
     });
->>>>>>> master
   },
   computed: mapState({
     ...mapGetters({
@@ -95,17 +83,6 @@ export default {
     }),
     ceGroupID: state => state.adFields.ceGroupID,
   }),
-<<<<<<< HEAD
-  beforeRouteEnter(to, from, next) {
-    Promise.all([
-      store.dispatch('adFields/gSearch', 'Account'),
-      store.dispatch('adTags/get')
-    ]).then(() => {
-      next();
-    });
-  },
-=======
->>>>>>> master
   methods: {
     tabChange(active) {
       Promise.all([

@@ -50,6 +50,10 @@
       ceFieldData: {
         type: Object,
         default: () => {}
+      },
+      selectCatename: {
+        type: String,
+        default: 'Account'
       }
     },
     components:{
@@ -82,11 +86,14 @@
           cancelButtonText: 'No, keep it'
         }).then((result) => {
           if (result.value) {
-            Promise.all([
-              this.$store.dispatch('adFileds/gDelete', this.$props.group.id),
-              this.$store.dispatch('adTgas/get')
-            ]).then(() => {
-              this.$store.dispatch('adGlobal/setMsg', `Deleted "${orglabel}" group!`)
+            this.$store.dispatch('adFields/gDelete', this.$props.group.id)
+            .then(() => {
+              Promise.all([
+                this.$store.dispatch('adFields/gSearch', this.$props.selectCatename),
+                this.$store.dispatch('adTgas/get')
+              ]).then(() => {
+                this.$store.dispatch('adGlobal/setMsg', `Deleted "${orglabel}" group!`)
+              })
             })
           }
         })

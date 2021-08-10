@@ -138,9 +138,13 @@ export default {
         this.id 
         ? this.$store.dispatch('adFields/gUpdate', {id: this.id, formData})
         : this.$store.dispatch('adFields/gCreate', formData),
-        this.$store.dispatch('adTags/get')
       ]).then(() => {
-        this.$bvModal.hide('ceGroupModal');
+        Promise.all([
+          this.$store.dispatch('adFields/gSearch', this.$props.fieldState.selectCatename),
+          this.$store.dispatch('adTags/get')
+        ]).then(() => {
+          this.$bvModal.hide('ceGroupModal');
+        })
       })
     },
     cancel() {
