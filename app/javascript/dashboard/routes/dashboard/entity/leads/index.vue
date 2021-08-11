@@ -1,13 +1,14 @@
 <template>
   <div class="md-layout">
-    <div class="md-layout-item md-medium-size-20 md-xsmall-size-100 md-size-100 lead">
+    <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20 lead">
+      display sidebar
+    </div>
+    <div class="md-layout-item md-medium-size-70 md-xsmall-size-100 md-size-80 lead">
       <md-card>
         <md-card-header>
-          <div class="d-flex jusify-content-between align-baseline"> 
+          <div class="d-flex jusify-content-between align-baseline">
             <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Leads</strong>
             <div class="md-group">
-              <md-button class="md-icon-button md-raised md-dense"></md-button>
-              <md-button class="md-icon-button md-raised md-dense"></md-button>
               <md-button class="md-default md-raised md-dense">
                 <span>
                   <i class="icon ion-arrow-return-left" />
@@ -17,78 +18,67 @@
             </div>
           </div>
         </md-card-header>
-          
         <md-card-content>
-
-        </md-card-content>
-        <template slot="header" style="padding-top: 10px">
-          <p class="category create-lead" style="float: right; color: blue; font-weight: 700; padding-top: 5px;" @click="createTask" >Create Lead</p>
-        </template>
-        
-        <template slot="footer">
-          <div v-for="(lead,n) in urLeadsStates.leads" :key="'tag'+n" class="lead-info">
+          <!-- <div v-for="(lead,n) in urLeadsStates.leads" :key="'tag'+n" class="lead-info">
             <DetailLead :lead="lead"/>
             <md-divider class="md-hr md-theme-demo-light" />
+          </div> -->
+          <!-- <AgGridVue
+            ref="leads_table"
+            class="ag-theme-alpine w-100 my-4 h-100"
+            :gridOptions="gridOptions"
+            :columnDefs="columnDefs"
+            :defaultColDef="defaultColDef"
+            :rowData="rowData"
+            :modules="modules"
+            :animateRows="true"
+            :pagination="true"
+            :paginationPageSize="true"
+            :suppressPaginationPanel="true"
+            @grid-ready="onGridReady"
+          /> -->
+        </md-card-content>
+        <md-card-footer>
+          <div class="d-flex justify-content-between align-baseline">
+            <div class="md-group">
+              <md-button class="md-dense">xls</md-button>
+              <md-button class="md-dense">csv</md-button>
+              <md-button class="md-dense">rss</md-button>
+              <md-button class="md-dense">atom</md-button>
+              <md-button class="md-dense">perm</md-button>
+            </div>
+            <div>
+              implement pagenation
+            </div>
           </div>
-        </template>
+        </md-card-footer>
       </md-card>
-    </div>
-    <div class="md-layout-item md-medium-size-80 md-xsmall-size-100 md-size-80">
-      <!-- <LeadBar /> -->
-      <AgGridVue
-        ref="lead_index"
-        class="ag-theme-alpine w-100 my-4 h-100"
-        :gridOptions="gridOptions"
-        :columnDefs="columnDefs"
-        :defaultColDef="defaultColDef"
-        :rowData="rowData"
-        :modules="modules"
-        :animateRows="true"
-        :pagination="true"
-        :paginationPageSize="10"
-        :suppressPaginationPanel="true"
-        @grid-ready="onGridReady"
-      />
     </div>
   </div>
 </template>
 <script>
-import Vue from 'vue';
-import { mapGetters } from "vuex";
-import store from "@/store";
-import { act_user } from "@/store/types/actions.type";
-import { AgGridVue } from '@ag-grid-community/vue';
+import { mapState, mapGetters } from "vuex";
+import store from '../../../../store'
+import { AgGridVue } from 'ag-grid-vue';
+// import { AgGridVue } from '@ag-grid-community/vue';
 import { AllCommunityModules } from '@ag-grid-community/all-modules';
-import LeadStatus from './main/leadStatus.vue'
-
-// import EditUser from "./edit.vue";
-import { mdCard } from "@/components";
-// import LeadBar from "./sidebar";
-import DetailLead from "./detail.vue";
-
-const CubeComponent = Vue.extend({
-  template: '<span>asasas</span>',
-  methods: {
-  }
-})
 
 export default {
   name: 'lead',
   computed: {
-    ...mapGetters(["urLeadsStates"])
+    ...mapGetters({
+      leadState: 'enLeads/getState'
+    })
   },
   components: {
     AgGridVue,
-    mdCard,
-    DetailLead,
-    // LeadBar
   },
   beforeRouteEnter(to, from, next) {
-    Promise.all([
-      store.dispatch(act_user.leads.search),
-    ]).then(() => {
-      next();
-    });
+    store.dispatch('enLeads/search')
+    .then(() => {
+      console.log('test lead ...', store)
+      next()
+    })
   },
   beforeMount() {
     this.gridOptions = {
@@ -105,24 +95,19 @@ export default {
       resizable: true,
       floatingFilter: true,
     };
-   
   },
   mounted() {
-    this.gridApi = this.gridOptions.api;
-    this.columnApi = this.gridOptions.columnApi;
     this.rowData = store.getters.urLeadsStates.leads
   },
   data: () => {
     return {
       modules: AllCommunityModules,
       gridOptions: null,
-      gridApi: null,
-      columnApi: null,
       columnDefs:  [
         {field: 'cus', pinned: 'left',
           cellRendererFramework: CubeComponent
         },
-        {field: 'fullUserName', 
+        {field: 'fullUserName',
           valueGetter: ev => {
             let data = ev.data
             let temp = ''
@@ -140,9 +125,13 @@ export default {
   },
   methods: {
     onGridReady(params) {
-      const updateData = (data) => {
-        this.rowData = data;
+      const updateData = data => {
+        params.api.setRowData(data.slice(0, 100));
       };
+
+      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
+        .then((resp) => resp.json())
+        .then((data) => updateData(data));
     },
     fullUserName(data) {
       let temp = ''

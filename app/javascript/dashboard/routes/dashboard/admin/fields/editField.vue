@@ -27,12 +27,12 @@
               <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
                 <md-icon class="error" v-show="failed">close</md-icon>
                 <md-icon class="success" v-show="passed">done</md-icon>
-                <multiselect 
+                <multiselect
                   name="as"
-                  v-model="data.as" 
+                  v-model="data.as"
                   placeholder="Select type..."
-                  :multiple="false" :taggable="true" 
-                  :options="Object.keys(fieldAs)" 
+                  :multiple="false" :taggable="true"
+                  :options="Object.keys(fieldAs)"
                 >
                 </multiselect>
               </md-field>
@@ -149,7 +149,6 @@ extend("diff", {
   message: ""
 });
 
-
 export default {
   name: 'create-edit-field',
   props: {
@@ -206,7 +205,7 @@ export default {
       this.sending = true
       let keys = ['label', 'as', 'required', 'disabled', 'hint'];
       if (this.show) keys = keys.concat(['minlength', 'maxlength', 'placeholder']);
-      let formData = new FormData(); 
+      let formData = new FormData();
       for (const k in this.data) {
         if (keys.find(m => m === k)) {
           if (k === 'as') formData.append(`field[${k}]`, this.fieldAs[this.data[k]]);
@@ -251,4 +250,4 @@ export default {
 
 
 
-        
+

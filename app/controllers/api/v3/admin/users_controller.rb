@@ -62,7 +62,7 @@ class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
   # PUT /admin/users/1/suspend
   def suspend
     @user = User.find_by_id(params[:id])
-    @user.update_attribute(:suspended_at, Time.now) 
+    @user.update_attribute(:suspended_at, Time.now)
     render json: @user, status: 200
   end
 

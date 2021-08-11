@@ -142,7 +142,10 @@
       "ADMIN": "Admin Dashboard",
       "FIELDS": "Field Pan",
       "TAGS": "Tag Pan",
-      "GROUPS": "Group Pan"
+      "GROUPS": "Group Pan",
+      "ENTITY": "Entities",
+      "LEADS": "Leads",
+      "TASKS": "Tasks"
     },
     "CREATE_ACCOUNT": {
       "NEW_ACCOUNT": "New Account",
