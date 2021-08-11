@@ -21,7 +21,7 @@ export const getSidebarItems = accountId => ({
       'notifications_index',
       'post_form',
       'admin_dashboard',
-      'entity',
+      'entity_leads',
     ],
     menuItems: {
       assignedToMe: {
@@ -82,12 +82,12 @@ export const getSidebarItems = accountId => ({
         toState: frontendURL(`accounts/${accountId}/admin`),
         toStateName: 'admin_dashboard',
       },
-      entity: {
-        icon: 'ion-android-desktop',
-        label: 'ENTITY',
+      entity_leads: {
+        icon: 'ion-ios-more',
+        label: 'LEADS',
         hasSubMenu: false,
-        toState: frontendURL(`accounts/${accountId}/entity`),
-        toStateName: 'entity',
+        toState: frontendURL(`accounts/${accountId}/entity/leads`),
+        toStateName: 'entity_leads'
       },
     },
   },
@@ -224,25 +224,4 @@ export const getSidebarItems = accountId => ({
       },
     },
   },
-  entity: {
-    routes: [
-      'entity_leads',
-    ],
-    menuItems: {
-      back: {
-        icon: 'ion-ios-arrow-back',
-        label: 'HOME',
-        hasSubMenu: false,
-        toStateName: 'home',
-        toState: frontendURL(`accounts/${accountId}/dashboard`),
-      },
-      leads: {
-        icon: 'ion-ios-more',
-        label: 'LEADS',
-        hasSubMenu: false,
-        toState: frontendURL(`accounts/${accountId}/entity/leads`),
-        toStateName: 'entity_leads'
-      }
-    }
-  }
 });
