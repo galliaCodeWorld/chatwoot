@@ -98,7 +98,7 @@ class User < ApplicationRecord
   # /////////////   FFCRM    /////////////
 
   has_one :avatar, as: :entity, dependent: :destroy  # Personal avatar.
-  has_many :avatars                                  # As owner who uploaded it, ex. Contact avatar.
+  # has_many :avatars                                  # As owner who uploaded it, ex. Contact avatar.
   has_many :comments, as: :commentable               # As owner who created a comment.
   has_many :accounts
   has_many :campaigns

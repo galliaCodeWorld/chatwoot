@@ -17,8 +17,8 @@ import "vue-multiselect/dist/vue-multiselect.min.css"
 import "vue-material/dist/vue-material.min.css";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import "../assets/scss/material-dashboard.scss"
-import "../assets/css/demo.css";
+// import "../assets/scss/material-dashboard.scss"
+// import "../assets/css/demo.css";
 
 // library auto imports
 import "es6-promise/auto";

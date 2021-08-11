@@ -8,6 +8,7 @@ export const getSidebarItems = accountId => ({
       'inbox_conversation',
       'conversation_through_inbox',
       'contacts_dashboard',
+      'leads_dashboard',
       'contacts_dashboard_manage',
       'notifications_dashboard',
       'settings_account_reports',
@@ -38,6 +39,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/contacts`),
         toStateName: 'contacts_dashboard',
+      },
+      leads: {
+        icon: 'ios-bookmarks',
+        label: 'LEADS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/leads`),
+        toStateName: 'leads_dashboard',
       },
       notifications: {
         icon: 'ion-ios-bell',

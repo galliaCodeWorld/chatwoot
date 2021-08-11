@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_07_221304) do
+ActiveRecord::Schema.define(version: 2021_08_10_193747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -116,7 +116,14 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "activities", id: :serial, force: :cascade do |t|
@@ -178,6 +185,18 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.datetime "updated_at", null: false
     t.string "fallback_title"
     t.string "extension"
+  end
+
+  create_table "avatars", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.string "entity_type"
+    t.integer "entity_id"
+    t.integer "image_file_size"
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.string "attachment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -358,10 +377,10 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
     t.string "twitter", limit: 128
     t.date "born_on"
     t.boolean "do_not_call", default: false, null: false
+    t.datetime "deleted_at"
     t.string "background_info"
     t.string "skype", limit: 128
     t.text "subscribed_users"
-    t.datetime "deleted_at"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["assigned_to"], name: "index_contacts_on_assigned_to"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
@@ -989,6 +1008,7 @@ ActiveRecord::Schema.define(version: 2021_08_07_221304) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "inboxes"
   add_foreign_key "contact_inboxes", "contacts"

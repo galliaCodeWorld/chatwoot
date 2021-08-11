@@ -17,7 +17,7 @@ class Logo < ApplicationRecord
   def self.create_default
     if Logo.count == 0
       logo = Logo.create(title: 'ABrand')
-      # logo.avatar.attach(io: File.open('public/brand-assets/logo.png'), filename: 'logo.png')
+      logo.avatar.attach(io: File.open('public/brand-assets/logo.png'), filename: 'logo.png')
       logo
     end
   end

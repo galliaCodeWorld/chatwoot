@@ -24,7 +24,6 @@ end
   user = User.new(username: "Admin", name: 'Administrator', email: 'admin2@admin.com', password: '1Qazxsw@3edc')
   user.skip_confirmation!
   user.save!
-
   AccountUser.create!(
     account_id: account.id,
     user_id: user.id,
@@ -48,7 +47,7 @@ end
   inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
   InboxMember.create!(user: user, inbox: inbox)
 
-  contact = Contact.create!(name: 'jane', email: 'jane3@example.com', phone_number: '+22320000', account: account)
+  contact = Contact.create!(name: 'jane', email: 'jane3@example.com', phone_number: '+22320000', account: account, user: user)
   contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id, hmac_verified: true)
   conversation = Conversation.create!(
     account: account,
@@ -60,19 +59,19 @@ end
     additional_attributes: {}
   )
 
-  # sample email collect
-  WootMessageSeeder.create_sample_email_collect_message conversation
+  # # sample email collect
+  # WootMessageSeeder.create_sample_email_collect_message conversation
 
-  Message.create!(content: 'Hello every one', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+  # Message.create!(content: 'Hello every one', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
 
-  # sample card
-  WootMessageSeeder.create_sample_cards_message conversation
-  # input select
-  WootMessageSeeder.create_sample_input_select_message conversation
-  # form
-  WootMessageSeeder.create_sample_form_message conversation
-  # articles
-  WootMessageSeeder.create_sample_articles_message conversation
+  # # sample card
+  # WootMessageSeeder.create_sample_cards_message conversation
+  # # input select
+  # WootMessageSeeder.create_sample_input_select_message conversation
+  # # form
+  # WootMessageSeeder.create_sample_form_message conversation
+  # # articles
+  # WootMessageSeeder.create_sample_articles_message conversation
 
-  CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
+  # CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
 #end
