@@ -4,21 +4,37 @@
       display sidebar
     </div>
     <div class="md-layout-item md-medium-size-70 md-xsmall-size-100 md-size-80 entity-leads">
-      <md-card>
-        <md-card-header>
-          <div class="d-flex jusify-content-between align-baseline">
-            <strong class="title" style="float: left; color: blue; font-weight: 700; padding-top: 10px;">Leads</strong>
-            <div class="md-group">
-              <md-button class="md-default md-raised md-dense">
-                <span>
-                  <i class="icon ion-arrow-return-left" />
-                  <p class="mb-0 text-uppercase" @click="createLead">create lead</p>
-                </span>
-              </md-button>
-            </div>
-          </div>
-        </md-card-header>
-        <md-card-content>
+      <md-autocomplete
+        class="search"
+        v-model="leadState.query"
+        :md-options="[]"
+        :md-open-on-focus="false"
+      >
+        <label>type search contenten</label>
+      </md-autocomplete>
+      <div style="height: 100%">
+        <div style="margin-bottom: 5px;">
+          <input type="button" value="Frostier Year" v-on:click="frostierYear(Math.floor(Math.random() * 2) + 1)">
+        </div>
+        <AgGridVue
+          style="width: 100%; height: 100%;"
+          class="ag-theme-alpine"
+          :components="components"
+          :defaultColDef="defaultColDef"
+          :columnDefs="columnDefs"
+          :rowData="rowData"
+          :animateRows="true"
+          :pagination="true"
+          :paginationPageSize="10"
+          :suppressPaginationPanel="true"
+          @grid-ready="onGridReady" />
+      </div>
+      <div class="d-flex justify-content-between align-baseline">
+        <div class="md-group">
+          <md-button class="md-dense" @click="download('xls')">xls</md-button>
+          <md-button class="md-dense" @click="download('csv')">csv</md-button>
+        </div>
+      </div>
           <!-- <div v-for="(lead,n) in urLeadsStates.leads" :key="'tag'+n" class="lead-info">
             <DetailLead :lead="lead"/>
             <md-divider class="md-hr md-theme-demo-light" />
@@ -37,48 +53,6 @@
             :suppressPaginationPanel="true"
             @grid-ready="onGridReady"
           /> -->
-          <div style="height: 100%">
-            <div style="margin-bottom: 5px;">
-              <input type="button" value="Frostier Year" v-on:click="frostierYear(Math.floor(Math.random() * 2) + 1)">
-            </div>
-            <AgGridVue
-              style="width: 100%; height: 100%;"
-              class="ag-theme-alpine"
-              :components="components"
-              :columnDefs="columnDefs"
-              :rowData="rowData"
-              :defaultColDef="defaultColDef"
-              @grid-ready="onGridReady" />
-          </div>
-        </md-card-content>
-        <md-card-actions>
-          <div class="d-flex justify-content-between align-baseline">
-            <div class="md-group">
-              <md-button class="md-dense">xls</md-button>
-              <md-button class="md-dense">csv</md-button>
-              <md-button class="md-dense">rss</md-button>
-              <md-button class="md-dense">atom</md-button>
-              <md-button class="md-dense">perm</md-button>
-            </div>
-            <div>
-              implement pagenation
-            </div>
-          </div>
-        </md-card-actions>
-      </md-card>
-      <div style="height: 100%">
-        <div style="margin-bottom: 5px;">
-          <input type="button" value="Frostier Year" v-on:click="frostierYear(Math.floor(Math.random() * 2) + 1)">
-        </div>
-        <AgGridVue
-          style="width: 100%; height: 100%;"
-          class="ag-theme-alpine"
-          :components="components"
-          :columnDefs="columnDefs"
-          :rowData="rowData"
-          :defaultColDef="defaultColDef"
-          @grid-ready="onGridReady" />
-      </div>
     </div>
   </div>
 </template>
@@ -123,31 +97,11 @@ const rainPerTenMmRenderer = params => {
 
 export default {
   name: 'entity-leads',
-  computed: {
-    ...mapGetters({
-      leadState: 'enLeads/getState'
-    })
-  },
   components: {
     AgGridVue,
     CellVue,
   },
-  // beforeRouteEnter(to, from, next) {
-  //   store.dispatch('enLeads/search')
-  //   .then(() => {
-  //     console.log('test lead ...', store)
-  //     next()
-  //   })
-  // },
-  beforeMount() {
-    alert()
-    this.components = {
-      deltaIndicator: deltaIndicator,
-      daysSunshineRenderer: daysSunshineRenderer,
-      rainPerTenMmRenderer: rainPerTenMmRenderer
-    };
-  },
-  data: () => {
+   data: () => {
     return {
       gridApi: null,
       columnDefs: [
@@ -198,10 +152,39 @@ export default {
         minWidth: 100,
         filter: true,
         resizable: true
-      }
-      ,
+      },
       rowData: null
     }
+  },
+  computed: {
+    ...mapState({
+      query: state => state.enLeads.query,
+    }),
+    ...mapGetters({
+      leadState: 'enLeads/getState'
+    })
+  },
+  watch: {
+    query(newValue, opldValue) {
+      this.$store.dispatch('enLeads/search', newValue ? newValue : null)
+      .then(() => {
+        console.log('test api...', this.leadState)
+      })
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    store.dispatch('enLeads/search')
+    .then(() => {
+      console.log('test lead ...', store)
+      next()
+    })
+  },
+  beforeMount() {
+    this.components = {
+      deltaIndicator: deltaIndicator,
+      daysSunshineRenderer: daysSunshineRenderer,
+      rainPerTenMmRenderer: rainPerTenMmRenderer
+    };
   },
   methods: {
     onGridReady(params) {
@@ -220,19 +203,12 @@ export default {
       });
     },
     createLead() {
-      alert('view create form...');
     },
     download(ext) {
       switch(ext) {
         case '.xls': {
         }
         case '.csv': {
-        }
-        case '.rss': {
-        }
-        case '.atom': {
-        }
-        case '.perm': {
         }
       }
       alert('download- *'+ext)

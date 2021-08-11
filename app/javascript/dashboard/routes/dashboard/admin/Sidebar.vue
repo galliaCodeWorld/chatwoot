@@ -52,11 +52,11 @@ export default {
   },
   computed: {
     ...mapState({
-      error: state => state.adGlobal.error,
-      msg: state => state.adGlobal.msg,
+      error: state => state.global.error,
+      msg: state => state.global.msg,
     }),
     ...mapGetters({
-      globalState: 'adGlobal/getState',
+      globalState: 'global/getState',
     }),
   },
   watch: {

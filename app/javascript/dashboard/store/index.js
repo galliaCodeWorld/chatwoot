@@ -29,6 +29,8 @@ import teams from './modules/teams';
 import teamMembers from './modules/teamMembers';
 import campaigns from './modules/campaigns';
 import contactNotes from './modules/contactNotes';
+//////////////////////global //////////////////////////////////
+import global from "./modules/global"
 ///////////////////////// admin ////////////////////////////////
 import adFields from './modules/admin/fields';
 import adGlobal from './modules/admin/global';
@@ -69,6 +71,8 @@ export default new Vuex.Store({
     teamMembers,
     campaigns,
     contactNotes,
+    //////global ------------------
+    global,
     //////admin------------------
     adFields,
     adGlobal,

@@ -221,7 +221,7 @@ export default {
         : this.$store.dispatch('adFields/fUpdate', {id: this.data.id, formData}),
         this.$store.dispatch('adTags/get')
       ]).then(() => {
-        this.$store.dispatch('adGlobal/setMsg', `${this.data.id === 'new' ? 'Added' : 'Updated'} "${JSON.stringify(this.data.label)}" field!`)
+        this.$store.dispatch('global/setMsg', `${this.data.id === 'new' ? 'Added' : 'Updated'} "${JSON.stringify(this.data.label)}" field!`)
       })
     },
     cancel() {

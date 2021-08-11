@@ -11,12 +11,12 @@ const actions = {
       let url = query ? `${resource}?query=${query}` : resource
       new ApiClient(url, {apiVersion}).get()
         .then(res => {
-          if (res.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.msg, {root: true})
+          if (res.msg) context.commit(`global/${types.SET_ERROR}`, res.msg, {root: true})
           else if (res.data) context.commit(types.admin.users.set, res.data);
           resolve()
         })
         .catch(err => {
-          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+          context.commit(`global/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
@@ -25,11 +25,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(resource, {apiVersion}).show(id)
         .then(res => {
-          if (res.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.msg, {root: true})
+          if (res.msg) context.commit(`global/${types.SET_ERROR}`, res.msg, {root: true})
           res.data ? resolve(res.data) : resolve()
         })
         .catch(err => {
-          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+          context.commit(`global/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
@@ -39,20 +39,20 @@ const actions = {
       id
       ? new ApiClient(resource, {apiVersion}).update(id, formData)
           .then(res => {
-            if (res.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.msg, {root: true})
+            if (res.msg) context.commit(`global/${types.SET_ERROR}`, res.msg, {root: true})
             resolve()
           })
           .catch(err => {
-            context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+            context.commit(`global/${types.SET_ERROR}`, err, {root: true});
             reject(err)
           })
       : new ApiClient(resource, {apiVersion}).create(id, formData)
           .then(res => {
-            if (res.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.msg, {root: true})
+            if (res.msg) context.commit(`global/${types.SET_ERROR}`, res.msg, {root: true})
             resolve()
           })
           .catch(err => {
-            context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+            context.commit(`global/${types.SET_ERROR}`, err, {root: true});
             reject(err)
           })
     })
@@ -62,11 +62,11 @@ const actions = {
       id
       ? new ApiClient(resource, {apiVersion}).delete(id)
         .then(res => {
-          if (res.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.msg, {root: true})
+          if (res.msg) context.commit(`global/${types.SET_ERROR}`, res.msg, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+          context.commit(`global/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
       : resolve()
@@ -78,11 +78,11 @@ const actions = {
       id
       ? new ApiClient(`${resource}/${id}/${slug}`).get()
           .then(res => {
-            if (res.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.msg, {root: true})
+            if (res.msg) context.commit(`global/${types.SET_ERROR}`, res.msg, {root: true})
             resolve()
           })
           .catch(err => {
-            context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+            context.commit(`global/${types.SET_ERROR}`, err, {root: true});
             reject(err)
           })
       : resolve()

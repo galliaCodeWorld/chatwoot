@@ -96,7 +96,7 @@ export default {
             ? `Updated a "${this.name}" tag..`
             : `Added a new "${this.name}" tag..`
           this.$bvModal.hide('adTagsEditModal')
-          this.$store.dispatch('adGlobal/setMsg', msg)
+          this.$store.dispatch('global/setMsg', msg)
         })
       })
     },

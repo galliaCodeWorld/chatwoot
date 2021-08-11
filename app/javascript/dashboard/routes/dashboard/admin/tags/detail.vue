@@ -1,5 +1,5 @@
 <template>
-  <div class="md-layout d-flex justify-content-between align-baseline pt-1 pb-1 ad-tags-detail" 
+  <div class="md-layout d-flex justify-content-between align-baseline pt-1 pb-1 ad-tags-detail"
     @mouseover="btToggle = true" @mouseleave="btToggle = false">
     <div class="d-flex">
       <div class="strip" style="background: #add8e6; width: auto;">
@@ -8,7 +8,7 @@
     </div>
     <div class="md-group" :style="btToggle ? 'visibility: visible;' : 'visibility: hidden;'">
       <md-button class="md-icon-button md-info md-raised md-dense" @click="showModal">
-        <i class="icon ion-edit"></i>	
+        <i class="icon ion-edit"></i>
       </md-button>
       <md-button class="md-icon-button md-danger md-raised md-dense" @click="deleteTag">
         <i class="icon ion-android-delete"></i>
@@ -55,7 +55,7 @@ export default {
         if (result.value) {
           this.$store.dispatch('adTags/delete', this.$props.tag.id).then(() => {
             this.$store.dispatch('adTags/get').then(() => {
-              this.$store.dispatch('adGlobal/setMsg', `Deleted "${tmp}" tag..`)
+              this.$store.dispatch('global/setMsg', `Deleted "${tmp}" tag..`)
             })
           })
         }

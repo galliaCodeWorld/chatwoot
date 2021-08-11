@@ -8,7 +8,7 @@
           <h5 style="margin-bottom: 0; color: black; font-weight: 700" v-html="group.name" />
           <div class="md-group" :style="btToggle ? 'visibility: visible;' : 'visibility: hidden;'">
             <md-button class="md-icon-button md-info md-raised md-dense" style="padding: 0;" @click="editGroup">
-              <i class="icon ion-edit"></i> 
+              <i class="icon ion-edit"></i>
             </md-button>
             <md-button class="md-raised md-dense" :class="openModal ? 'md-primary' : 'md-success'" style="padding: 0;" @click="toggleCEField">
               {{openModal ? 'Cancel Field' : 'New Field'}}
@@ -26,8 +26,8 @@
       </div>
     </div>
     <md-divider class="md-hr md-theme-demo-light"></md-divider>
-    <EditField 
-      :openModal="openModal" 
+    <EditField
+      :openModal="openModal"
       :gid="Number(group.id)"
       :field="ceFieldData[group.id] && ceFieldData[group.id].new ? ceFieldData[group.id].new : {id: 'new'}"
       @closeCEFieldModal="toggleCEField" />
@@ -92,7 +92,7 @@
                 this.$store.dispatch('adFields/gSearch', this.$props.selectCatename),
                 this.$store.dispatch('adTgas/get')
               ]).then(() => {
-                this.$store.dispatch('adGlobal/setMsg', `Deleted "${orglabel}" group!`)
+                this.$store.dispatch('global/setMsg', `Deleted "${orglabel}" group!`)
               })
             })
           }
@@ -101,7 +101,7 @@
       toggleCEField() {
         let data = {gid: this.$props.group.id}
         this.$props.ceFieldData[this.$props.group.id]?.new
-          ? Object.assign(data, {del: 'new'}) 
+          ? Object.assign(data, {del: 'new'})
           : Object.assign(data, {add: {new: {id: 'new'}}})
         this.$store.dispatch('adFields/setCEFieldData', data)
         .then(() => {
