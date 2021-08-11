@@ -57,7 +57,6 @@
 import Vue from "vue";
 import { mapState, mapGetters } from "vuex";
 import { AgGridVue } from 'ag-grid-vue';
-import CellVue from './cellVue.js';
 
 const statusRender = Vue.extend({
   template:
@@ -122,7 +121,6 @@ export default {
   name: 'entity-leads',
   components: {
     AgGridVue,
-    CellVue,
   },
    data: () => {
     return {
