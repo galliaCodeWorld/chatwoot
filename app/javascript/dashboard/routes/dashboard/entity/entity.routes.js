@@ -1,6 +1,7 @@
 /* eslint arrow-body-style: 0 */
-import Leads from './leads';
-import { frontendURL } from '../../../helper/URLHelper';
+import Entity from './entity.vue'
+import Leads from './leads'
+import { frontendURL } from '../../../helper/URLHelper'
 
 export default {
   routes: [
@@ -8,6 +9,7 @@ export default {
       path: frontendURL('accounts/:accountId/entity'),
       name: 'entity',
       roles: ['administrator', 'agent'],
+      component: Entity,
       redirect: frontendURL('accounts/:accountId/entity/leads'),
       children: [
         {
