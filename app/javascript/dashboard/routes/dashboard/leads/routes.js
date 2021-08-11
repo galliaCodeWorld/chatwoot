@@ -1,22 +1,13 @@
 /* eslint arrow-body-style: 0 */
-import LeadsView from './components/LeadsView';
-import LeadManageView from './pages/LeadManageView';
+import LeadsView from './index.vue';
 import { frontendURL } from '../../../helper/URLHelper';
 
 export const routes = [
   {
-    path: frontendURL('accounts/:accountId/contacts'),
-    name: 'leads_dashboard',
+    path: frontendURL('accounts/:accountId/entity/leads'),
+    name: 'entity_leads',
     roles: ['administrator', 'agent'],
     component: LeadsView,
   },
-  {
-    path: frontendURL('accounts/:accountId/contacts/:contactId'),
-    name: 'leads_dashboard_manage',
-    roles: ['administrator', 'agent'],
-    component: LeadManageView,
-    props: route => {
-      return { contactId: route.params.contactId };
-    },
-  },
 ];
+
