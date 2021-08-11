@@ -14,15 +14,15 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(`${resource.fieldGroup}/?klass_name=${context.state.selectCatename ? context.state.selectCatename : catename}`, {apiVersion}).get()
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
-          else if (res.data){
+          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR, res.data.msg}`, {root: true})
+          else if (res.data.data){
             if (!context.state.selectCatename) context.commit(types.admin.fields.selectCatename, catename)
-            context.commit(types.admin.fields.setCategories, {catename, data: res.data});
+            context.commit(types.admin.fields.setCategories, {catename, data: JSON.parse(res.data.data)});
           }
           resolve()
         })
         .catch(err => {
-          context.commit(types.SET_ERROR, err);
+          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
@@ -31,24 +31,24 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(resource.fieldGroup, {apiVersion}).create(formData)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR, res.data.msg}`, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(types.SET_ERROR, err);
+          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
   },
-  gUpdate: (context, {id, formData}) => { 
+  gUpdate: (context, {id, formData}) => {
     return new Promise((resolve, reject) => {
       new ApiClient(resource.fieldGroup, {apiVersion}).update(id, formData)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR, res.data.msg}`, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(types.SET_ERROR, err);
+          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
@@ -57,11 +57,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(resource.fieldGroup, {apiVersion}).delete(id)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR, res.data.msg}`, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(types.SET_ERROR, err);
+          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
@@ -71,24 +71,24 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(resource.fields, {apiVersion}).create(formData)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR, res.data.msg}`, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(types.SET_ERROR, err);
+          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
   },
-  fUpdate: (context, {id, formData}) => { 
+  fUpdate: (context, {id, formData}) => {
     return new Promise((resolve, reject) => {
       new ApiClient(resource.fields, {apiVersion}).update(id, formData)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR, res.data.msg}`, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(types.SET_ERROR, err);
+          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
@@ -97,11 +97,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       new ApiClient(resource.fields, {apiVersion}).delete(id)
         .then(res => {
-          if (res.msg) context.commit(types.SET_ERROR, res.msg)
+          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR, res.data.msg}`, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(types.SET_ERROR, err);
+          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })

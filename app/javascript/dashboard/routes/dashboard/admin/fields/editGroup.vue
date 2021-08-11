@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="ceGroupModal" 
+  <b-modal id="ceGroupModal"
     hide-footer hide-header-close size='lg'
     @hide="clearForm"
   >
@@ -38,11 +38,11 @@
                   </label> -->
                   <md-icon class="error" v-show="failed">close</md-icon>
                   <md-icon class="success" v-show="passed">done</md-icon>
-                  <multiselect v-model="tag" 
-                    placeholder="Search tag" 
-                    label="name" track-by="id" 
-                    :multiple="false" :taggable="true" 
-                    :options="tagState.tags" 
+                  <multiselect v-model="tag"
+                    placeholder="Search tag"
+                    label="name" track-by="id"
+                    :multiple="false" :taggable="true"
+                    :options="tagState.tags"
                   >
                   </multiselect>
                 </md-field>
@@ -86,9 +86,11 @@ export default {
       default: () => {}
     }
   },
-  computed: mapState({
-    ceGroupID: state => state.adFields.ceGroupID
-  }),
+  computed: {
+    ...mapState({
+      ceGroupID: state => state.adFields.ceGroupID
+    })
+  },
   data() {
     return {
       id: null,
@@ -117,7 +119,7 @@ export default {
       }
     }
   },
-  
+
   methods: {
     clearForm() {
       this.id = null
@@ -135,7 +137,7 @@ export default {
       formData.append('tag_id', this.tag.id)
       if (this.id) formData.append('name', this.label)
       Promise.all([
-        this.id 
+        this.id
         ? this.$store.dispatch('adFields/gUpdate', {id: this.id, formData})
         : this.$store.dispatch('adFields/gCreate', formData),
       ]).then(() => {

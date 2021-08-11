@@ -50,13 +50,15 @@ export default {
       default: 0,
     },
   },
-  computed: mapState({
+  computed: {
+    ...mapState({
+      error: state => state.adGlobal.error,
+      msg: state => state.adGlobal.msg,
+    }),
     ...mapGetters({
       globalState: 'adGlobal/getState',
     }),
-    error: state => state.adGlobal.error,
-    msg: state => state.adGlobal.msg,
-  }),
+  },
   watch: {
     error(newValue, oldValue) {
       if (newValue) notifyVue({ t: 2500, m: newValue, c: 'warning', v: 'top', h: 'left' }, this)
@@ -86,4 +88,4 @@ export default {
     padding: 10px 0 0 0
   }
 }
-</style> 
+</style>

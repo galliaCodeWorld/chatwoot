@@ -193,5 +193,14 @@ export default {
       editID: 'MATagsEditID',
       get: 'MATagsGet',
     }
+  },
+  entity: {
+    leads: {
+      get: 'MELeadsGet',
+      getone: 'MELeadGetOne',
+      query: 'MELeadQuery',
+      editID: 'MEEditID',
+      page: 'MEPage'
+    }
   }
 };

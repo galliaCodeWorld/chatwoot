@@ -5,14 +5,14 @@ import { frontendURL } from '../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/user'),
-      name: 'user_dashboard',
+      path: frontendURL('accounts/:accountId/entity'),
+      name: 'entity',
       roles: ['administrator', 'agent'],
-      redirect: frontendURL('accounts/:accountId/user/leads'),
+      redirect: frontendURL('accounts/:accountId/entity/leads'),
       children: [
         {
           path: 'leads',
-          name: 'user_dashboard_leads',
+          name: 'entity_leads',
           roles: ['administrator', 'agent'],
           component: Leads,
         },

@@ -76,13 +76,12 @@ export default {
       next();
     });
   },
-  computed: mapState({
+  computed: {
     ...mapGetters({
       fieldState: 'adFields/getState',
       tagState: 'adTags/getState'
     }),
-    ceGroupID: state => state.adFields.ceGroupID,
-  }),
+  },
   methods: {
     tabChange(active) {
       Promise.all([

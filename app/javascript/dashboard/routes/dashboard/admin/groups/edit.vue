@@ -20,11 +20,11 @@
               </ValidationProvider>
             </div>
             <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-              <multiselect ref="g_select" v-model="ins" 
-                placeholder="Search user" 
-                label="username" track-by="id" 
-                :multiple="true" :taggable="true" 
-                :options="users" 
+              <multiselect ref="g_select" v-model="ins"
+                placeholder="Search user"
+                label="username" track-by="id"
+                :multiple="true" :taggable="true"
+                :options="users"
               />
             </div>
             <md-progress-bar md-mode="indeterminate" v-if="sending" />
@@ -73,9 +73,11 @@ export default {
       sending: false,
     };
   },
-  computed: mapState({
-    editID: state => state.adGroups.editID,
-  }),
+  computed: {
+    ...mapState({
+      editID: state => state.adGroups.editID,
+    })
+  },
   watch: {
     editID(newValue, oldValue) {
       if (newValue !== -1) {
@@ -121,7 +123,7 @@ export default {
           this.$store.dispatch('adGroups/get'),
           this.$store.dispatch('adUsers/search')
         ]).then(() => {
-          let msg = this.id 
+          let msg = this.id
             ? `Updated a "${this.name}" group..`
             : `Added a new "${this.name}" group..`
           this.$bvModal.hide('adGroupsEditModal');
