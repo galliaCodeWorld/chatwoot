@@ -136,8 +136,8 @@ export default {
           headerName: "Name",
           width: 120,
           cellStyle: {color: 'blue'},
-          valueGetter: ev => {
-           return `${ev.data.first_name} ${ev.data.last_name}`
+          valueGetter: params => {
+           return `${params.data.first_name} ${params.data.last_name}`
           }
         },
         {
