@@ -1,9 +1,9 @@
 <template>
   <div class="md-layout">
-    <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20 lead">
+    <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20">
       display sidebar
     </div>
-    <div class="md-layout-item md-medium-size-70 md-xsmall-size-100 md-size-80 lead">
+    <div class="md-layout-item md-medium-size-70 md-xsmall-size-100 md-size-80 entity-leads">
       <md-card>
         <md-card-header>
           <div class="d-flex jusify-content-between align-baseline">
@@ -12,7 +12,7 @@
               <md-button class="md-default md-raised md-dense">
                 <span>
                   <i class="icon ion-arrow-return-left" />
-                  <p class="mb-0 text-uppercase">create lead</p>
+                  <p class="mb-0 text-uppercase" @click="createLead">create lead</p>
                 </span>
               </md-button>
             </div>
@@ -37,8 +37,21 @@
             :suppressPaginationPanel="true"
             @grid-ready="onGridReady"
           /> -->
+          <div style="height: 100%">
+            <div style="margin-bottom: 5px;">
+              <input type="button" value="Frostier Year" v-on:click="frostierYear(Math.floor(Math.random() * 2) + 1)">
+            </div>
+            <AgGridVue
+              style="width: 100%; height: 100%;"
+              class="ag-theme-alpine"
+              :components="components"
+              :columnDefs="columnDefs"
+              :rowData="rowData"
+              :defaultColDef="defaultColDef"
+              @grid-ready="onGridReady" />
+          </div>
         </md-card-content>
-        <md-card-footer>
+        <md-card-actions>
           <div class="d-flex justify-content-between align-baseline">
             <div class="md-group">
               <md-button class="md-dense">xls</md-button>
@@ -51,8 +64,21 @@
               implement pagenation
             </div>
           </div>
-        </md-card-footer>
+        </md-card-actions>
       </md-card>
+      <div style="height: 100%">
+        <div style="margin-bottom: 5px;">
+          <input type="button" value="Frostier Year" v-on:click="frostierYear(Math.floor(Math.random() * 2) + 1)">
+        </div>
+        <AgGridVue
+          style="width: 100%; height: 100%;"
+          class="ag-theme-alpine"
+          :components="components"
+          :columnDefs="columnDefs"
+          :rowData="rowData"
+          :defaultColDef="defaultColDef"
+          @grid-ready="onGridReady" />
+      </div>
     </div>
   </div>
 </template>
@@ -60,11 +86,43 @@
 import { mapState, mapGetters } from "vuex";
 import store from '../../../../store'
 import { AgGridVue } from 'ag-grid-vue';
-// import { AgGridVue } from '@ag-grid-community/vue';
-import { AllCommunityModules } from '@ag-grid-community/all-modules';
+import CellVue from './cellVue.js';
+
+const createImageSpan = (imageMultiplier, image) => {
+  const resultElement = document.createElement('span');
+  for (let i = 0; i < imageMultiplier; i++) {
+      const imageElement = document.createElement('img');
+      imageElement.src = 'https://www.ag-grid.com/example-assets/weather/' + image;
+      resultElement.appendChild(imageElement);
+  }
+  return resultElement;
+};
+
+const deltaIndicator = params => {
+  const element = document.createElement('span');
+  const imageElement = document.createElement('img');
+  if (params.value > 15) {
+      imageElement.src = 'https://www.ag-grid.com/example-assets/weather/fire-plus.png';
+  } else {
+      imageElement.src = 'https://www.ag-grid.com/example-assets/weather/fire-minus.png';
+  }
+  element.appendChild(imageElement);
+  element.appendChild(document.createTextNode(params.value));
+  return element;
+};
+
+const daysSunshineRenderer = params => {
+  const daysSunshine = params.value / 24;
+  return createImageSpan(daysSunshine, params.rendererImage);
+};
+
+const rainPerTenMmRenderer = params => {
+  const rainPerTenMm = params.value / 10;
+  return createImageSpan(rainPerTenMm, params.rendererImage);
+};
 
 export default {
-  name: 'lead',
+  name: 'entity-leads',
   computed: {
     ...mapGetters({
       leadState: 'enLeads/getState'
@@ -72,76 +130,96 @@ export default {
   },
   components: {
     AgGridVue,
+    CellVue,
   },
-  beforeRouteEnter(to, from, next) {
-    store.dispatch('enLeads/search')
-    .then(() => {
-      console.log('test lead ...', store)
-      next()
-    })
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   store.dispatch('enLeads/search')
+  //   .then(() => {
+  //     console.log('test lead ...', store)
+  //     next()
+  //   })
+  // },
   beforeMount() {
-    this.gridOptions = {
-      autoGroupColumnDef: {
-        minWidth: 50,
-        maxWidth: 100,
-      },
+    alert()
+    this.components = {
+      deltaIndicator: deltaIndicator,
+      daysSunshineRenderer: daysSunshineRenderer,
+      rainPerTenMmRenderer: rainPerTenMmRenderer
     };
-    // cellRendererFramework: 'lead-status',
-    this.defaultColDef = {
-      flex: 1,
-      sortable: true,
-      filter: true,
-      resizable: true,
-      floatingFilter: true,
-    };
-  },
-  mounted() {
-    this.rowData = store.getters.urLeadsStates.leads
   },
   data: () => {
     return {
-      modules: AllCommunityModules,
-      gridOptions: null,
-      columnDefs:  [
-        {field: 'cus', pinned: 'left',
-          cellRendererFramework: CubeComponent
+      gridApi: null,
+      columnDefs: [
+        {
+          headerName: "Month",
+          field: "Month",
+          width: 75,
+          cellStyle: {color: "darkred"}
         },
-        {field: 'fullUserName',
-          valueGetter: ev => {
-            let data = ev.data
-            let temp = ''
-            if (data.first_name && data.last_name) {
-              if (data.first_name) temp += data.first_name
-              if (data.last_name) temp.length ? temp += ` ${data.last_name}` : temp = data.last_name
-            } else temp = data.email
-            return temp
-          },},
-        {field: 'company',},
+        {
+          headerName: "Max Temp (\u02DAC)",
+          field: "Max temp (C)",
+          width: 120,
+          cellRenderer: 'deltaIndicator'                      // Function cell renderer
+        },
+        {
+          headerName: "Min Temp (\u02DAC)",
+          field: "Min temp (C)",
+          width: 120,
+          cellRenderer: 'deltaIndicator'                      // Function cell renderer
+        },
+        {
+          headerName: "Days of Air Frost",
+          field: "Days of air frost (days)",
+          width: 233,
+          cellRendererFramework: 'CellVue',         // Component Cell Renderer
+          cellRendererParams: {rendererImage: "frost.png"}    // Complementing the Cell Renderer parameters
+        },
+        {
+          headerName: "Days Sunshine",
+          field: "Sunshine (hours)",
+          width: 190,
+          cellRenderer: 'daysSunshineRenderer',
+          cellRendererParams: {rendererImage: "sun.png"}      // Complementing the Cell Renderer parameters
+        },
+        {
+          headerName: "Rainfall (10mm)",
+          field: "Rainfall (mm)",
+          width: 180,
+          cellRenderer: 'rainPerTenMmRenderer',
+          cellRendererParams: {rendererImage: "rain.png"}     // Complementing the Cell Renderer parameters
+        }
       ],
-      defaultColDef: null,
-      rowData: null,
-    };
+      defaultColDef: {
+        editable: true,
+        sortable: true,
+        flex: 1,
+        minWidth: 100,
+        filter: true,
+        resizable: true
+      }
+      ,
+      rowData: null
+    }
   },
   methods: {
     onGridReady(params) {
-      const updateData = data => {
-        params.api.setRowData(data.slice(0, 100));
-      };
-
-      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
-        .then((resp) => resp.json())
-        .then((data) => updateData(data));
+      this.gridApi = params.api;
+      const updateData = (data) => {
+        console.log('test...', data)
+        this.gridApi.setRowData(data);
+      }
+      fetch('https://www.ag-grid.com/example-assets/weather-se-england.json')
+        .then(res => res.json())
+        .then(data => updateData(data));
     },
-    fullUserName(data) {
-      let temp = ''
-      if (data.first_name && data.last_name) {
-        if (data.first_name) temp += data.first_name
-        if (data.last_name) temp.length ? temp += ` ${data.last_name}` : temp = data.last_name
-      } else temp = data.email
-      return temp
+    frostierYear(extraDaysFrost) {
+      this.gridApi.forEachNode(rowNode => {
+        rowNode.setDataValue('Days of air frost (days)', rowNode.data['Days of air frost (days)'] + extraDaysFrost);
+      });
     },
-    createTask() {
+    createLead() {
       alert('view create form...');
     },
     download(ext) {
@@ -163,7 +241,7 @@ export default {
 };
 </script>
 <style lang="scss">
-  .lead {
+  .entity-leads {
     .strip {
       height: 20px;
       width: auto;
@@ -179,15 +257,6 @@ export default {
       -moz-border-radius-bottomleft: 7px;
       -webkit-border-top-left-radius: 7px;
       -webkit-border-bottom-left-radius: 7px;
-    }
-    .md-card-header {
-      padding: 0;
-    }
-    .md-card-tabs .md-list .md-list-item .md-list-item-button .md-list-item-content {
-      padding: 0;
-    }
-    .tab-content {
-      display: inline;
     }
     .create-task:hover {
       cursor: pointer;

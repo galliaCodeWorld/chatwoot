@@ -2,7 +2,6 @@ import AppContainer from './Dashboard';
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
 import { routes as contactRoutes } from './contacts/routes';
-// import { routes as leadsRoutes} from './leads/routes';
 import { routes as notificationRoutes } from './notifications/routes';
 import admin from './admin/admin.routes'
 import entity from './entity/entity.routes';
@@ -17,9 +16,8 @@ export default {
         ...conversation.routes,
         ...settings.routes,
         ...admin.routes,
-        ...entity,
+        ...entity.routes,
         ...contactRoutes,
-        // ...leadsRoutes,
         ...notificationRoutes,
       ],
     },
