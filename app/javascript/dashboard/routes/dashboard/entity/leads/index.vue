@@ -13,9 +13,6 @@
         <label>type search contenten</label>
       </md-autocomplete>
       <div style="height: 100%">
-        <div style="margin-bottom: 5px;">
-          <input type="button" value="Frostier Year" v-on:click="frostierYear(Math.floor(Math.random() * 2) + 1)">
-        </div>
         <AgGridVue
           style="width: 100%; height: 100%;"
           class="ag-theme-alpine"
@@ -57,43 +54,69 @@
   </div>
 </template>
 <script>
+import Vue from "vue";
 import { mapState, mapGetters } from "vuex";
-import store from '../../../../store'
 import { AgGridVue } from 'ag-grid-vue';
 import CellVue from './cellVue.js';
 
-const createImageSpan = (imageMultiplier, image) => {
+const statusRender = Vue.extend({
+  template:
+    `<div class="strip" style="width: 100px;" :style="style">
+      <strong v-html="params.value" />
+    </div>`,
+  name: 'leads-cell-status',
+  computed: {
+    style() {
+      let style = ''
+      switch(this.params.value) {
+        case 'rejected':
+          style = 'background: OrangeRed;'
+        case 'new':
+          style = 'background: Silver;'
+        case 'converted':
+          style = 'background: Turquoise'
+        case 'contacted':
+          style = 'background: Lime;'
+      }
+      return style
+    }
+  },
+})
+const iconRender = params => {
   const resultElement = document.createElement('span');
-  for (let i = 0; i < imageMultiplier; i++) {
-      const imageElement = document.createElement('img');
-      imageElement.src = 'https://www.ag-grid.com/example-assets/weather/' + image;
-      resultElement.appendChild(imageElement);
+  for (let i in params.value) {
+    const iconElement = document.createElement('i');
+    iconElement.className = params.icon
+    resultElement.appendChild(iconElement)
   }
   return resultElement;
-};
-
-const deltaIndicator = params => {
-  const element = document.createElement('span');
-  const imageElement = document.createElement('img');
-  if (params.value > 15) {
-      imageElement.src = 'https://www.ag-grid.com/example-assets/weather/fire-plus.png';
-  } else {
-      imageElement.src = 'https://www.ag-grid.com/example-assets/weather/fire-minus.png';
+}
+const createRenderer = params => {
+  let create = new Date(params.value)
+  let now  = new Date()
+  let str = checkTime(now.getFullYear() - create.getFullYear(), 'year')
+  if (str) return str
+  else {
+    str = checkTime(now.getMonth() - create.getMonth(), 'month')
+    if (str) return str
+    else {
+      str = checkTime(now.getDate() - create.getDate(), 'day')
+      if (str) return str
+      else {
+        str = checkTime(now.getHours() - create.getHours(), 'hour')
+        if (str) return str
+        else {
+          str = checkTime(now.getMinutes() - create.getMinutes(), 'min')
+          return str ? str : `added about secs ago`
+        }
+      }
+    }
   }
-  element.appendChild(imageElement);
-  element.appendChild(document.createTextNode(params.value));
-  return element;
-};
-
-const daysSunshineRenderer = params => {
-  const daysSunshine = params.value / 24;
-  return createImageSpan(daysSunshine, params.rendererImage);
-};
-
-const rainPerTenMmRenderer = params => {
-  const rainPerTenMm = params.value / 10;
-  return createImageSpan(rainPerTenMm, params.rendererImage);
-};
+}
+const checkTime = (gap, str) => {
+  let reStr = gap > 1 ? `${str}s` : str
+  return gap > 0 ? `added about ${gap} ${reStr} ago` : null
+}
 
 export default {
   name: 'entity-leads',
@@ -106,47 +129,53 @@ export default {
       gridApi: null,
       columnDefs: [
         {
-          headerName: "Month",
-          field: "Month",
+          headerName: "Status",
+          field: "status",
           width: 75,
-          cellStyle: {color: "darkred"}
+          cellRendererFramework: 'statusRender'
         },
         {
-          headerName: "Max Temp (\u02DAC)",
-          field: "Max temp (C)",
+          headerName: "Name",
           width: 120,
-          cellRenderer: 'deltaIndicator'                      // Function cell renderer
+          cellStyle: {color: 'blue'},
+          valueGetter: ev => {
+           return `${ev.data.first_name} ${ev.data.last_name}`
+          }
         },
         {
-          headerName: "Min Temp (\u02DAC)",
-          field: "Min temp (C)",
-          width: 120,
-          cellRenderer: 'deltaIndicator'                      // Function cell renderer
+          headerName: 'reffer',
+          field: 'referred_by',
+          width: 75,
+          cellStyle: {color: 'silver'}
         },
         {
-          headerName: "Days of Air Frost",
-          field: "Days of air frost (days)",
-          width: 233,
-          cellRendererFramework: 'CellVue',         // Component Cell Renderer
-          cellRendererParams: {rendererImage: "frost.png"}    // Complementing the Cell Renderer parameters
+          headerName: 'rank',
+          field: 'rating',
+          width: 75,
+          cellRenderer: 'iconRender',
+          cellRendererParams: {icon: 'icon ion-star'}
         },
         {
-          headerName: "Days Sunshine",
-          field: "Sunshine (hours)",
-          width: 190,
-          cellRenderer: 'daysSunshineRenderer',
-          cellRendererParams: {rendererImage: "sun.png"}      // Complementing the Cell Renderer parameters
+          headerName: 'Email',
+          field: 'email',
+          width: 75,
+          cellStyle: {color: 'blue'}
         },
         {
-          headerName: "Rainfall (10mm)",
-          field: "Rainfall (mm)",
-          width: 180,
-          cellRenderer: 'rainPerTenMmRenderer',
-          cellRendererParams: {rendererImage: "rain.png"}     // Complementing the Cell Renderer parameters
-        }
+          headerName: 'Phone',
+          field: 'phone',
+          width: 75,
+          cellStyle: {color: 'darkgrey'}
+        },
+        {
+          headerName: 'CreatedAt',
+          field: 'created_at',
+          width: 75,
+          cellRenderer: 'createRender'
+        },
       ],
       defaultColDef: {
-        editable: true,
+        editable: false,
         sortable: true,
         flex: 1,
         minWidth: 100,
@@ -172,35 +201,20 @@ export default {
       })
     }
   },
-  beforeRouteEnter(to, from, next) {
-    store.dispatch('enLeads/search')
-    .then(() => {
-      console.log('test lead ...', store)
-      next()
-    })
-  },
   beforeMount() {
     this.components = {
-      deltaIndicator: deltaIndicator,
-      daysSunshineRenderer: daysSunshineRenderer,
-      rainPerTenMmRenderer: rainPerTenMmRenderer
+      statusRender,
     };
   },
   methods: {
     onGridReady(params) {
       this.gridApi = params.api;
-      const updateData = (data) => {
-        console.log('test...', data)
+      const updateData = data => {
         this.gridApi.setRowData(data);
       }
-      fetch('https://www.ag-grid.com/example-assets/weather-se-england.json')
-        .then(res => res.json())
-        .then(data => updateData(data));
-    },
-    frostierYear(extraDaysFrost) {
-      this.gridApi.forEachNode(rowNode => {
-        rowNode.setDataValue('Days of air frost (days)', rowNode.data['Days of air frost (days)'] + extraDaysFrost);
-      });
+      this.$store.dispatch('enLeads/search').then(() => {
+        update(this.leadState.leads)
+      })
     },
     createLead() {
     },
@@ -211,7 +225,6 @@ export default {
         case '.csv': {
         }
       }
-      alert('download- *'+ext)
     }
   },
 };
@@ -233,9 +246,6 @@ export default {
       -moz-border-radius-bottomleft: 7px;
       -webkit-border-top-left-radius: 7px;
       -webkit-border-bottom-left-radius: 7px;
-    }
-    .create-task:hover {
-      cursor: pointer;
     }
   }
 </style>
