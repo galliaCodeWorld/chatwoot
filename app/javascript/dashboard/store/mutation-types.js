@@ -199,6 +199,7 @@ export default {
       get: 'MELeadsGet',
       getone: 'MELeadGetOne',
       query: 'MELeadQuery',
+      queryHistory: 'MELeadQueryHis',
       editID: 'MEEditID',
       page: 'MEPage'
     }

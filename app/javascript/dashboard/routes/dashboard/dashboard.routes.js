@@ -1,10 +1,10 @@
 import AppContainer from './Dashboard';
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
+import admin from './admin/admin.routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as notificationRoutes } from './notifications/routes';
-import admin from './admin/admin.routes'
-import entity from './entity/entity.routes';
+import { routes as leadsRoutes } from './leads/routes';
 import { frontendURL } from '../../helper/URLHelper';
 
 export default {
@@ -16,7 +16,7 @@ export default {
         ...conversation.routes,
         ...settings.routes,
         ...admin.routes,
-        ...entity.routes,
+        ...leadsRoutes,
         ...contactRoutes,
         ...notificationRoutes,
       ],

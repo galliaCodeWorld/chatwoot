@@ -97,6 +97,9 @@ const actions = {
     ? context.commit(types.entity.leads.query, query)
     : context.commit(types.entity.leads.query, null)
   },
+  queryHistory: async (context, track) => {
+    if (track) context.commit(types.entity.leads.queryHistory, track)
+  },
   editID: async (context, editID) => {
     context.commit(types.entity.leads.editID, editID);
   },

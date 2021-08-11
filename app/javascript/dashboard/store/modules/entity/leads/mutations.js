@@ -10,6 +10,10 @@ const mutations = {
   [types.entity.leads.query](state, query) {
     state.query = query
   },
+  [types.entity.leads.queryHistory](state, track) {
+    let find = state.queryHistory.find(k => k === track)
+    if (!find) state.queryHistory.push(track).sort()
+  },
   [types.entity.leads.editID](state, editID) {
     state.editID = editID
   },
