@@ -11,21 +11,21 @@ const actions = {
       id
       ? new ApiClient(resource, {apiVersion}).show(id)
           .then(res => {
-            if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.data.msg, {root: true})
+            if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
             res.data.data ? resolve(JSON.parse(res.data.data)) : resolve()
           })
           .catch(err => {
-            context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+            context.commit(`global/${types.SET_ERROR}`, err, {root: true});
             reject(err)
           })
       : new ApiClient(resource, {apiVersion}).get()
           .then(res => {
-            if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.data.msg, {root: true})
+            if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
             else if (res.data.data) context.commit(types.admin.groups.get, JSON.parse(res.data.data));
             resolve()
           })
           .catch(err => {
-            context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+            context.commit(`global/${types.SET_ERROR}`, err, {root: true});
             reject(err)
           })
     })
@@ -35,20 +35,20 @@ const actions = {
       id
       ? new ApiClient(resource, {apiVersion}).update(id, formData)
           .then(res => {
-            if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.data.msg, {root: true})
+            if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
             resolve()
           })
           .catch(err => {
-            context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+            context.commit(`global/${types.SET_ERROR}`, err, {root: true});
             reject(err)
           })
       : new ApiClient(resource, {apiVersion}).create(formData)
         .then(res => {
-          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.data.msg, {root: true})
+          if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+          context.commit(`global/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
     })
@@ -58,11 +58,11 @@ const actions = {
       id
       ? new ApiClient(resource, {apiVersion}).delete(id)
         .then(res => {
-          if (res.data.msg) context.commit(`adGlobal/${types.SET_ERROR}`, res.data.msg, {root: true})
+          if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
           resolve()
         })
         .catch(err => {
-          context.commit(`adGlobal/${types.SET_ERROR}`, err, {root: true});
+          context.commit(`global/${types.SET_ERROR}`, err, {root: true});
           reject(err)
         })
       : resolve()

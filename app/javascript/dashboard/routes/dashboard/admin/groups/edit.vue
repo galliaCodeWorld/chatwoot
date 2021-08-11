@@ -127,7 +127,7 @@ export default {
             ? `Updated a "${this.name}" group..`
             : `Added a new "${this.name}" group..`
           this.$bvModal.hide('adGroupsEditModal');
-          this.$store.dispatch('adGlobal/setMsg', msg)
+          this.$store.dispatch('global/setMsg', msg)
         })
       })
     },

@@ -9,7 +9,7 @@ const state = {
     tasks: [],
     histories: [],
   },
-  query: {},
+  query: null,
   editID: -1,
   page : {num: 1, size: 10}
 };
