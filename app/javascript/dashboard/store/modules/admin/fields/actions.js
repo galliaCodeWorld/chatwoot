@@ -12,7 +12,7 @@ const actions = {
   ////////////////////////////// group //////////////////////////////////////////////////////////
   gSearch: (context, catename) => {
     return new Promise((resolve, reject) => {
-      new ApiClient(`${resource.fieldGroup}/?klass_name=${context.state.selectCatename ? context.state.selectCatename : catename}`, {apiVersion}).get()
+      new ApiClient(`${resource.fieldGroup}?klass_name=${context.state.selectCatename ? context.state.selectCatename : catename}`, {apiVersion}).get()
         .then(res => {
           if (res.msg) context.commit(types.SET_ERROR, res.msg)
           else if (res.data){

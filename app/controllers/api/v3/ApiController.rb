@@ -3,7 +3,7 @@ class Api::V3::ApiController < Api::BaseController
   include ActionController::Helpers
   
   before_action :configure_devise_parameters, if: :devise_controller?
-  before_action :authenticate_user
+  # before_action :authenticate_user
   # before_action :set_paper_trail_whodunnit
   # before_action :cors_preflight_check
   

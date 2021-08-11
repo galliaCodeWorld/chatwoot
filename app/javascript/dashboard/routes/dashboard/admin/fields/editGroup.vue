@@ -149,7 +149,10 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
+@import '../assets/scss/material-dashboard.scss';
+@import '../assets/css/demo.css';
   .md-progress-bar {
     position: absolute;
     top: 0;
