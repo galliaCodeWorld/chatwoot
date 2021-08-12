@@ -18,6 +18,7 @@ import { default as _settings } from './settings.json';
 import { default as _signup } from './signup.json';
 import { default as _teamsSettings } from './teamsSettings.json';
 import { default as _integrationApps } from './integrationApps.json';
+import { default as _leads } from './leads.json'
 
 export default {
   ..._agentMgmt,
@@ -40,4 +41,5 @@ export default {
   ..._signup,
   ..._teamsSettings,
   ..._integrationApps,
+  ..._leads,
 };

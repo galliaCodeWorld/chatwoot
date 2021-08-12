@@ -10,6 +10,7 @@ const state = {
     histories: [],
   },
   query: null,
+  queryHistory: [],
   editID: -1,
   page : {num: 1, size: 10}
 };

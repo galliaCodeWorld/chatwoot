@@ -119,7 +119,7 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     @stage = Setting.unroll(:opportunity_stage)
 
       if @account.errors.empty? && @opportunity.errors.empty? && @contact.errors.empty?
-        
+
         if @lead.convert
           render json: {data: $lead.to_json, success: true}, status: 200
         else
@@ -141,7 +141,7 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
       render json: {data: @lead.errors.to_json, success: false}, status: 500
     end
   end
-  
+
   # GET /leads/redraw                                                      AJAX
   #----------------------------------------------------------------------------
   def redraw

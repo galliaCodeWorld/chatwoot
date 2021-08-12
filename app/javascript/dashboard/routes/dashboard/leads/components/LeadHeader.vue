@@ -47,10 +47,9 @@ export default {
   },
   watch: {
     wQuery(newValue, oldValue) {
-      this.$store.dispatch('enLeads/search', newValue ? newValue : null)
-      .then(() => {
-        console.log('test api...', this.leadState)
-      })
+      this.$store.dispatch('enLeads/search', newValue ? newValue : null).then(() => {
+          console.log('test api...', this.leadState)
+        })
     }
   },
   methods: {
