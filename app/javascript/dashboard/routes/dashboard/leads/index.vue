@@ -1,6 +1,6 @@
 <template>
   <div class="leads-page row">
-    <div class="left-wrap" :class="wrapClas">
+    <div class="left-wrap" :class="wrapClass">
       <LeadsHeader
         :query="leadState.query"
         :queryHistory="leadState.queryHistory"
@@ -19,18 +19,20 @@
   import LeadsTable from './components/LeadTable.vue';
   export default {
     name: 'entity-leads',
-    component: {
+    components: {
       LeadsHeader,
       LeadsTable,
     },
     computed: {
       ...mapGetters({
         leadState: 'enLeads/getState'
-      })
+      }),
+      wrapClass() {
+        return this.leadState.editID === -1 ? 'medium-12' : 'medium-9';
+      }
     },
     beforeRouteEnter(to, from, next) {
-      store.dispatch('adLeads/search')
-      .then(() => {
+      store.dispatch('enLeads/search').then(() => {
         console.log('test api...', store)
         next()
       })
@@ -38,7 +40,6 @@
   };
 </script>
 <style lang="scss" scoped>
-@import "~vue-material/theme/engine";
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .leads-page {
   width: 100%;
