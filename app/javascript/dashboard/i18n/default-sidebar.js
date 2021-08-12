@@ -95,6 +95,8 @@ export const getSidebarItems = accountId => ({
     routes: [
       'agent_list',
       'canned_list',
+      'tag_list',
+      'group_list',
       'labels_list',
       'settings_inbox',
       'settings_inbox_new',
@@ -133,6 +135,20 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
         toStateName: 'agent_list',
+      },
+      tags: {
+        icon: 'ion-pricetags',
+        label: 'TAGS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/tags/list`),
+        toStateName: 'tag_list',
+      },
+      groups: {
+        icon: 'ion-person-stalker',
+        label: 'GROUPS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/groups/list`),
+        toStateName: 'group_list',
       },
       teams: {
         icon: 'ion-ios-people',

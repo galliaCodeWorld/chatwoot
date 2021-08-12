@@ -43,14 +43,13 @@ export default {
     },
   },
   computed: {
-    query: props => props.query
+    wQuery: props => props.query
   },
   watch: {
-    query(newValue, oldValue) {
-      this.$store.dispatch('enLeads/search', newValue ? newValue : null)
-      .then(() => {
-        console.log('test api...', this.leadState)
-      })
+    wQuery(newValue, oldValue) {
+      this.$store.dispatch('enLeads/search', newValue ? newValue : null).then(() => {
+          console.log('test api...', this.leadState)
+        })
     }
   },
   methods: {
