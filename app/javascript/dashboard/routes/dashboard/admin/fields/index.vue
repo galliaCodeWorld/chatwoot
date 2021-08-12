@@ -101,6 +101,7 @@ export default {
   }
 };
 </script>
+<style src="../../../../assets/css/demo.css"></style>
 <style lang="scss">
 .ad-fields {
   .md-card .md-card-header {

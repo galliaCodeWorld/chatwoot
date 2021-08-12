@@ -6,7 +6,7 @@
 <script>
   import Vue from 'vue';
   export default Vue.extend({
-    name: 'lead-table-status-render',
+    name: 'lead-status-render',
     computed: {
       style() {
         let style = ''

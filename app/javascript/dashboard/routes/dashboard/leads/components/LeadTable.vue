@@ -16,39 +16,45 @@
 </template>
 
 <script>
+  import { mapState, mapGetters } from "vuex";
   import { AgGridVue } from 'ag-grid-vue';
   import StatusRender from './frameworks/cellrender/status.vue';
 
   const iconRender = params => {
     const resultElement = document.createElement('span');
-    for (let i in params.value) {
+    // for (let i = 0; i < params.value; i++) {
+    //   const iconElement = document.createElement('i');
+    //   iconElement.className = params.icon
+    //   resultElement.appendChild(iconElement)
+    // }
+    for (let i = 0; i < 5; i++) {
       const iconElement = document.createElement('i');
       iconElement.className = params.icon
       resultElement.appendChild(iconElement)
     }
     return resultElement;
   }
-  const createRenderer = params => {
+  const createAtRender = params => {
+    const resultElement = document.createElement('p');
     let create = new Date(params.value)
     let now  = new Date()
     let str = checkTime(now.getFullYear() - create.getFullYear(), 'year')
-    if (str) return str
-    else {
+    if (!str) {
       str = checkTime(now.getMonth() - create.getMonth(), 'month')
-      if (str) return str
-      else {
+      if (!str) {
         str = checkTime(now.getDate() - create.getDate(), 'day')
-        if (str) return str
-        else {
+        if (!str) {
           str = checkTime(now.getHours() - create.getHours(), 'hour')
-          if (str) return str
-          else {
+          if (!str) {
             str = checkTime(now.getMinutes() - create.getMinutes(), 'min')
-            return str ? str : `added about secs ago`
+            if (!str) str = `added about secs ago`
           }
         }
       }
     }
+    resultElement.appendChild(document.createTextNode(str))
+    resultElement.className = "ag-cell m-0 p-0"
+    return resultElement;
   }
   const checkTime = (gap, str) => {
     let reStr = gap > 1 ? `${str}s` : str
@@ -56,44 +62,59 @@
   }
   export default {
     name: 'leads-table',
+    components: {
+      AgGridVue,
+      StatusRender
+    },
     props: {
       leads: {
         type: Array,
         default: () => []
+      },
+      query: {
+        type: String,
+        default: null
       }
     },
-    components: {
-      AgGridVue,
-      StatusRender,
+    computed: {
+      wQuery: props => props.query
+    },
+    watch: {
+      wQuery(newValue, oldValue) {
+        this.$store.dispatch('enLeads/search', newValue).then(() => {
+          this.updateRowData(this.leads)
+        })
+      }
     },
     data: () => {
       return {
         gridApi: null,
         columnDefs: [
           {
-            headerName: "Status",
+            headerName: 'Status',
             field: "status",
             width: 75,
             cellRendererFramework: 'StatusRender'
           },
           {
-            headerName: "Name",
+            headerName: 'Name',
             width: 120,
             cellStyle: {color: 'blue'},
             valueGetter: params => {
-            return `${params.data.first_name} ${params.data.last_name}`
+              return `${params.data.first_name} ${params.data.last_name}`
             }
           },
           {
-            headerName: 'reffer',
+            headerName: 'Referred',
             field: 'referred_by',
             width: 75,
             cellStyle: {color: 'silver'}
           },
           {
-            headerName: 'rank',
+            headerName: 'Rank',
             field: 'rating',
             width: 75,
+            cellStyle: {color: 'orangered'},
             cellRenderer: 'iconRender',
             cellRendererParams: {icon: 'icon ion-star'}
           },
@@ -113,7 +134,7 @@
             headerName: 'CreatedAt',
             field: 'created_at',
             width: 75,
-            cellRenderer: 'createRender'
+            cellRenderer: 'createAtRender'
           },
         ],
         defaultColDef: {
@@ -131,19 +152,19 @@
       this.components = {
         StatusRender,
         iconRender,
-        createRender,
+        createAtRender,
       };
     },
     methods: {
       onGridReady(params) {
         this.gridApi = params.api;
-        const updateData = data => {
-          this.gridApi.setRowData(data);
-        }
-        updateData(this.$props.leads)
+        this.updateRowData(this.$props.leads)
+      },
+      updateRowData(data) {
+        this.gridApi.setRowData(data)
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

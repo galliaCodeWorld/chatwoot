@@ -1,7 +1,7 @@
 {
   "LEADS_PAGE": {
     "HEADER": "Leads",
-    "SEARCH_BUTTON": "Search",
+    "CREATE_LEADS": "Create Leads",
     "SEARCH_INPUT_PLACEHOLDER": "Search for leads",
     "LIST": {
       "LOADING_MESSAGE": "Loading lead...",
@@ -9,6 +9,7 @@
       "TABLE_HEADER": {
         "STATUS": "Status",
         "NAME": "Name",
+        "REFER": "Refer",
         "RANK": "Rank",
         "EMAIL": "Email",
         "PHONE": "Phone",
