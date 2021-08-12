@@ -1,4 +1,6 @@
 import { default as _agentMgmt } from './agentMgmt.json';
+import { default as _tagMgmt } from './tagMgmt.json';
+import { default as _groupMgmt } from './groupMgmt.json';
 import { default as _campaign } from './campaign.json';
 import { default as _cannedMgmt } from './cannedMgmt.json';
 import { default as _chatlist } from './chatlist.json';
@@ -19,6 +21,8 @@ import { default as _integrationApps } from './integrationApps.json';
 
 export default {
   ..._agentMgmt,
+  ..._tagMgmt,
+  ..._groupMgmt,
   ..._campaign,
   ..._cannedMgmt,
   ..._chatlist,

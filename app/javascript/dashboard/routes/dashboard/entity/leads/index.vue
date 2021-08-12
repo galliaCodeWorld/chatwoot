@@ -1,8 +1,8 @@
 <template>
   <div class="md-layout">
-    <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20">
+    <!-- <div class="md-layout-item md-medium-size-30 md-xsmall-size-100 md-size-20">
       display sidebar
-    </div>
+    </div> -->
     <div class="md-layout-item md-medium-size-70 md-xsmall-size-100 md-size-80 entity-leads">
       <md-autocomplete
         class="search"

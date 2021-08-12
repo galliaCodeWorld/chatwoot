@@ -140,9 +140,9 @@
       "TEAMS": "Teams",
       "CHANGE_LOGO": "Logo change",
       "ADMIN": "Admin Dashboard",
-      "FIELDS": "Field Pan",
-      "TAGS": "Tag Pan",
-      "GROUPS": "Group Pan",
+      "FIELDS": "Fields",
+      "TAGS": "Tags",
+      "GROUPS": "Groups",
       "ENTITY": "Entities",
       "LEADS": "Leads",
       "TASKS": "Tasks"

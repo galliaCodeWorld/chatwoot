@@ -6,7 +6,7 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
-  before_action :get_data_for_sidebar, only: :index
+  # before_action :get_data_for_sidebar, only: :index
   # autocomplete :account, :name, full: true
 
   # GET /leads
