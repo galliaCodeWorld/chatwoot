@@ -37,7 +37,9 @@
     },
   };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+@import "~vue-material/theme/engine";
+@import url("https://fonts.googleapis.com/css?family=Material+Icons");
 .leads-page {
   width: 100%;
 }
