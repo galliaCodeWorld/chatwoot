@@ -21,39 +21,39 @@
 
   const iconRender = params => {
     const resultElement = document.createElement('span');
-    // for (let i in params.value) {
-    //   const iconElement = document.createElement('i');
-    //   iconElement.className = params.icon
-    //   resultElement.appendChild(iconElement)
-    // }
-    for (let i in 5) {
+    for (let i = 0; i < params.value; i++) {
       const iconElement = document.createElement('i');
       iconElement.className = params.icon
       resultElement.appendChild(iconElement)
     }
+    // for (let i = 0; i < 5; i++) {
+    //   const iconElement = document.createElement('i');
+    //   iconElement.className = params.icon
+    //   resultElement.appendChild(iconElement)
+    // }
     return resultElement;
   }
-  const createRender = params => {
+  const createAtRender = params => {
+    const resultElement = document.createElement('p');
     let create = new Date(params.value)
     let now  = new Date()
     let str = checkTime(now.getFullYear() - create.getFullYear(), 'year')
-    if (str) return str
-    else {
+    if (!str) {
       str = checkTime(now.getMonth() - create.getMonth(), 'month')
-      if (str) return str
-      else {
+      if (!str) {
         str = checkTime(now.getDate() - create.getDate(), 'day')
-        if (str) return str
-        else {
+        if (!str) {
           str = checkTime(now.getHours() - create.getHours(), 'hour')
-          if (str) return str
-          else {
+          if (!str) {
             str = checkTime(now.getMinutes() - create.getMinutes(), 'min')
-            return str ? str : `added about secs ago`
+            if (!str) str = `added about secs ago`
           }
         }
       }
     }
+    resultElement.appendChild(document.createTextNode(str))
+    resultElement.className = "ag-cell m-0 p-0"
+    return resultElement;
   }
   const checkTime = (gap, str) => {
     let reStr = gap > 1 ? `${str}s` : str
@@ -86,7 +86,7 @@
             width: 120,
             cellStyle: {color: 'blue'},
             valueGetter: params => {
-            return `${params.data.first_name} ${params.data.last_name}`
+              return `${params.data.first_name} ${params.data.last_name}`
             }
           },
           {
@@ -99,6 +99,7 @@
             headerName: 'rank',
             field: 'rating',
             width: 75,
+            cellStyle: {color: 'orangered'},
             cellRenderer: 'iconRender',
             cellRendererParams: {icon: 'icon ion-star'}
           },
@@ -118,7 +119,7 @@
             headerName: 'CreatedAt',
             field: 'created_at',
             width: 75,
-            cellRenderer: 'createRender'
+            cellRenderer: 'createAtRender'
           },
         ],
         defaultColDef: {
@@ -136,7 +137,7 @@
       this.components = {
         StatusRender,
         iconRender,
-        createRender,
+        createAtRender,
       };
     },
     methods: {
@@ -148,7 +149,7 @@
         updateData(this.$props.leads)
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

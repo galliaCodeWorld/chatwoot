@@ -18,7 +18,7 @@
                 v-model="query"
                 :md-options="queryHistory"
                 md-layout="box">
-                <label>$t('LEADS_PAGE.SEARCH_INPUT_PLACEHOLDER')</label>
+                <label>{{$t('LEADS_PAGE.SEARCH_INPUT_PLACEHOLDER')}}</label>
               </md-autocomplete>
             </div>
           </md-toolbar>
