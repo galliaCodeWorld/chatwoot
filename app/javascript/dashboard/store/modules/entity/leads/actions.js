@@ -9,10 +9,14 @@ const actions = {
   search: (context, query) => {
     return new Promise((resolve, reject) => {
       let url = query ? `${resource}?query=${query}` : resource
+      console.log('action url...', url)
       new ApiClient(url, {apiVersion}).get()
         .then(res => {
           if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
-          else if (res.data.data) context.commit(types.entity.leads.get, JSON.parse(res.data.data))
+          else if (res.data.data) {
+            context.commit(types.entity.leads.get, JSON.parse(res.data.data))
+            console.log('res...', JSON.parse(res.data.data))
+          }
           resolve()
         })
         .catch(err => {

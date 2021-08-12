@@ -87,14 +87,6 @@ $brand-danger:          #d9534f !default;
 
 $black-color:           #3c4858 !default;
 
-$sidebar-width:               calc(100% - 260px) !default;
-$sidebar-mini-width:         calc(100%) !default;
-//== customize
-//
-//##$sidebar-mini-width:         calc(100% - 80px) !default;
-
-
-
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
@@ -1138,7 +1130,6 @@ $transition-ease-out:             ease-out !default;
 $ultra-fast-transition-time:      60ms  !default;
 $navbar-padding-a:               10px 15px;
 $padding-zero:                   0px !default;
-$sidebar-width:               calc(100% - 260px) !default;
 $topbar-back:          topbar-back !default;
 $bottombar-back:       bottombar-back !default;
 $topbar-x:             topbar-x !default;
