@@ -16,21 +16,22 @@
 </template>
 
 <script>
+  import { mapState, mapGetters } from "vuex";
   import { AgGridVue } from 'ag-grid-vue';
   import StatusRender from './frameworks/cellrender/status.vue';
 
   const iconRender = params => {
     const resultElement = document.createElement('span');
-    for (let i = 0; i < params.value; i++) {
-      const iconElement = document.createElement('i');
-      iconElement.className = params.icon
-      resultElement.appendChild(iconElement)
-    }
-    // for (let i = 0; i < 5; i++) {
+    // for (let i = 0; i < params.value; i++) {
     //   const iconElement = document.createElement('i');
     //   iconElement.className = params.icon
     //   resultElement.appendChild(iconElement)
     // }
+    for (let i = 0; i < 5; i++) {
+      const iconElement = document.createElement('i');
+      iconElement.className = params.icon
+      resultElement.appendChild(iconElement)
+    }
     return resultElement;
   }
   const createAtRender = params => {
@@ -61,28 +62,42 @@
   }
   export default {
     name: 'leads-table',
+    components: {
+      AgGridVue,
+      StatusRender
+    },
     props: {
       leads: {
         type: Array,
         default: () => []
+      },
+      query: {
+        type: String,
+        default: null
       }
     },
-    components: {
-      AgGridVue,
-      StatusRender
+    computed: {
+      wQuery: props => props.query
+    },
+    watch: {
+      wQuery(newValue, oldValue) {
+        this.$store.dispatch('enLeads/search', newValue).then(() => {
+          this.updateRowData(this.leads)
+        })
+      }
     },
     data: () => {
       return {
         gridApi: null,
         columnDefs: [
           {
-            headerName: "Status",
+            headerName: 'Status',
             field: "status",
             width: 75,
             cellRendererFramework: 'StatusRender'
           },
           {
-            headerName: "Name",
+            headerName: 'Name',
             width: 120,
             cellStyle: {color: 'blue'},
             valueGetter: params => {
@@ -90,13 +105,13 @@
             }
           },
           {
-            headerName: 'reffer',
+            headerName: 'Referred',
             field: 'referred_by',
             width: 75,
             cellStyle: {color: 'silver'}
           },
           {
-            headerName: 'rank',
+            headerName: 'Rank',
             field: 'rating',
             width: 75,
             cellStyle: {color: 'orangered'},
@@ -143,10 +158,10 @@
     methods: {
       onGridReady(params) {
         this.gridApi = params.api;
-        const updateData = data => {
-          this.gridApi.setRowData(data);
-        }
-        updateData(this.$props.leads)
+        this.updateRowData(this.$props.leads)
+      },
+      updateRowData(data) {
+        this.gridApi.setRowData(data)
       },
     },
   };

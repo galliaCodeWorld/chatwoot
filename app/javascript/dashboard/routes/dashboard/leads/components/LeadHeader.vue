@@ -8,21 +8,16 @@
       </div>
       <div class="right-aligned-wrap">
         <div class="search-wrap">
-          <md-toolbar class="md-primary">
-            <div class="md-toolbar-row">
-              <div class="md-toolbar-section-start">
-                <i class="ion-ios-search-strong search-icon" />
-              </div>
-              <md-autocomplete
-                class="search"
-                v-model="query"
-                :md-options="queryHistory"
-                md-layout="box">
-                <label>{{$t('LEADS_PAGE.SEARCH_INPUT_PLACEHOLDER')}}</label>
-              </md-autocomplete>
-            </div>
-          </md-toolbar>
-          <md-button class="md-primary md-raised md-dense" @click="createLead">{{ $t('LEADS_PAGE.SEARCH_BUTTON') }}</md-button>
+          <md-autocomplete
+            class="search"
+            v-model="leadState.query"
+            :md-options="leadState.queryHistory"
+            md-layout="box"
+            style="padding-bottom: 0;"
+          >
+            <label>{{$t('LEADS_PAGE.SEARCH_INPUT_PLACEHOLDER')}}</label>
+          </md-autocomplete>
+          <md-button class="md-info md-raised md-dense" @click="createLead">{{ $t('LEADS_PAGE.CREATE_LEADS') }}</md-button>
         </div>
       </div>
     </div>
@@ -30,73 +25,68 @@
 </template>
 
 <script>
-export default {
-  name: 'leads-header',
-  props: {
-    query: {
-      type: String,
-      default: null
+  import { mapState, mapGetters } from "vuex";
+  export default {
+    name: 'leads-header',
+    computed: {
+      ...mapGetters({
+        leadState: 'enLeads/getState'
+      }),
     },
-    queryHistory: {
-      type: Array,
-      default: () => []
+    methods: {
+      createLead() {
+        alert('create leads...')
+      },
     },
-  },
-  computed: {
-    wQuery: props => props.query
-  },
-  watch: {
-    wQuery(newValue, oldValue) {
-      this.$store.dispatch('enLeads/search', newValue ? newValue : null).then(() => {
-          console.log('test api...', this.leadState)
-        })
-    }
-  },
-  methods: {
-    createLead() {
-      alert('create leads...')
-    },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-.page-title {
-  margin: 0;
-}
-.table-actions-wrap {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--space-small) var(--space-normal) var(--space-small)
-    var(--space-normal);
-}
-
-.left-aligned-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.right-aligned-wrap {
-  display: flex;
-}
-
-.search-wrap {
-  width: 400px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-right: var(--space-small);
-
-  .search-icon {
-    position: absolute;
-    top: 1px;
-    left: var(--space-one);
-    height: 3.8rem;
-    line-height: 3.6rem;
-    font-size: var(--font-size-medium);
-    color: var(--b-700);
+  @import "../../../../assets/scss/md/variables";
+  @import "../../../../assets/scss/md/mixins";
+  @import "../../../../assets/scss/md/shadows";
+  @import "../../../../assets/scss/md/buttons";
+  @import "../../../../assets/scss/md/autocomplete";
+  @import "../../../../assets/scss/md/inputs";
+  
+  .page-title {
+    margin: 0;
   }
-}
+  .table-actions-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-small) var(--space-normal) var(--space-small)
+      var(--space-normal);
+  }
+  .left-aligned-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .right-aligned-wrap {
+    display: flex;
+  }
+  .search-wrap {
+    width: 400px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: var(--space-small);
+    .search-icon {
+      position: absolute;
+      top: 1px;
+      left: var(--space-one);
+      height: 3.8rem;
+      line-height: 3.6rem;
+      font-size: var(--font-size-medium);
+      color: var(--b-700);
+    }
+  }
 </style>
+<style lang="scss">
+  .md-field .md-input, .md-field .md-textarea {
+    margin-bottom: 0;
+  }
+</style>
+

@@ -542,7 +542,6 @@ select.form-control {
 .md-field{
   padding-bottom: 10px;
   padding-top: 0;
-  margin: 13px 0 0;
   min-height: auto;
 
   &.md-focused label,
@@ -590,6 +589,8 @@ select.form-control {
       margin-left: auto;
     }
   }
+  width: auto;
+  margin: 0;
 }
 
 .form-control-static{
