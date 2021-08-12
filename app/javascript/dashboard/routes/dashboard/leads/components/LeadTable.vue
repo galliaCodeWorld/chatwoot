@@ -16,32 +16,9 @@
 </template>
 
 <script>
-  import Vue from "vue";
   import { AgGridVue } from 'ag-grid-vue';
+  import StatusRender from './frameworks/cellrender/status.vue';
 
-  const statusRender = Vue.extend({
-    template:
-      `<div class="strip" style="width: 100px;" :style="style">
-        <strong v-html="params.value" />
-      </div>`,
-    name: 'lead-table-cell-status',
-    computed: {
-      style() {
-        let style = ''
-        switch(this.params.value) {
-          case 'rejected':
-            style = 'background: OrangeRed;'
-          case 'new':
-            style = 'background: Silver;'
-          case 'converted':
-            style = 'background: Turquoise'
-          case 'contacted':
-            style = 'background: Lime;'
-        }
-        return style
-      }
-    },
-  })
   const iconRender = params => {
     const resultElement = document.createElement('span');
     for (let i in params.value) {
@@ -87,6 +64,7 @@
     },
     components: {
       AgGridVue,
+      StatusRender,
     },
     data: () => {
       return {
@@ -96,7 +74,7 @@
             headerName: "Status",
             field: "status",
             width: 75,
-            cellRendererFramework: 'statusRender'
+            cellRendererFramework: 'StatusRender'
           },
           {
             headerName: "Name",
@@ -151,7 +129,9 @@
     },
     beforeMount() {
       this.components = {
-        statusRender,
+        StatusRender,
+        iconRender,
+        createRender,
       };
     },
     methods: {

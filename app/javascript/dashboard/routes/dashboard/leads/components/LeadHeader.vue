@@ -18,7 +18,7 @@
                 v-model="query"
                 :md-options="queryHistory"
                 md-layout="box">
-                <label>$t('LEADS_PAGE.SEARCH_INPUT_PLACEHOLDER')</label>
+                <label>{{$t('LEADS_PAGE.SEARCH_INPUT_PLACEHOLDER')}}</label>
               </md-autocomplete>
             </div>
           </md-toolbar>
@@ -43,10 +43,10 @@ export default {
     },
   },
   computed: {
-    query: props => props.query
+    wQuery: props => props.query
   },
   watch: {
-    query(newValue, oldValue) {
+    wQuery(newValue, oldValue) {
       this.$store.dispatch('enLeads/search', newValue ? newValue : null)
       .then(() => {
         console.log('test api...', this.leadState)
