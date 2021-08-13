@@ -107,6 +107,9 @@ const actions = {
   editID: async (context, editID) => {
     context.commit(types.entity.leads.editID, editID);
   },
+  editing: async (context, editing) => {
+    context.commit(types.entity.leads.editing, editing);
+  },
   page: async (context, page) => {
     context.commit(types.entity.leads.page, page)
   },

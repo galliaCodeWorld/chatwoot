@@ -35,20 +35,20 @@
     },
     methods: {
       createLead() {
-        alert('create leads...')
+        this.$store.dispatch('enLeads/editID', 'new')
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  @import "../../../../assets/scss/md/variables";
-  @import "../../../../assets/scss/md/mixins";
-  @import "../../../../assets/scss/md/shadows";
-  @import "../../../../assets/scss/md/buttons";
-  @import "../../../../assets/scss/md/autocomplete";
-  @import "../../../../assets/scss/md/inputs";
-  
+  @import "dashboard/assets/scss/md/variables";
+  @import "dashboard/assets/scss/md/mixins";
+  @import "dashboard/assets/scss/md/shadows";
+  @import "dashboard/assets/scss/md/buttons";
+  @import "dashboard/assets/scss/md/autocomplete";
+  @import "dashboard/assets/scss/md/inputs";
+
   .page-title {
     margin: 0;
   }
