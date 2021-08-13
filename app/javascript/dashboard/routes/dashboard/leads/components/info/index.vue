@@ -1,20 +1,32 @@
 <template>
   <div class="lead-info">
     <DetailsLead :lead="leadState.lead" />
-    <div class="md-group mr-2">
-      <md-button class="md-icon-button md-raised md-dense" @click="showEditModal">
-        <i class="md-info icon ion-edit" />
-      </md-button>
-       <md-button class="md-icon-button md-raised md-dense">
-        <i class="md-primary icon ion-eye" />
-      </md-button>
-       <md-button class="md-icon-button md-raised md-dense">
-        <i class="md-warning icon ion-refresh" />
-      </md-button>
-       <md-button class="md-icon-button md-raised md-dense">
-        <i class="md-danger icon ion-android-delete" />
-      </md-button>
-    </div>
+    <br />
+    <b-button-group>
+      <b-button pill variant="outline-primary" @click="edit">
+        <b-icon icon="pen-fill" variant="primary" :scale="1" />
+        Edit
+      </b-button>
+      <b-button pill variant="outline-danger" @click="del">
+        <b-icon icon="trash-fill" variant="danger" :scale="1" />
+        Delete
+      </b-button>
+    </b-button-group>
+    <br />
+    <b-button-group>
+      <b-button pill variant="outline-info" @click="convert">
+        <b-icon icon="arrow-repeat" variant="success" :scale="1" />
+        Convert
+      </b-button>
+      <b-button pill variant="outline-secondary" @click="reject">
+        <b-iconstack scale="1" rotate="90">
+          <b-icon stacked icon="chevron-right" shift-h="-4" variant="danger"></b-icon>
+          <b-icon stacked icon="chevron-right" shift-h="0" variant="success"></b-icon>
+          <b-icon stacked icon="chevron-right" shift-h="4" variant="primary"></b-icon>
+        </b-iconstack>
+        Reject
+      </b-button>
+    </b-button-group>
   </div>
 </template>
 <script>
@@ -31,7 +43,7 @@ export default {
     }),
   },
   methods: {
-    showEditModal() {
+    edit() {
       this.$store.dispatch('enLeads/show', this.leadState.editID).then(res => {
         if (res)
           Promise.all([
@@ -46,8 +58,16 @@ export default {
             this.$store.dispatch('enLeads/search', this.leadState.query)
           ])
       })
+    },
+    del() {
 
-    }
+    },
+    convert() {
+
+    },
+    reject() {
+
+    },
   },
 };
 </script>

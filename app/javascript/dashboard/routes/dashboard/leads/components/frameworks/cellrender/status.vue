@@ -47,7 +47,7 @@
     },
     methods: {
       checked(checked) {
-        if (checked && this.params.data.id !== this.leadState.editID) {
+        if (checked && this.params.data.id !== this.leadState.editID) 
           this.$store.dispatch('enLeads/show', this.params.data.id).then(res => {
             Promise.all([
               this.$store.dispatch('enLeads/editing', false),
@@ -56,7 +56,12 @@
               : this.$store.dispatch('enLeads/editID', -1)
             ])
           })
-        }
+        else if (!checked) 
+          Promise.all([
+            this.$store.dispatch('enLeads/editing', false),
+            this.$store.dispatch('enLeads/editID', -1),
+            this.$store.dispatch('enLeads/lead', {})
+          ])
       }
     },
   });
