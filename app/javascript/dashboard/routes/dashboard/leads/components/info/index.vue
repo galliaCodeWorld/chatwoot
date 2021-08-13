@@ -3,26 +3,30 @@
     <DetailsLead :lead="leadState.lead" />
     <br />
     <b-button-group>
-      <b-button pill variant="outline-primary" @click="edit">
-        <b-icon icon="pen-fill" variant="primary" :scale="1" />
+      <b-button pill variant="outline-primary" style="margin-right: 7px;" @click="edit">
+        <b-icon icon="pen-fill" variant="primary" />
         Edit
       </b-button>
       <b-button pill variant="outline-danger" @click="del">
-        <b-icon icon="trash-fill" variant="danger" :scale="1" />
+        <b-icon icon="trash-fill" variant="danger" />
         Delete
       </b-button>
     </b-button-group>
     <br />
-    <b-button-group>
-      <b-button pill variant="outline-info" @click="convert">
-        <b-icon icon="arrow-repeat" variant="success" :scale="1" />
+    <b-button-group class="mt-2">
+      <b-button pill variant="outline-info" style="margin-right: 7px;" @click="convert">
+        <b-iconstack scale="1">
+          <b-icon icon="arrow-repeat" shift-h="-4" variant="primary" />
+          <b-icon icon="arrow-repeat" shift-h="0" variant="success" />
+          <b-icon icon="arrow-repeat" shift-h="4" variant="danger" />
+        </b-iconstack>
         Convert
       </b-button>
       <b-button pill variant="outline-secondary" @click="reject">
         <b-iconstack scale="1" rotate="90">
-          <b-icon stacked icon="chevron-right" shift-h="-4" variant="danger"></b-icon>
-          <b-icon stacked icon="chevron-right" shift-h="0" variant="success"></b-icon>
-          <b-icon stacked icon="chevron-right" shift-h="4" variant="primary"></b-icon>
+          <b-icon stacked icon="chevron-right" shift-h="-4" variant="danger" />
+          <b-icon stacked icon="chevron-right" shift-h="0" variant="success" />
+          <b-icon stacked icon="chevron-right" shift-h="4" variant="primary" />
         </b-iconstack>
         Reject
       </b-button>
