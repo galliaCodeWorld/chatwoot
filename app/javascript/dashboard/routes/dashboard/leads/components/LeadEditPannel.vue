@@ -1,6 +1,6 @@
 <template>
   <div class="medium-3 bg-white leads-edit-pannel">
-    <span class="close-button" click="onClose">
+    <span class="close-button" @click="onClose">
       <i class="ion-android-close close-icon" />
     </span>
     <LeadInfo />
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'Vuex';
+import { mapGetters } from 'vuex';
 import LeadInfo from './info';
 export default {
   name: 'leads-edit-pannel',

@@ -4,11 +4,7 @@ import actions from './actions.js'
 
 const state = {
   leads: [],
-  lead: {
-    info: {},
-    tasks: [],
-    histories: [],
-  },
+  lead: {},
   query: null,
   queryHistory: [],
   editID: -1,
