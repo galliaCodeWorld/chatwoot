@@ -50,10 +50,10 @@
         if (checked && this.params.data.id !== this.leadState.editID) {
           this.$store.dispatch('enLeads/show', this.params.data.id).then(res => {
             Promise.all([
+              this.$store.dispatch('enLeads/editing', false),
               res
               ? this.$store.dispatch('enLeads/editID', res.id)
-              : this.$store.dispatch('enLeads/editID', -1),
-              this.$store.dispatch('enLeads/editing', false)
+              : this.$store.dispatch('enLeads/editID', -1)
             ])
           })
         }
@@ -61,8 +61,6 @@
     },
   })
 </script>
-<style lang="scss" scoped>
-  @import "dashboard/assets/scss/md/checkboxes";
-</style>
-<style lang="scss">
+<style lang="sass" scoped>
+  @import "~dashboard/assets/scss/md/checkboxes";
 </style>
