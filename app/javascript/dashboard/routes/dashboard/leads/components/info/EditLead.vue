@@ -38,13 +38,13 @@ export default {
         Promise.all([
           this.$store.dispatch('enLeads/editing', false),
           this.$store.dispatch('enLeads/lead', org),
-          this.$$store.dispatch('enLeads/editID', this.leadState.lead.id)
+          this.$store.dispatch('enLeads/editID', this.leadState.lead.id)
         ])
       else
         Promise.all([
           this.$store.dispatch('enLeads/editing', false),
           this.$store.dispatch('enLeads/lead', {}),
-          this.$$store.dispatch('enLeads/editID', -1)
+          this.$store.dispatch('enLeads/editID', -1)
         ])
     },
     async onSubmit(params) {

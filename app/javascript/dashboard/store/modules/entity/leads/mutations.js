@@ -5,7 +5,7 @@ const mutations = {
     state.leads = leads
   },
   [types.entity.leads.getone](state, lead) {
-    state.lead = !lead.info || !lead.tasks || !lead.histories ? {info: {}, tasks: [], histories: []} : lead
+    state.lead = lead
   },
   [types.entity.leads.query](state, query) {
     state.query = query
