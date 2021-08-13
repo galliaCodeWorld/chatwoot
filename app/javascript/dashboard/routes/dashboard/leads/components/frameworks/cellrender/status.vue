@@ -1,13 +1,13 @@
 <template>
-  <md-checkbox v-model="check" class="md-info" @change="checked">
+  <b-form-checkbox v-model="check" name="check-button" switch @change="checked">
     <div class="strip" style="width: 100px;" :style="style">
       <strong v-html="params.value" />
     </div>
-  </md-checkbox>
+  </b-form-checkbox>
 </template>
 <script>
-  import { mapState, mapGetters } from 'vuex';
   import Vue from 'vue';
+  import { mapState, mapGetters } from 'vuex';
   export default Vue.extend({
     name: 'lead-status-render',
     data: () => {
@@ -43,7 +43,7 @@
       }
     },
     mounted() {
-      this.check = this.params.data.id === leadState.editID
+      this.check = this.params.data.id === this.leadState.editID
     },
     methods: {
       checked(checked) {
@@ -59,9 +59,5 @@
         }
       }
     },
-  })
+  });
 </script>
-<style lang="scss" scoped>
-  @import "~dashboard/assets/scss/md/variables";
-  @import "~dashboard/assets/scss/md/checkboxes";
-</style>

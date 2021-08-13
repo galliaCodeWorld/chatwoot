@@ -3,8 +3,8 @@
     <Person />
     <div class="edit-details">
       <div class="list">
-        <md-list :md-expand-single="expandSingle">
-          <md-list-item md-expand :md-expanded.sync="expandNews">
+        <md-list :md-expand-single="false">
+          <md-list-item md-expand>
             <span class="md-list-item-text">Status</span>
             <md-list slot="md-expand">
               <Status />
@@ -59,23 +59,17 @@
       Web,
       Permission
     }
-  }
+  };
 </script>
 <style lang="scss" scoped>
-  .edit-details {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
-  }
 
   .list {
     width: inherit;
   }
-
   .edit-details > .md-list {
     width: inherit;
     max-width: 100%;
-    height: 400px;
+    height: 100%;
     display: inline-block;
     overflow: auto;
     border: 1px solid rgba(#000, .12);

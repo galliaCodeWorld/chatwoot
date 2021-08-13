@@ -14,6 +14,4 @@ class Group < ActiveRecord::Base
   has_many :permissions
 
   validates :name, presence: true, uniqueness: true
-
-  ActiveSupport.run_load_hooks(:fat_free_crm_group, self)
 end

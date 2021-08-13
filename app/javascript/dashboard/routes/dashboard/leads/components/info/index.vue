@@ -1,6 +1,6 @@
 <template>
   <div class="lead-info">
-    <div>{{leadState.email}}</div>
+    <div>{{leadState.lead.email}}</div>
     <div class="md-group">
       <md-button class="md-icon-button md-raised md-dense" @click="showEditModal">
         <i class="icon ion-edit" />
@@ -21,12 +21,10 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'lead-info',
-  components: {
+  computed: {
     ...mapGetters({
       leadState: 'enLeads/getState'
     })
-  },
-  props: {
   },
   methods: {
     showEditModal() {
@@ -51,8 +49,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import '~dashboard/assets/scss/variables';
-  @import '~dashboard/assets/scss/mixins';
+  @import '~dashboard/assets/scss/md/variables';
+  @import '~dashboard/assets/scss/md/mixins';
   @import "~dashboard/assets/scss/md/shadows";
   @import "~dashboard/assets/scss/md/buttons";
   .lead-info {
@@ -61,7 +59,7 @@ export default {
     .user-thumbnail-box {
       margin-right: 1.6rem;
     }
-    text-align: left;
+    text-align: center;
   }
 
   .lead-details {

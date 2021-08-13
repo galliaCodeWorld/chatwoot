@@ -2,15 +2,26 @@
   <modal :show.sync="show" :on-close="onClose">
     <div class="column content-box">
       <woot-modal-header :header-title="pageTitle" />
-      <form class="row medium-8" @submit.prevent="editTag()">
+      <form class="row medium-8" @submit.prevent="editGroup()">
         <div class="medium-12 columns">
-          <label :class="{ error: $v.tagName.$error }">
-            {{ $t('TAG_MGMT.EDIT.FORM.NAME.LABEL') }}
+          <label :class="{ error: $v.groupName.$error }">
+            {{ $t('GROUP_MGMT.EDIT.FORM.NAME.LABEL') }}
             <input
-              v-model.trim="tagName"
+              v-model.trim="groupName"
               type="text"
-              :placeholder="$t('TAG_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
-              @input="$v.tagName.$touch"
+              :placeholder="$t('GROUP_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
+              @input="$v.groupName.$touch"
+            />
+          </label>
+        </div>
+        <div class="medium-12 columns">
+          <label>
+            {{ $t('GROUP_MGMT.ADD.FORM.NAME.LABEL') }}
+            <multiselect ref="g_select" v-model="ins"
+              placeholder="Search user"
+              label="username" track-by="id"
+              :multiple="true" :taggable="true"
+              :options="users"
             />
           </label>
         </div>
@@ -18,11 +29,11 @@
         <div class="medium-12 modal-footer">
           <div class="medium-6 columns">
             <woot-submit-button
-              :disabled="$v.tagName.$invalid "
-              :button-text="$t('TAG_MGMT.EDIT.FORM.SUBMIT')"
+              :disabled="$v.groupName.$invalid "
+              :button-text="$t('GROUP_MGMT.EDIT.FORM.SUBMIT')"
             />
             <button class="button clear" @click.prevent="onClose">
-              {{ $t('TAG_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
+              {{ $t('GROUP_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
             </button>
           </div>
         </div>
@@ -62,22 +73,22 @@ export default {
       roles: [
         {
           name: 'administrator',
-          label: this.$t('TAG_MGMT.TAG_TYPES.ADMINISTRATOR'),
+          label: this.$t('GROUP_MGMT.GROUP_TYPES.ADMINISTRATOR'),
         }
       ],
-      tagName: this.name,
+      groupName: this.name,
       show: true,
     };
   },
   validations: {
-    tagName: {
+    groupName: {
       required,
       minLength: minLength(1),
     }
   },
   computed: {
     pageTitle() {
-      return `${this.$t('TAG_MGMT.EDIT.TITLE')} - ${this.name}`;
+      return `${this.$t('GROUP_MGMT.EDIT.TITLE')} - ${this.name}`;
     },
     ...mapGetters({
     }),
@@ -86,27 +97,27 @@ export default {
     showAlert(message) {
       bus.$emit('newToastMessage', message);
     },
-    async editTag() {
+    async editGroup() {
       try {
         let formData = new FormData()
-        formData.append('name', this.tagName)
-        await this.$store.dispatch('adTags/update', { id: this.id, formData}).then(() => {
-          this.$store.dispatch('adTags/get').then(() => {})
+        formData.append('name', this.groupName)
+        await this.$store.dispatch('adGroups/update', { id: this.id, formData}).then(() => {
+          this.$store.dispatch('adGroups/get').then(() => {})
         });;
-        this.showAlert(this.$t('TAG_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('GROUP_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('TAG_MGMT.EDIT.API.ERROR_MESSAGE'));
+        this.showAlert(this.$t('GROUP_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
     async resetPassword() {
       try {
-        await Auth.resetPassword(this.tagCredentials);
+        await Auth.resetPassword(this.groupCredentials);
         this.showAlert(
-          this.$t('TAG_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE')
+          this.$t('GROUP_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE')
         );
       } catch (error) {
-        this.showAlert(this.$t('TAG_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
+        this.showAlert(this.$t('GROUP_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
       }
     },
   },

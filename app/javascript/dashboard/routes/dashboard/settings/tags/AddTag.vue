@@ -99,3 +99,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+  label {
+    width: 100%;
+  }
+</style>

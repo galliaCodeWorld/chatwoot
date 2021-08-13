@@ -11,7 +11,7 @@
 
 <script>
   import { mapGetters } from "vuex";
-  import store from '~dashboard/store';
+  import store from 'dashboard/store';
   import LeadsHeader from './components/LeadHeader.vue';
   import LeadsTable from './components/LeadTable.vue';
   import LeadsEditPan from './components/LeadEditPannel.vue';

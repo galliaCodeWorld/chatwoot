@@ -9,7 +9,7 @@
       {{ $t('GROUP_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
 
-    <!-- List Agents -->
+    <!-- List Groups -->
     <div class="row">
       <div class="small-12 columns">
         <div>
@@ -19,12 +19,14 @@
           <table v-else class="woot-table">
             <tbody>
               <tr v-for="(group, index) in groupState.groups" :key="'ts-'+index">
-                <!-- Agent Name + Email -->
+                <!-- Group Name + Email -->
                 <td>
                   <span class="group-name">{{ group.name }}</span>
                 </td>
                 <td>
-                  <span class="group-">{{ group.name }}</span>
+                  <label v-for="(user, index) in group.users" :key = "'user-'+index">
+                    <span class="group-">{{ user.name }}</span>  
+                  </label>
                 </td>
                 <!-- Actions -->
                 <td>
@@ -58,20 +60,21 @@
         </div>
       </div>
     </div>
-    <!-- Add Agent -->
-   <!--  <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+    <!-- Add Group -->
+    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
       <add-group :on-close="hideAddPopup" />
-    </woot-modal> -->
-    <!-- Edit Agent -->
-    <!-- <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+    </woot-modal>
+    <!-- Edit Group -->
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-group
         v-if="showEditPopup"
-        :id="currentAgent.id"
-        :name="currentAgent.name"
+        :id="currentGroup.id"
+        :name="currentGroup.name"
+        :users="currentGroup.users"
         :on-close="hideEditPopup"
       />
-    </woot-modal> -->
-    <!-- Delete Agent -->
+    </woot-modal>
+    <!-- Delete Group -->
     <woot-delete-modal
       :show.sync="showDeletePopup"
       :on-close="closeDeletePopup"
@@ -84,29 +87,30 @@
   </div>
 </template>
 
-<!-- script>
+<script>
 import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import AddGroup from './AddGroup.vue';
+import EditGroup from './EditGroup';
 import store from '../../../../store'
-import Edit from './edit.vue';
-import Detail from './detail.vue';
 
 export default {
-  name: 'ad-groups',
   components: {
-    Edit,
-    Detail,
+    AddGroup,
+    EditGroup
   },
-  props: {
-    contactId: {
-      type: [String, Number],
-      default: 0,
-    },
-  },
-  computed: {
-    ...mapGetters({
-      groupState: 'adGroups/getState',
-      userState: 'adUsers/getState',
-    }),
+  mixins: [globalConfigMixin],
+  data() {
+    return {
+      loading: {},
+      showAddPopup: false,
+      showDeletePopup: false,
+      showEditPopup: false,
+      groupAPI: {
+        message: '',
+      },
+      currentGroup: {},
+    };
   },
   beforeRouteEnter(to, from, next) {
     Promise.all([
@@ -117,99 +121,48 @@ export default {
       next();
     });
   },
-  methods: {
-    showModal() {
-      this.$store.dispatch('adGroups/editID', null)
-    }
-  },
-};
-</script>
-
-<style lang="scss">
-.ad-groups {
-  .md-card .md-card-header {
-    padding: 0 12px;
-  }
-  p {
-    margin-bottom: 0;
-  }
-}
-</style> -->
-<script>
-  import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-// import AddTag from './AddTag.vue';
-// import EditTag from './EditTag';
-import store from '../../../../store'
-
-export default {
-  components: {
-    // AddTag,
-    // EditTag,
-  },
-  mixins: [globalConfigMixin],
-  data() {
-    return {
-      loading: {},
-      showAddPopup: false,
-      showDeletePopup: false,
-      showEditPopup: false,
-      tagAPI: {
-        message: '',
-      },
-      currentAgent: {},
-    };
-  },
-  beforeRouteEnter(to, from, next) {
-    store.dispatch('adTags/get').then(() => {
-      next();
-    });
-  },
   computed: {
     ...mapGetters({
-      tagState: 'adTags/getState',
-      globalConfig: 'globalConfig/get',
+      groupState: 'adGroups/getState',
+      userState: 'adUsers/getState',
     }),
     deleteConfirmText() {
-      return `${this.$t('TAG_MGMT.DELETE.CONFIRM.YES')} ${
-        this.currentAgent.name
+      return `${this.$t('GROUP_MGMT.DELETE.CONFIRM.YES')} ${
+        this.currentGroup.name
       }`;
     },
     deleteRejectText() {
-      return `${this.$t('TAG_MGMT.DELETE.CONFIRM.NO')} ${
-        this.currentAgent.name
+      return `${this.$t('GROUP_MGMT.DELETE.CONFIRM.NO')} ${
+        this.currentGroup.name
       }`;
     },
     deleteMessage() {
-      return `${this.$t('TAG_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.currentAgent.name
+      return `${this.$t('GROUP_MGMT.DELETE.CONFIRM.MESSAGE')} ${
+        this.currentGroup.name
       } ?`;
     },
   },
-  mounted() {
-    this.$store.dispatch('tags/get');
-  },
   methods: {
-    showEditAction(tag) {
-      return this.currentUserId !== tag.id;
+    showEditAction(group) {
+      return this.currentGroupId !== group.id;
     },
-    showDeleteAction(tag) {
-      if (this.currentUserId === tag.id) {
+    showDeleteAction(group) {
+      if (this.currentGroupId === group.id) {
         return false;
       }
 
-      if (!tag.confirmed) {
+      if (!group.confirmed) {
         return true;
       }
 
-      if (tag.role === 'administrator') {
+      if (group.role === 'administrator') {
         return this.verifiedAdministrators().length !== 1;
       }
       return true;
     },
     verifiedAdministrators() {
-      return this.tagList.filter(
-        tag => tag.role === 'administrator' && tag.confirmed
+      return this.groupList.filter(
+        group => group.role === 'administrator' && group.confirmed
       );
     },
     // Edit Function
@@ -221,46 +174,46 @@ export default {
     },
 
     // Edit Function
-    openEditPopup(tag) {
+    openEditPopup(group) {
       this.showEditPopup = true;
-      this.currentAgent = tag;
+      this.currentGroup = group;
     },
     hideEditPopup() {
       this.showEditPopup = false;
     },
 
     // Delete Function
-    openDeletePopup(tag) {
+    openDeletePopup(group) {
       this.showDeletePopup = true;
-      this.currentAgent = tag;
+      this.currentGroup = group;
     },
     closeDeletePopup() {
       this.showDeletePopup = false;
     },
     confirmDeletion() {
-      this.loading[this.currentAgent.id] = true;
+      this.loading[this.currentGroup.id] = true;
       this.closeDeletePopup();
-      this.deleteAgent(this.currentAgent.id);
+      this.deleteGroup(this.currentGroup.id);
     },
-    async deleteAgent(id) {
+    async deleteGroup(id) {
       try {
-        this.$store.dispatch('adTags/delete', id).then(() => {
-          this.$store.dispatch('adTags/get').then(() => {
-            this.$store.dispatch('global/setMsg', `Deleted "${tmp}" tag..`)
+        this.$store.dispatch('adGroups/delete', id).then(() => {
+          this.$store.dispatch('adGroups/get').then(() => {
+            this.$store.dispatch('global/setMsg', `Deleted "${temp}" group..`)
           })
         })
-        this.showAlert(this.$t('TAG_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('GROUP_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('TAG_MGMT.DELETE.API.ERROR_MESSAGE'));
+        this.showAlert(this.$t('GROUP_MGMT.DELETE.API.ERROR_MESSAGE'));
       }
     },
     // Show SnackBar
     showAlert(message) {
-      // Reset loading, current selected tag
-      this.loading[this.currentAgent.id] = false;
-      this.currentAgent = {};
+      // Reset loading, current selected group
+      this.loading[this.currentGroup.id] = false;
+      this.currentGroup = {};
       // Show message
-      this.tagAPI.message = message;
+      this.groupAPI.message = message;
       bus.$emit('newToastMessage', message);
     },
   },
