@@ -7,7 +7,8 @@
 #------------------------------------------------------------------------------
 class Api::V3::Admin::GroupsController < Api::V3::Admin::ApplicationController
 
-  respond_to :json
+  
+  # respond_to :json
 
   # POST /groups
   #----------------------------------------------------------------------------

@@ -137,10 +137,10 @@ export default {
   },
   methods: {
     showEditAction(tag) {
-      return this.currentUserId !== tag.id;
+      return this.currentTagId !== tag.id;
     },
     showDeleteAction(tag) {
-      if (this.currentUserId === tag.id) {
+      if (this.currentTagId === tag.id) {
         return false;
       }
 
