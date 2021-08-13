@@ -201,6 +201,7 @@ export default {
       query: 'MELeadQuery',
       queryHistory: 'MELeadQueryHis',
       editID: 'MEEditID',
+      editing: 'MEEditing',
       page: 'MEPage'
     }
   }

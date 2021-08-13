@@ -17,6 +17,9 @@ const mutations = {
   [types.entity.leads.editID](state, editID) {
     state.editID = editID
   },
+  [types.entity.leads.editing](state, editing) {
+    state.editing = editing
+  },
   [types.entity.leads.page](state, page) {
     state.page = page
   },

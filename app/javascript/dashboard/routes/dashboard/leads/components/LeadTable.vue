@@ -7,16 +7,19 @@
       :defaultColDef="defaultColDef"
       :columnDefs="columnDefs"
       :rowData="rowData"
+      rowSelection="single"
       :animateRows="true"
       :pagination="true"
       :paginationPageSize="10"
       :suppressPaginationPanel="true"
+      @row-selected="onRowSelected"
       @grid-ready="onGridReady" />
   </section>
 </template>
 
 <script>
   import { mapState, mapGetters } from "vuex";
+  import store from '../../../../store';
   import { AgGridVue } from 'ag-grid-vue';
   import StatusRender from './frameworks/cellrender/status.vue';
 
@@ -60,6 +63,14 @@
     let reStr = gap > 1 ? `${str}s` : str
     return gap > 0 ? `added about ${gap} ${reStr} ago` : null
   }
+  const checkboxSelection = params => {
+    console.log('test checkboxSelection..', params, params.node)
+    // Promise.all([
+    //   store.dispatch('enLeads/editID', -1),
+    //   store.dispatch('enLeads/editing', false)
+    // ]).thend()
+    return true
+  }
   export default {
     name: 'leads-table',
     components: {
@@ -74,7 +85,7 @@
       query: {
         type: String,
         default: null
-      }
+      },
     },
     computed: {
       wQuery: props => props.query
@@ -94,7 +105,8 @@
             headerName: 'Status',
             field: "status",
             width: 75,
-            cellRendererFramework: 'StatusRender'
+            checkboxSelection: checkboxSelection,
+            cellRendererFramework: 'StatusRender',
           },
           {
             headerName: 'Name',
@@ -162,6 +174,22 @@
       },
       updateRowData(data) {
         this.gridApi.setRowData(data)
+      },
+      onRowSelected(ev) {
+        console.log('onRowSelected...', ev.node.data)
+        // if (ev.node.isSelected)
+        //   this.$store.dispatch('enLeads/show', ev.node.data.id).then(res => {
+        //     if (res)
+        //       Promise.all([
+        //         this.$store.dispatch('enLeads/editID', res.id),
+        //         this.$store.dispatch('enLeads/editing', false)
+        //       ])
+        //   })
+        // else
+        //   Promise.all([
+        //     this.$store.dispatch('enLeads/editID', -1),
+        //     this.$store.dispatch('enLeads/editing', false)
+        //   ])
       },
     },
   };
