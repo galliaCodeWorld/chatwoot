@@ -1,8 +1,9 @@
 {
   "LEADS_PAGE": {
     "HEADER": "Leads",
-    "CREATE_LEADS": "Create Leads",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for leads",
+    "CREATE_LEAD": "Create Lead",
+    "CLOSE_LEAD": "Create Lead",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for lead",
     "LIST": {
       "LOADING_MESSAGE": "Loading lead...",
       "404": "No lead matches your search 🔍",
