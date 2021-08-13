@@ -17,7 +17,9 @@
           >
             <label>{{$t('LEADS_PAGE.SEARCH_INPUT_PLACEHOLDER')}}</label>
           </md-autocomplete>
-          <md-button class="md-info md-raised md-dense" @click="createLead">{{ $t('LEADS_PAGE.CREATE_LEADS') }}</md-button>
+          <md-button class="md-info md-raised md-dense" @click="createLead">
+            {{ $t('LEADS_PAGE.CREATE_LEAD') }}
+          </md-button>
         </div>
       </div>
     </div>
@@ -25,7 +27,7 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from "vuex";
+  import { mapGetters } from "vuex";
   export default {
     name: 'leads-header',
     computed: {
@@ -35,20 +37,23 @@
     },
     methods: {
       createLead() {
-        this.$store.dispatch('enLeads/editID', 'new')
+        Promise.all([
+          this.$store.dispatch('enLeads/editID', 'new'),
+          this.$store.dispatch('enLeads/lead', {id: 'new'}),
+          this.$store.dispatch('enLeads/editing', true)
+        ])
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  @import "dashboard/assets/scss/md/variables";
-  @import "dashboard/assets/scss/md/mixins";
-  @import "dashboard/assets/scss/md/shadows";
-  @import "dashboard/assets/scss/md/buttons";
-  @import "dashboard/assets/scss/md/autocomplete";
-  @import "dashboard/assets/scss/md/inputs";
-
+  @import "~dashboard/assets/scss/md/variables";
+  @import "~dashboard/assets/scss/md/mixins";
+  @import "~dashboard/assets/scss/md/shadows";
+  @import "~dashboard/assets/scss/md/buttons";
+  @import "~dashboard/assets/scss/md/autocomplete";
+  @import "~dashboard/assets/scss/md/inputs";
   .page-title {
     margin: 0;
   }

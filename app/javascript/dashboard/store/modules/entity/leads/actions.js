@@ -110,6 +110,9 @@ const actions = {
   editing: async (context, editing) => {
     context.commit(types.entity.leads.editing, editing);
   },
+  lead: async (context, lead) => {
+    context.commit(types.entity.leads.getone, lead)
+  },
   page: async (context, page) => {
     context.commit(types.entity.leads.page, page)
   },
