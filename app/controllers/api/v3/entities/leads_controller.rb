@@ -22,7 +22,7 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     # @timeline = timeline(@lead)
     # respond_with(@lead)
     @lead = Lead.find(params[:id])
-    render json: {data: @lead.to_json(), success: true}, status: 200
+    render json: {data: @lead.to_json(include: [:assignee, :campaign, :addresses]), success: true}, status: 200
   end
 
   # GET /leads/new
@@ -190,7 +190,7 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
 
     scope = Lead.text_search(params[:query])
     scope = scope.merge(@search.result)
-    scope = scope.text_search(current_query)      if current_query.present?
+    # scope = scope.text_search(current_query)      if current_query.present?
     scope = scope.paginate(page: current_page)
     scope
   end
