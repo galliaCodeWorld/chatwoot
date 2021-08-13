@@ -1,30 +1,34 @@
 <template>
   <div class="lead-info">
-    <div>{{leadState.lead.email}}</div>
-    <div class="md-group">
+    <DetailsLead :lead="leadState.lead" />
+    <div class="md-group mr-2">
       <md-button class="md-icon-button md-raised md-dense" @click="showEditModal">
-        <i class="icon ion-edit" />
+        <i class="md-info icon ion-edit" />
       </md-button>
        <md-button class="md-icon-button md-raised md-dense">
-        <i class="icon ion-eye" />
+        <i class="md-primary icon ion-eye" />
       </md-button>
        <md-button class="md-icon-button md-raised md-dense">
-        <i class="icon ion-refresh" />
+        <i class="md-warning icon ion-refresh" />
       </md-button>
        <md-button class="md-icon-button md-raised md-dense">
-        <i class="icon ion-android-delete" />
+        <i class="md-danger icon ion-android-delete" />
       </md-button>
     </div>
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
+import DetailsLead from './detailsLead.vue';
 export default {
   name: 'lead-info',
+  components: {
+    DetailsLead
+  },
   computed: {
-    ...mapGetters({
+     ...mapGetters({
       leadState: 'enLeads/getState'
-    })
+    }),
   },
   methods: {
     showEditModal() {
@@ -60,10 +64,5 @@ export default {
       margin-right: 1.6rem;
     }
     text-align: center;
-  }
-
-  .lead-details {
-    margin-top: 0.8rem;
-    width: 100%;
   }
 </style>
