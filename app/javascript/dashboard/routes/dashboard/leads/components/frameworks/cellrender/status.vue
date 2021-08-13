@@ -61,6 +61,7 @@
     },
   })
 </script>
-<style lang="sass" scoped>
+<style lang="scss" scoped>
+  @import "~dashboard/assets/scss/md/variables";
   @import "~dashboard/assets/scss/md/checkboxes";
 </style>

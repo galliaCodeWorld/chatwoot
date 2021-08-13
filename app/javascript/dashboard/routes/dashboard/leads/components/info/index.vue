@@ -57,15 +57,15 @@ export default {
   @import "~dashboard/assets/scss/md/buttons";
   .lead-info {
     align-items: flex-start;
-    margin-bottom: var(--space-normal);
+    margin-bottom: 1.6rem;
     .user-thumbnail-box {
-      margin-right: $space-normal;
+      margin-right: 1.6rem;
     }
     text-align: left;
   }
 
   .lead-details {
-    margin-top: $space-small;
+    margin-top: 0.8rem;
     width: 100%;
   }
 </style>
