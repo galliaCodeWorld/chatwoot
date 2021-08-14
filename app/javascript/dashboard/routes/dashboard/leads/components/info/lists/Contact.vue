@@ -143,10 +143,11 @@
             </div>
             <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
               <md-field class="field">
-                <multiselect v-model="leadState.lead.country"
+                <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.country"
                   placeholder="Country.."
                   :multiple="false" :taggable="true"
                   :options="[]"
+                  open-direction="top"
                 />
               </md-field>
             </div>

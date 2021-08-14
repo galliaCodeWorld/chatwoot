@@ -3,29 +3,37 @@
     @submit.prevent="handleSubmit(submit)">
       <div class="md-layout">
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <multiselect v-model="leadState.lead.assigned_to"
-            placeholder="Assigned to.."
-            label="email" track-by="id"
-            :multiple="false" :taggable="true"
-            :options="adUserState.users.concat([{email: 'Unassigned'}, {id: 'new', email: 'Myself'}]).map(k => {
-              if (!k.id && k.id !== 'new' && k.id === leadState.lead.id) k.email = 'Myself'
-              return k
-            })"
-          />
+          <md-field class="field">
+            <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.assigned_to"
+              placeholder="Assigned to.."
+              label="email" track-by="id"
+              :multiple="false" :taggable="true"
+              :options="adUserState.users.concat([{email: 'Unassigned'}, {id: 'new', email: 'Myself'}]).map(k => {
+                if (!k.id && k.id !== 'new' && k.id === leadState.lead.id) k.email = 'Myself'
+                return k
+              })"
+            />
+          </md-field>
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <multiselect v-model="leadState.lead.status"
-            placeholder="Status.."
-            :multiple="false" :taggable="true"
-            :options="status"
-          />
+          <md-field class="field">
+            <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.status"
+              placeholder="Status.."
+              :multiple="false" :taggable="true"
+              :options="status"
+              
+            />
+          </md-field>
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <multiselect v-model="leadState.lead.rating"
-            placeholder="Rating.."
-            :multiple="false" :taggable="true"
-            :options="rating"
-          />
+          <md-field class="field">
+            <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.rating"
+                placeholder="Rating.."
+                label="dom" track-by="id"
+                :multiple="false" :taggable="true"
+                :options="rating"
+              />
+          </md-field>
         </div>
       </div>
       <div class="md-layout">
@@ -33,20 +41,26 @@
       </div>
       <div class="md-layout">
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <multiselect v-model="leadState.lead.source"
-            placeholder="Source.."
-            label="title" track-by="id"
-            :multiple="false" :taggable="true"
-            :options="source"
-          />
+          <md-field class="field">
+            <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.source"
+              placeholder="Source.."
+              label="title" track-by="id"
+              :multiple="false" :taggable="true"
+              :options="source"
+              open-direction="top"
+            />
+          </md-field>
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <multiselect v-model="leadState.lead.campaign_id"
-            placeholder="Campaign.."
-            label="name" track-by="id"
-            :multiple="false" :taggable="true"
-            :options="[]"
-          />
+          <md-field class="field">
+            <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.campaign_id"
+              placeholder="Campaign.."
+              label="name" track-by="id"
+              :multiple="false" :taggable="true"
+              :options="[]"
+              open-direction="top"
+            />
+          </md-field>
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
           <md-button type="submit" class="md-success md-raised md-dense">
@@ -63,7 +77,14 @@
     data() {
       return {
         status: [ 'new', 'contacted', 'converted', 'rejected'],
-        rating: [0, 1, 2, 3, 4, 5],
+        rating: [
+          {id: 0, dom: '--None--'},
+          {id: 1, dom: '★'},
+          {id: 2, dom: '★★'},
+          {id: 3, dom: '★★★'},
+          {id: 4, dom: '★★★★'},
+          {id: 5, dom: '★★★★★'},
+        ],
         source: [
           {id: 1, title: 'Campaign'},
           {id: 2, title: 'Cold Call'},
@@ -88,8 +109,12 @@
         alert('s submit...')
       }
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
-
+  .field {
+    margin: 0;
+  }
 </style>
+
+

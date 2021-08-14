@@ -12,7 +12,7 @@
       <div v-if="item.id === 3 && item.checked">
         <form ref="lead_permission_form">
           <div class="md-layout">
-            <multiselect v-model="leadState.lead.share_users"
+            <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.share_users"
               placeholder="Share Users.."
               label="email" track-by="id"
               :multiple="true" :taggable="true"
@@ -20,7 +20,7 @@
             />
           </div>
           <div class="md-layout">
-            <multiselect v-model="leadState.lead.share_groups"
+            <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.share_groups"
               placeholder="Share Groups.."
               label="name" track-by="id"
               :multiple="true" :taggable="true"
@@ -55,11 +55,10 @@
     },
     methods: {
       checked(checked, id) {
-        if (checked)
-          for (const {item, i} in this.options.entries()) item.checked = item.id === id
+        if (checked) for (const [n, item] of this.options.entries()) item.checked = item.id === id
       }
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .leads-lists-permission {
