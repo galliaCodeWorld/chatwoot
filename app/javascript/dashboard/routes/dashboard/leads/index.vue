@@ -18,7 +18,6 @@
   import EditLead from './components/info/EditLead.vue'
 
   export default {
-    ////////////////////
     name: 'entity-leads',
     components: {
       LeadsHeader,

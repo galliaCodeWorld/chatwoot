@@ -36,12 +36,16 @@
         <label>{{`${item.title}:`}}</label>
         <strong v-html="lead[item.key]" />
       </div>
+      <md-divider class="md-hr md-theme-demo-light" />
     </div>
-    <div class="lead-details">
-      <i v-for="(item, n) in social" :key="`social-${n}`"
-        class="social-icon" :class="item.icon" :style="item.style"
-        @click="goSocial(lead[item.key])" />
+    <div v-if="social.find(k=> lead[k.key]) ? true : false" 
+      class="lead-details d-flex justify-content-center" style="height: 25px;">
+      <div v-for="(item, n) in social" :key="`social-${n}`" style="width: 30px;">
+        <i v-if="lead[item.key] ? true : false" class="social-icon" :class="item.icon" :style="item.style"
+          @click="goSocial(lead[item.key])" />
+      </div>
     </div>
+    <md-divider class="md-hr md-theme-demo-light" />
   </div>
 </template>
 <script>
@@ -110,20 +114,29 @@
         }
       }
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .lead-details {
     margin-top: 0.8rem;
     width: 100%;
+    .info {
+      i {
+        color: #D500F9;
+      }
+      strong {
+        color: black;
+      }
+    }
     .social-icon {
       font-size: 20px;
+      cursor: pointer;
     }
     .social-icon:hover {
       font-size: 25px;
     }
   }
   p {
-  margin: 0;
+    margin: 0;
   }
 </style>
