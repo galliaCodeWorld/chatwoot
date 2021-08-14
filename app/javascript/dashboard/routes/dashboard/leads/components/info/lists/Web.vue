@@ -9,12 +9,12 @@
             rules="max:80"
             v-slot="{ passed, failed }"
           >
-            <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
-              <label style="font-weight: 700;">Website/Blog:</label>
+            <md-field style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+              <label class="field--label">Website/Blog:</label>
+              <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
+              <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
               <md-input name='blog' v-model="leadState.lead.blog" type="text" />
-              <md-icon class="error" v-show="failed">close</md-icon>
-              <md-icon class="success" v-show="passed">done</md-icon>
-            </md-field>
+            </md-field style="margin: 0;">
           </ValidationProvider>
         </div>
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
@@ -23,12 +23,12 @@
             rules="max:80"
             v-slot="{ passed, failed }"
           >
-            <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
-              <label style="font-weight: 700;">Twitter:</label>
+            <md-field style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+              <label class="field--label">Twitter:</label>
+              <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
+              <i class="field--icon icon ion-social-twitter" style="color: #1da1f2;" v-show="passed" />
               <md-input name='twitter' v-model="leadState.lead.twitter" type="text" />
-              <md-icon class="error" v-show="failed">close</md-icon>
-              <md-icon class="success" v-show="passed">done</md-icon>
-            </md-field>
+            </md-field style="margin: 0;">
           </ValidationProvider>
         </div>
       </div>
@@ -39,12 +39,12 @@
             rules="max:80"
             v-slot="{ passed, failed }"
           >
-            <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
-              <label style="font-weight: 700;">Linkedin:</label>
+            <md-field style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+              <label class="field--label">Linkedin:</label>
+              <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
+              <i class="field--icon icon ion-social-linkedin" style="color: #0a66c2;" v-show="passed" />
               <md-input name='linkedin' v-model="leadState.lead.linkedin" type="text" />
-              <md-icon class="error" v-show="failed">close</md-icon>
-              <md-icon class="success" v-show="passed">done</md-icon>
-            </md-field>
+            </md-field style="margin: 0;">
           </ValidationProvider>
         </div>
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
@@ -53,12 +53,12 @@
             rules="max:80"
             v-slot="{ passed, failed }"
           >
-            <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
-              <label style="font-weight: 700;">Facebook:</label>
+            <md-field style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+              <label class="field--label">Facebook:</label>
+              <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
+              <i class="field--icon icon ion-social-facebook" style="color: #1877f2;" v-show="passed" />
               <md-input name='facebook' v-model="leadState.lead.facebook" type="text" />
-              <md-icon class="error" v-show="failed">close</md-icon>
-              <md-icon class="success" v-show="passed">done</md-icon>
-            </md-field>
+            </md-field style="margin: 0;">
           </ValidationProvider>
         </div>
       </div>
@@ -72,12 +72,12 @@
             rules="max:80"
             v-slot="{ passed, failed }"
           >
-            <md-field :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
-              <label style="font-weight: 700;">Skype:</label>
+            <md-field style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+              <label class="field--label">Skype:</label>
+              <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
+              <i class="field--icon icon ion-social-skype" style="color: #00aff0;" v-show="passed" />
               <md-input name='skype' v-model="leadState.lead.skype" type="text" />
-              <md-icon class="error" v-show="failed">close</md-icon>
-              <md-icon class="success" v-show="passed">done</md-icon>
-            </md-field>
+            </md-field style="margin: 0;">
           </ValidationProvider>
         </div>
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
@@ -111,8 +111,16 @@
         alert('web submit..')
       }
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
-
+  .field {
+    margin: 0;
+    &--icon {
+      margin-top: 5px;
+    }
+    &--label {
+      padding-left: 20px;
+    }
+  }
 </style>

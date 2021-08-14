@@ -15,5 +15,5 @@
         leadState: 'enLeads/getState',
       })
     },
-  }
+  };
 </script>

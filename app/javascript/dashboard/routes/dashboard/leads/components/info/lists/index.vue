@@ -6,31 +6,31 @@
         <md-list>
           <md-list-item md-expand>
             <span class="md-list-item-text">Status</span>
-            <md-list slot="md-expand">
+            <md-list class="md-list-item-content" slot="md-expand">
               <Status />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Contact Information</span>
-            <md-list slot="md-expand">
+            <md-list class="md-list-item-content" slot="md-expand">
               <Contact />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Comment</span>
-            <md-list slot="md-expand">
+            <md-list class="md-list-item-content" slot="md-expand">
               <Comment />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Web Presence</span>
-            <md-list slot="md-expand">
+            <md-list class="md-list-item-content" slot="md-expand">
               <Web />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Permission</span>
-            <md-list slot="md-expand">
+            <md-list class="md-list-item-content" slot="md-expand">
               <Permission />
             </md-list>
           </md-list-item>
@@ -40,7 +40,6 @@
   </div>
 </template>
 <script>
-  import store from 'dashboard/store';
   import Person from './Person.vue';
   import Status from './Status.vue';
   import Contact from './Contact.vue';
@@ -57,14 +56,12 @@
       Web,
       Permission
     },
-    beforeRouteEnter(to, from, next) {
+    beforeMount() {
       Promise.all([
-        store.dispatch('adUsers/search'),
-        store.dispatch('adGroups/get'),
-        store.dispatch('adTags/get'),
-      ]).then(() => {
-        next()
-      })
+        this.$store.dispatch('adUsers/search'),
+        this.$store.dispatch('adGroups/get'),
+        this.$store.dispatch('adTags/get'),
+      ])
     },
   };
 </script>
@@ -90,5 +87,19 @@
     overflow: auto;
     border: 1px solid rgba(#000, .12);
     vertical-align: top;
+  }
+  .edit-details {
+    .md-list-item-text {
+      background: #004D40;
+      color: white;
+    }
+  }
+</style>
+<style type="scss">
+  .modal-container form {
+    padding: 0 2rem;
+  }
+  .md-field label {
+    color: #42A5F5;
   }
 </style>
