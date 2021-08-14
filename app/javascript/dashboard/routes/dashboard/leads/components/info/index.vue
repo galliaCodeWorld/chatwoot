@@ -77,10 +77,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import '~dashboard/assets/scss/md/variables';
-  @import '~dashboard/assets/scss/md/mixins';
-  @import "~dashboard/assets/scss/md/shadows";
-  @import "~dashboard/assets/scss/md/buttons";
   .lead-info {
     align-items: flex-start;
     margin-bottom: 1.6rem;
