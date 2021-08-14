@@ -51,6 +51,7 @@
   @import "~dashboard/assets/scss/md/variables";
   @import "~dashboard/assets/scss/md/mixins";
   @import "~dashboard/assets/scss/md/shadows";
+  @import "~dashboard/assets/scss/md/colors";
   @import "~dashboard/assets/scss/md/buttons";
   @import "~dashboard/assets/scss/md/autocomplete";
   @import "~dashboard/assets/scss/md/inputs";
