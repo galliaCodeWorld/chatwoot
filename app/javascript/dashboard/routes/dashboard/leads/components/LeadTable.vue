@@ -16,7 +16,6 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from "vuex";
   import { AgGridVue } from 'ag-grid-vue';
   import StatusRender from './frameworks/cellrender/status.vue';
 
@@ -60,6 +59,7 @@
     let reStr = gap > 1 ? `${str}s` : str
     return gap > 0 ? `added about ${gap} ${reStr} ago` : null
   }
+
   export default {
     name: 'leads-table',
     components: {
@@ -74,7 +74,7 @@
       query: {
         type: String,
         default: null
-      }
+      },
     },
     computed: {
       wQuery: props => props.query
@@ -94,7 +94,7 @@
             headerName: 'Status',
             field: "status",
             width: 75,
-            cellRendererFramework: 'StatusRender'
+            cellRendererFramework: 'StatusRender',
           },
           {
             headerName: 'Name',
@@ -172,21 +172,5 @@
   flex: 1 1;
   height: 100%;
   overflow: hidden;
-  .strip {
-    height: 20px;
-    width: auto;
-    background: #dcdcdc;
-    color: black;
-    float: left;
-    font-size: 11px;
-    margin: 0px 6px 0px 0px;
-    padding: 1px 4px 1px 3px;
-    text-align: right;
-    width: 75px;
-    -moz-border-radius-topleft: 7px;
-    -moz-border-radius-bottomleft: 7px;
-    -webkit-border-top-left-radius: 7px;
-    -webkit-border-bottom-left-radius: 7px;
-  }
 }
 </style>
