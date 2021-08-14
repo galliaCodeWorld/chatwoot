@@ -34,11 +34,14 @@
       <div v-for="(item, n) in summary" :key="`summary-${n}`"
         class="d-flex justify-content-between align-baseline summary">
         <label>{{`${item.title}:`}}</label>
-        <strong v-html="lead[item.key]" />
+        <span v-if="item.title === 'Rating'" style="color: orangered">
+          <i v-for="i in lead[item.key]" :key="`star--${i}`" class="icon ion-star" />
+        </span>
+        <strong v-else v-html="lead[item.key]" />
       </div>
       <md-divider class="md-hr md-theme-demo-light" />
     </div>
-    <div v-if="social.find(k=> lead[k.key]) ? true : false" 
+    <div v-if="social.find(k=> lead[k.key]) ? true : false"
       class="lead-details d-flex justify-content-center" style="height: 25px;">
       <div v-for="(item, n) in social" :key="`social-${n}`" style="width: 30px;">
         <i v-if="lead[item.key] ? true : false" class="social-icon" :class="item.icon" :style="item.style"
