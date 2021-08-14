@@ -13,8 +13,9 @@
       </b-button>
     </b-button-group>
     <br />
-    <b-button-group class="mt-2">
-      <b-button pill variant="outline-info" style="margin-right: 7px;" @click="convert">
+    <b-button-group class="mt-2" v-if="leadState.lead.status !== 'rejected'">
+      <b-button pill variant="outline-info" style="margin-right: 7px;"
+      @click="changeState('converted')">
         <b-iconstack scale="1">
           <b-icon icon="arrow-repeat" shift-h="-4" variant="primary" />
           <b-icon icon="arrow-repeat" shift-h="0" variant="success" />
@@ -22,7 +23,8 @@
         </b-iconstack>
         Convert
       </b-button>
-      <b-button pill variant="outline-secondary" @click="reject">
+      <b-button pill variant="outline-secondary"
+      @click="changeState('rejected')">
         <b-iconstack scale="1" rotate="90">
           <b-icon stacked icon="chevron-right" shift-h="-4" variant="danger" />
           <b-icon stacked icon="chevron-right" shift-h="0" variant="success" />
@@ -49,11 +51,7 @@ export default {
   methods: {
     edit() {
       this.$store.dispatch('enLeads/show', this.leadState.editID).then(res => {
-        if (res)
-          Promise.all([
-            this.$store.dispatch('enLeads/editID', res.id),
-            this.$store.dispatch('enLeads/editing', true)
-          ])
+        if (res) this.$store.dispatch('enLeads/editing', true)
         else
           Promise.all([
             this.$store.dispatch('enLeads/editID', -1),
@@ -64,13 +62,33 @@ export default {
       })
     },
     del() {
-
+      this.$store.dispatch('enLeads/delete', this.leadState.lead.id).then(() => {
+        Promise.all([
+          this.$store.dispatch('enLeads/editID', -1),
+          this.$store.dispatch('enLeads/lead', {}),
+          this.$store.dispatch('enLeads/editing', false),
+          this.$store.dispatch('enLeads/search', this.leadState.query)
+        ])
+      })
     },
-    convert() {
+    changeState(ev, param) {
+      console.log('changeState...', ev, param)
+      if (param === 'rejected')
+        this.$store.dispatch('enLeads/status', {id: this.leadState.lead.id, status: param}).then(() => {
+          this.$store.dispatch('enLeads/search', this.leadState.query).then(() => {
+            let find = this.leadState.leads.find(k=> k.id === this.leadState.lead.id)
+            if (find) this.$store.dispatch('enLeads/lead', find)
+            else
+              Promise.all([
+                this.$store.dispatch('enLeads/editID', -1),
+                this.$store.dispatch('enLeads/lead', {}),
+                this.$store.dispatch('enLeads/editing', false),
+              ])
+          })
+        })
+      else if (param === 'converted') {
 
-    },
-    reject() {
-
+      }
     },
   },
 };
