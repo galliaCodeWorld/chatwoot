@@ -42,6 +42,7 @@
           <md-field>
             <multiselect v-model="leadState.lead.source"
               placeholder="Source.."
+              label="title" track-by="id"
               :multiple="false" :taggable="true"
               :options="source"
             />

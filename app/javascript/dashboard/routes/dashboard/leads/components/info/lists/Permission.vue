@@ -5,7 +5,7 @@
         :id="`checkbox-${n}`"
         v-model="item.checked"
         :name="`checkbox-${n}`"
-        @change="checked(item.id)"
+        @change="checked($event,item.id)"
       >
         <strong class="check--item--name">{{item.name}}</strong>
       </b-form-checkbox>
