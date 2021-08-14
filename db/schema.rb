@@ -187,18 +187,6 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
     t.string "extension"
   end
 
-  create_table "avatars", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "entity_type"
-    t.integer "entity_id"
-    t.integer "image_file_size"
-    t.string "image_file_name"
-    t.string "image_content_type"
-    t.string "attachment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "campaigns", force: :cascade do |t|
     t.integer "display_id", null: false
     t.string "title", null: false
@@ -377,10 +365,10 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
     t.string "twitter", limit: 128
     t.date "born_on"
     t.boolean "do_not_call", default: false, null: false
-    t.datetime "deleted_at"
     t.string "background_info"
     t.string "skype", limit: 128
     t.text "subscribed_users"
+    t.datetime "deleted_at"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["assigned_to"], name: "index_contacts_on_assigned_to"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true

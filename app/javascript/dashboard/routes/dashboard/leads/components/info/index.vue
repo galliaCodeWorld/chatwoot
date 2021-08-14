@@ -71,8 +71,7 @@ export default {
         ])
       })
     },
-    changeState(ev, param) {
-      console.log('changeState...', ev, param)
+    changeState(param) {
       if (param === 'rejected')
         this.$store.dispatch('enLeads/status', {id: this.leadState.lead.id, status: param}).then(() => {
           this.$store.dispatch('enLeads/search', this.leadState.query).then(() => {

@@ -2,7 +2,7 @@
   <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
     <div class="column content-box">
       <woot-modal-header
-        :header-title="modalHeader"
+        :header-title="leadState.lead.id !== 'new' ? 'Edit Lead' : 'Create Lead'"
       />
       <EditDetails />
     </div>
@@ -15,7 +15,7 @@ import EditDetails from './lists';
 
 export default {
   name: 'edit-lead',
-  
+  /////////////////////////////// test git desktop ------------------------------------------------------
   components: {
     EditDetails,
   },
@@ -29,19 +29,6 @@ export default {
     ...mapGetters({
       leadState: 'enLeads/getState',
     }),
-    modalHeader() {
-      if (!this.leadState.lead.id && this.leadState.lead.id !== 'new') {
-        let find = this.leadState.leads.find(k => k.id === this.leadState.lead.id)
-        if (!find)
-          Promise.all([
-            this.$store.dispatch('enLeads/editID', 'new'),
-            this.$store.dispatch('enLeads/lead', {id: 'new'})
-          ]).then(() => {
-            return 'Create Lead'
-          })
-        else return 'Update Lead'
-      } else return 'Create Lead'
-    },
   },
   methods: {
     onCancel() {
