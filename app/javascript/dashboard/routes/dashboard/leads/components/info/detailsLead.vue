@@ -34,7 +34,10 @@
       <div v-for="(item, n) in summary" :key="`summary-${n}`"
         class="d-flex justify-content-between align-baseline summary">
         <label>{{`${item.title}:`}}</label>
-        <strong v-html="lead[item.key]" />
+        <span v-if="item.title === 'Rating'" style="color: orangered">
+          <i v-for="i in 5" :key="`star--${i}`" class="icon ion-star" />
+        </span>
+        <strong v-else v-html="lead[item.key]" />
       </div>
       <md-divider class="md-hr md-theme-demo-light" />
     </div>

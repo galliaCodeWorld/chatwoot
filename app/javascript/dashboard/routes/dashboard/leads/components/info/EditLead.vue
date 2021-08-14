@@ -15,7 +15,6 @@ import EditDetails from './lists';
 
 export default {
   name: 'edit-lead',
-  /////////////////////////////// test git desktop ------------------------------------------------------
   components: {
     EditDetails,
   },

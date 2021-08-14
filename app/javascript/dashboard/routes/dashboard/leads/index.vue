@@ -38,7 +38,6 @@
     },
     beforeRouteEnter(to, from, next) {
       store.dispatch('enLeads/search').then(() => {
-        console.log('test...', store)
         next()
       })
     },

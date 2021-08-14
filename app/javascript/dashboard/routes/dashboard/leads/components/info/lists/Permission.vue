@@ -7,7 +7,7 @@
         :name="`checkbox-${n}`"
         @change="checked($event,item.id)"
       >
-        <strong class="check--item--name">{{item.name}}</strong>
+        <p class="check--item--name">{{item.name}}</p>
       </b-form-checkbox>
       <div v-if="item.id === 3 && item.checked">
         <form ref="lead_permission_form">
@@ -60,7 +60,7 @@
     methods: {
       checked(checked, id) {
         if (checked)
-          for (const {item, i} of this.options.entries()) item.checked = item.id === id
+          for (const {item, i} in this.options.entries()) item.checked = item.id === id
       }
     },
   }
@@ -68,9 +68,11 @@
 <style lang="scss" scoped>
   .leads-lists-permission {
     .check--item {
+      width: 100%;
       &--name {
-
+        color: #DD2C00;
       }
     }
+    padding: 0 12px;;
   }
 </style>
