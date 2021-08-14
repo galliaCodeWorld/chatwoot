@@ -15,6 +15,7 @@ import EditDetails from './lists';
 
 export default {
   name: 'edit-lead',
+  
   components: {
     EditDetails,
   },
