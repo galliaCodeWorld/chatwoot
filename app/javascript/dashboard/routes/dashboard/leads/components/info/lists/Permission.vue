@@ -12,24 +12,20 @@
       <div v-if="item.id === 3 && item.checked">
         <form ref="lead_permission_form">
           <div class="md-layout">
-            <md-field>
-              <multiselect v-model="leadState.lead.share_users"
-                placeholder="Share Users.."
-                label="email" track-by="id"
-                :multiple="true" :taggable="true"
-                :options="adUserState.users.filter(k => k.id !== leadState.lead.id)"
-              />
-            </md-field>
+            <multiselect v-model="leadState.lead.share_users"
+              placeholder="Share Users.."
+              label="email" track-by="id"
+              :multiple="true" :taggable="true"
+              :options="adUserState.users.filter(k => k.id !== leadState.lead.id)"
+            />
           </div>
           <div class="md-layout">
-            <md-field>
-              <multiselect v-model="leadState.lead.share_groups"
-                placeholder="Share Groups.."
-                label="name" track-by="id"
-                :multiple="true" :taggable="true"
-                :options="adGroupState.groups"
-              />
-            </md-field>
+            <multiselect v-model="leadState.lead.share_groups"
+              placeholder="Share Groups.."
+              label="name" track-by="id"
+              :multiple="true" :taggable="true"
+              :options="adGroupState.groups"
+            />
           </div>
         </form>
       </div>

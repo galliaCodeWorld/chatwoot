@@ -3,35 +3,29 @@
     @submit.prevent="handleSubmit(submit)">
       <div class="md-layout">
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <md-field>
-            <multiselect v-model="leadState.lead.assigned_to"
-              placeholder="Assigned to.."
-              label="email" track-by="id"
-              :multiple="false" :taggable="true"
-              :options="adUserState.users.concat([{email: 'Unassigned'}, {id: 'new', email: 'Myself'}]).map(k => {
-                if (!k.id && k.id !== 'new' && k.id === leadState.lead.id) k.email = 'Myself'
-                return k
-              })"
-            />
-          </md-field>
+          <multiselect v-model="leadState.lead.assigned_to"
+            placeholder="Assigned to.."
+            label="email" track-by="id"
+            :multiple="false" :taggable="true"
+            :options="adUserState.users.concat([{email: 'Unassigned'}, {id: 'new', email: 'Myself'}]).map(k => {
+              if (!k.id && k.id !== 'new' && k.id === leadState.lead.id) k.email = 'Myself'
+              return k
+            })"
+          />
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <md-field>
-            <multiselect v-model="leadState.lead.status"
-              placeholder="Status.."
-              :multiple="false" :taggable="true"
-              :options="status"
-            />
-          </md-field>
+          <multiselect v-model="leadState.lead.status"
+            placeholder="Status.."
+            :multiple="false" :taggable="true"
+            :options="status"
+          />
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <md-field>
-            <multiselect v-model="leadState.lead.rating"
-              placeholder="Rating.."
-              :multiple="false" :taggable="true"
-              :options="rating"
-            />
-          </md-field>
+          <multiselect v-model="leadState.lead.rating"
+            placeholder="Rating.."
+            :multiple="false" :taggable="true"
+            :options="rating"
+          />
         </div>
       </div>
       <div class="md-layout">
@@ -39,24 +33,20 @@
       </div>
       <div class="md-layout">
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <md-field>
-            <multiselect v-model="leadState.lead.source"
-              placeholder="Source.."
-              label="title" track-by="id"
-              :multiple="false" :taggable="true"
-              :options="source"
-            />
-          </md-field>
+          <multiselect v-model="leadState.lead.source"
+            placeholder="Source.."
+            label="title" track-by="id"
+            :multiple="false" :taggable="true"
+            :options="source"
+          />
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <md-field>
-            <multiselect v-model="leadState.lead.campaign_id"
-              placeholder="Campaign.."
-              label="name" track-by="id"
-              :multiple="false" :taggable="true"
-              :options="[]"
-            />
-          </md-field>
+          <multiselect v-model="leadState.lead.campaign_id"
+            placeholder="Campaign.."
+            label="name" track-by="id"
+            :multiple="false" :taggable="true"
+            :options="[]"
+          />
         </div>
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
           <md-button type="submit" class="md-success md-raised md-dense">

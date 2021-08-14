@@ -94,5 +94,12 @@
       color: white;
     }
   }
-  
+</style>
+<style type="scss">
+  .modal-container form {
+    padding: 0 2rem;
+  }
+  .md-field label {
+    color: #42A5F5;
+  }
 </style>
