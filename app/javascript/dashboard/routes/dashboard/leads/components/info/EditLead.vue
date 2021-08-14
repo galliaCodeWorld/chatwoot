@@ -2,7 +2,7 @@
   <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
     <div class="column content-box">
       <woot-modal-header
-        header-title="name and emial"
+        :header-title="modalHeader"
       />
       <EditDetails />
     </div>
@@ -25,13 +25,24 @@ export default {
       default: false,
     },
   },
-
   computed: {
     ...mapGetters({
       leadState: 'enLeads/getState',
     }),
+    modalHeader() {
+      if (!this.leadState.lead.id && this.leadState.lead.id !== 'new') {
+        let find = this.leadState.leads.find(k => k.id === this.leadState.lead.id)
+        if (!find)
+          Promise.all([
+            this.$store.dispatch('enLeads/editID', 'new'),
+            this.$store.dispatch('enLeads/lead', {id: 'new'})
+          ]).then(() => {
+            return 'Create Lead'
+          })
+        else return 'Update Lead'
+      } else return 'Create Lead'
+    },
   },
-
   methods: {
     onCancel() {
       let org = this.leadState.leads.find(k => k.id === this.leadState.lead.id)
