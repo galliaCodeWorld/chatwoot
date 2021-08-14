@@ -23,7 +23,7 @@
             rules="required|min:3"
             v-slot="{ passed, failed }"
           >
-            <md-field class="field" style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+            <md-field class="field" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
               <label class="field--label">Last name:</label>
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
@@ -39,7 +39,7 @@
             rules="required|email"
             v-slot="{ passed, failed }"
           >
-            <md-field class="field" style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+            <md-field class="field" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
               <label class="field--label">Email:</label>
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
@@ -53,7 +53,7 @@
             rules="required|min:5|max:20"
             v-slot="{ passed, failed }"
           >
-            <md-field class="field" style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+            <md-field class="field" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
               <label class="field--label">Phone:</label>
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
@@ -72,14 +72,15 @@
             rules="required"
             v-slot="{ passed, failed }"
           >
-            <md-field class="field" style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+            <md-field class="field" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
-              <multiselect name="tags" v-model="leadState.lead.tags"
+              <multiselect :max-height="150" style="color: black;" name="tags" v-model="leadState.lead.tags"
                 placeholder="Tags.."
                 label="name" track-by="id"
                 :multiple="true" :taggable="true"
                 :options="adTagState.tags"
+                open-direction="top"
               />
             </md-field>
           </ValidationProvider>
