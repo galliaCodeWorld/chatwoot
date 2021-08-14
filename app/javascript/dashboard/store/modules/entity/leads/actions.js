@@ -69,14 +69,14 @@ const actions = {
     return new Promise((resolve, reject) => {
       id
       ? new ApiClient(resource, {apiVersion}).delete(id)
-        .then(res => {
-          if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
-          resolve()
-        })
-        .catch(err => {
-          context.commit(`global/${types.SET_ERROR}`, err, {root: true});
-          reject(err)
-        })
+          .then(res => {
+            if (res.data.msg) context.commit(`global/${types.SET_ERROR}`, res.data.msg, {root: true})
+            resolve()
+          })
+          .catch(err => {
+            context.commit(`global/${types.SET_ERROR}`, err, {root: true});
+            reject(err)
+          })
       : resolve()
     })
   },
