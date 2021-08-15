@@ -25,7 +25,7 @@
                 </td>
                 <td>
                   <label v-for="(user, index) in group.users" :key = "'user-'+index">
-                    <span class="group-">{{ user.name }}</span>  
+                    <span class="group-">{{ user.name }}</span>
                   </label>
                 </td>
                 <!-- Actions -->
@@ -92,7 +92,7 @@ import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import AddGroup from './AddGroup.vue';
 import EditGroup from './EditGroup';
-import store from '../../../../store'
+import store from 'dashboard/store';
 
 export default {
   components: {

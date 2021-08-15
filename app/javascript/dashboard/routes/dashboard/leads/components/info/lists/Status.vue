@@ -1,6 +1,5 @@
 <template>
-    <form ref="lead_status_form"
-    @submit.prevent="handleSubmit(submit)">
+    <form ref="lead_status_form">
       <div class="md-layout">
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
           <md-field class="field">
@@ -21,7 +20,7 @@
               placeholder="Status.."
               :multiple="false" :taggable="true"
               :options="status"
-              
+
             />
           </md-field>
         </div>
@@ -74,6 +73,12 @@
   import { mapGetters } from 'vuex';
   export default {
     name: 'leads-lists-status',
+    props: {
+      sending: {
+        type: Boolean,
+        default: false
+      }
+    },
     data() {
       return {
         status: [ 'new', 'contacted', 'converted', 'rejected'],
@@ -95,20 +100,20 @@
           {id: 1, title: 'world of Mouth'},
           {id: 1, title: 'Other'},
         ],
-        sending: false,
       }
     },
     computed: {
       ...mapGetters({
         leadState: 'enLeads/getState',
         adUserState: 'adUsers/getState'
-      })
+      }),
+      wSending: props => props.sending
     },
-    methods: {
-      submit() {
-        alert('s submit...')
+    watch: {
+      wSending(newValue, oldValue) {
+        if (newValue) this.$emit('onSubmit', {status: true})
       }
-    },
+    }
   };
 </script>
 <style lang="scss" scoped>

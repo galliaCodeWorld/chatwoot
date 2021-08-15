@@ -86,7 +86,7 @@ import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import AddTag from './AddTag.vue';
 import EditTag from './EditTag';
-import store from '../../../../store'
+import store from 'dashboard/store';
 
 export default {
   components: {

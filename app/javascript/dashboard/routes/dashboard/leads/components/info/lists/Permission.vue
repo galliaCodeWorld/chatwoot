@@ -36,6 +36,12 @@
   import { mapGetters } from 'vuex';
   export default {
     name: 'leads-lists-permission',
+    props: {
+      sending: {
+        type: Boolean,
+        default: false
+      }
+    },
     data() {
       return {
         options: [
@@ -51,7 +57,13 @@
         leadState: 'enLeads/getState',
         adUserState: 'adUsers/getState',
         adGroupState: 'adGroups/getState',
-      })
+      }),
+      wSending: props => props.sending
+    },
+    watch: {
+      wSending(newValue, oldValue) {
+        if (newValue) this.$emit('onSubmit', {permission: true})
+      }
     },
     methods: {
       checked(checked, id) {
