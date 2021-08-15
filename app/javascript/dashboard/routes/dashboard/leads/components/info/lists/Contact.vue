@@ -175,11 +175,6 @@
           </div>
         </div>
       </div>
-      <div class="md-layout">
-        <md-button type="submit" class="md-success md-raised md-dense">
-          contact
-        </md-button>
-      </div>
     </form>
   </ValidationObserver>
 </template>
@@ -190,19 +185,26 @@
   extend('max', max);
   export default {
     name: 'leads-lists-contact',
-    data() {
-      return {
-        sending: false
+    props: {
+      sending: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
       ...mapGetters({
         leadState: 'enLeads/getState',
-      })
+      }),
+      wSending: props => props.sending
+    },
+    watch: {
+      wSending(newValue, oldValue) {
+        if (newValue) this.$refs.lead_contact_form.submit()
+      }
     },
     methods: {
       submit() {
-        alert('contact submit..')
+        this.$emit('onSubmit', {contact: true})
       }
     },
   };

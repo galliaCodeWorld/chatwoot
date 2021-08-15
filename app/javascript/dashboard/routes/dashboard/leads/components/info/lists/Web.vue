@@ -3,20 +3,23 @@
     <form ref="lead_web_form"
     @submit.prevent="handleSubmit(submit)">
       <div class="md-layout">
-        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
-          <ValidationProvider
-            name="blog"
-            rules="max:80"
-            v-slot="{ passed, failed }"
-          >
-            <md-field style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
-              <label class="field--label">Website/Blog:</label>
-              <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
-              <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
-              <md-input name='blog' v-model="leadState.lead.blog" type="text" />
-            </md-field>
-          </ValidationProvider>
-        </div>
+        <ValidationProvider
+          name="blog"
+          rules="max:80"
+          v-slot="{ passed, failed }"
+        >
+          <md-field style="margin: 0;" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+            <label class="field--label">Website/Blog:</label>
+            <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
+            <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
+            <md-input name='blog' v-model="leadState.lead.blog" type="text" />
+          </md-field>
+        </ValidationProvider>
+      </div>
+      <div class="md-layout">
+        <md-progress-bar md-mode="indeterminate" v-if="sending" />
+      </div>
+      <div class="md-layout">
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
           <ValidationProvider
             name="twitter"
@@ -31,8 +34,6 @@
             </md-field>
           </ValidationProvider>
         </div>
-      </div>
-      <div class="md-layout">
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
           <ValidationProvider
             name="linkedin"
@@ -47,6 +48,8 @@
             </md-field>
           </ValidationProvider>
         </div>
+      </div>
+      <div class="md-layout">
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
           <ValidationProvider
             name="facebook"
@@ -61,11 +64,6 @@
             </md-field>
           </ValidationProvider>
         </div>
-      </div>
-      <div class="md-layout">
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
-      </div>
-      <div class="md-layout">
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
           <ValidationProvider
             name="skype"
@@ -80,11 +78,6 @@
             </md-field>
           </ValidationProvider>
         </div>
-        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
-          <md-button type="submit" class="md-success md-raised md-dense">
-            Web
-          </md-button>
-        </div>
       </div>
     </form>
   </ValidationObserver>
@@ -96,19 +89,26 @@
   extend('max', max);
   export default {
     name: 'leads-lists-web',
-    data() {
-      return {
-        sending: false
+    props: {
+      sending: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
       ...mapGetters({
         leadState: 'enLeads/getState',
-      })
+      }),
+      wSending: props => props.sending
+    },
+    watch: {
+      wSending(newValue, oldValue) {
+        if (newValue) this.$refs.lead_web_form.submit()
+      }
     },
     methods: {
       submit() {
-        alert('web submit..')
+        this.$emit('onSubmit', {web: true})
       }
     },
   };

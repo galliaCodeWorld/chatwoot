@@ -66,30 +66,23 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
       </div>
       <div class="md-layout">
-        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
-          <ValidationProvider
-            name="tags"
-            rules="required"
-            v-slot="{ passed, failed }"
-          >
-            <md-field class="field" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
-              <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
-              <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
-              <multiselect :max-height="150" style="color: black;" name="tags" v-model="leadState.lead.tags"
-                placeholder="Tags.."
-                label="name" track-by="id"
-                :multiple="true" :taggable="true"
-                :options="adTagState.tags"
-                open-direction="top"
-              />
-            </md-field>
-          </ValidationProvider>
-        </div>
-        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
-          <md-button type="submit" class="md-success md-raised md-dense">
-            person
-          </md-button>
-        </div>
+        <ValidationProvider
+          name="tags"
+          rules="required"
+          v-slot="{ passed, failed }"
+        >
+          <md-field class="field" :class="[{ 'md-error': failed }, { 'md-valid': passed }]">
+            <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
+            <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
+            <multiselect :max-height="150" style="color: black;" name="tags" v-model="leadState.lead.tags"
+              placeholder="Tags.."
+              label="name" track-by="id"
+              :multiple="true" :taggable="true"
+              :options="adTagState.tags"
+              open-direction="top"
+            />
+          </md-field>
+        </ValidationProvider>
       </div>
     </form>
   </ValidationObserver>
@@ -104,20 +97,27 @@
   extend('max', max);
   export default {
     name: 'leads-lists-person',
-    data() {
-      return {
-        sending: false,
+    props: {
+      sending: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
       ...mapGetters({
         leadState: 'enLeads/getState',
         adTagState: 'adTags/getState'
-      })
+      }),
+      wSending: props => props.sending
+    },
+    watch: {
+      wSending(newValue, oldValue) {
+        if (newValue) this.$refs.lead_person_form.submit()
+      }
     },
     methods: {
       submit() {
-        alert('person submit...')
+        this.$emit('onSubmit', {person: true})
       }
     },
   };

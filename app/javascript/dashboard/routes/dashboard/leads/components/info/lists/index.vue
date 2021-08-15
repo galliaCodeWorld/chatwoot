@@ -1,37 +1,37 @@
 <template>
   <div>
-    <Person />
+    <Person :sending="sending" />
     <div class="edit-details">
       <div class="list">
         <md-list>
           <md-list-item md-expand>
             <span class="md-list-item-text">Status</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Status />
+              <Status :sending="sending" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Contact Information</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Contact />
+              <Contact :sending="sending" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Comment</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Comment />
+              <Comment :sending="sending" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Web Presence</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Web />
+              <Web :sending="sending" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Permission</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Permission />
+              <Permission :sending="sending" />
             </md-list>
           </md-list-item>
         </md-list>
@@ -48,6 +48,12 @@
   import Permission from './Permission.vue';
   export default {
     name: 'edit-details',
+    props: {
+      sending: {
+        type: Boolean,
+        default: false
+      }
+    },
     components: {
       Person,
       Status,

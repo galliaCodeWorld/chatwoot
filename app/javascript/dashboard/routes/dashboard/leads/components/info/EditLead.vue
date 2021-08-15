@@ -1,10 +1,14 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
     <div class="column content-box">
-      <woot-modal-header
-        :header-title="leadState.lead.id !== 'new' ? 'Edit Lead' : 'Create Lead'"
-      />
-      <EditDetails />
+      <woot-modal-header>
+        <md-button class="md-primary md-raised md-dense"
+        :disabled="sending"
+        @click="readySubmit">
+          {{leadState.lead.id !== 'new' ? 'Edit Lead' : 'Create Lead'}}
+        </md-button>
+      </woot-modal-header>
+      <EditDetails :sending="sending" @submit="onSubmit"/>
     </div>
   </woot-modal>
 </template>
@@ -23,6 +27,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      sending: false,
+    }
   },
   computed: {
     ...mapGetters({
@@ -45,9 +54,12 @@ export default {
           this.$store.dispatch('enLeads/editID', -1)
         ])
     },
-    async onSubmit(params) {
-      console.log('submit...', params)
+    readySubmit() {
+      this.sending = true
     },
+    async onsubmit(param) {
+      console.log('test onSubmit...', param)
+    }
   },
 };
 </script>
