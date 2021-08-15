@@ -14,7 +14,7 @@
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <b-icon class="field--icon" icon="check-square" scale="1" variant="success" v-show="passed" />
               <md-input name='blog' v-model="leadState.lead.blog" type="text" />
-            </md-field style="margin: 0;">
+            </md-field>
           </ValidationProvider>
         </div>
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
@@ -28,7 +28,7 @@
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <i class="field--icon icon ion-social-twitter" style="color: #1da1f2;" v-show="passed" />
               <md-input name='twitter' v-model="leadState.lead.twitter" type="text" />
-            </md-field style="margin: 0;">
+            </md-field>
           </ValidationProvider>
         </div>
       </div>
@@ -44,7 +44,7 @@
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <i class="field--icon icon ion-social-linkedin" style="color: #0a66c2;" v-show="passed" />
               <md-input name='linkedin' v-model="leadState.lead.linkedin" type="text" />
-            </md-field style="margin: 0;">
+            </md-field>
           </ValidationProvider>
         </div>
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
@@ -58,7 +58,7 @@
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <i class="field--icon icon ion-social-facebook" style="color: #1877f2;" v-show="passed" />
               <md-input name='facebook' v-model="leadState.lead.facebook" type="text" />
-            </md-field style="margin: 0;">
+            </md-field>
           </ValidationProvider>
         </div>
       </div>
@@ -77,7 +77,7 @@
               <b-icon class="field--icon" icon="x-circle" scale="1" variant="danger" v-show="failed" />
               <i class="field--icon icon ion-social-skype" style="color: #00aff0;" v-show="passed" />
               <md-input name='skype' v-model="leadState.lead.skype" type="text" />
-            </md-field style="margin: 0;">
+            </md-field>
           </ValidationProvider>
         </div>
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
