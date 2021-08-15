@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit }">
+  <ValidationObserver ref="person_prov" v-slot="{ handleSubmit }">
     <form ref="lead_person_form"
     @submit.prevent="handleSubmit(submit)">
       <div class="md-layout">
@@ -63,9 +63,6 @@
         </div>
       </div>
       <div class="md-layout">
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
-      </div>
-      <div class="md-layout">
         <ValidationProvider
           name="tags"
           rules="required"
@@ -84,6 +81,7 @@
           </md-field>
         </ValidationProvider>
       </div>
+      <button v-show="false" type="submit" ref="person_submit" />
     </form>
   </ValidationObserver>
 </template>
@@ -112,13 +110,16 @@
     },
     watch: {
       wSending(newValue, oldValue) {
-        if (newValue) this.$refs.lead_person_form.submit()
+        if (newValue) 
+          Promise.all([
+            this.$refs.person_submit.click()
+          ]).then(() => {
+            this.$emit('onSubmit', {person: this.$refs.person_prov.flags.valid})
+          })
       }
     },
     methods: {
-      submit() {
-        this.$emit('onSubmit', {person: true})
-      }
+      submit() {}
     },
   };
 </script>

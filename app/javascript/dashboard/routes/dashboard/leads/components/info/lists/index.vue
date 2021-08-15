@@ -1,37 +1,37 @@
 <template>
   <div>
-    <Person :sending="sending" />
+    <Person :sending="sending" @onSubmit="onSubmit" />
     <div class="edit-details">
       <div class="list">
         <md-list>
           <md-list-item md-expand>
             <span class="md-list-item-text">Status</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Status :sending="sending" />
+              <Status :sending="sending" @onSubmit="onSubmit" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Contact Information</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Contact :sending="sending" />
+              <Contact :sending="sending" @onSubmit="onSubmit" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Comment</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Comment :sending="sending" />
+              <Comment :sending="sending" @onSubmit="onSubmit" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Web Presence</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Web :sending="sending" />
+              <Web :sending="sending" @onSubmit="onSubmit" />
             </md-list>
           </md-list-item>
           <md-list-item md-expand>
             <span class="md-list-item-text">Permission</span>
             <md-list class="md-list-item-content" slot="md-expand">
-              <Permission :sending="sending" />
+              <Permission :sending="sending" @onSubmit="onSubmit" />
             </md-list>
           </md-list-item>
         </md-list>
@@ -54,6 +54,11 @@
         default: false
       }
     },
+    data() {
+      return {
+        valid: {}
+      }
+    },
     components: {
       Person,
       Status,
@@ -62,6 +67,19 @@
       Web,
       Permission
     },
+    computed: {
+      wSending: props => props.sending
+    },
+    watch: {
+      wSending(newValue, oldValue) {
+        if (newValue) 
+          setTimeout(() => {
+            if (Object.keys(this.valid).length === 6 && Object.values(this.valid).every(k => k))
+              this.$emit('onSubmit', true)
+            this.valid = {}
+          }, 10)
+      }
+    },
     beforeMount() {
       Promise.all([
         this.$store.dispatch('adUsers/search'),
@@ -69,6 +87,11 @@
         this.$store.dispatch('adTags/get'),
       ])
     },
+    methods: {
+      async onSubmit(param) {
+        Object.assign(this.valid, param)
+      }
+    }
   };
 </script>
 <style lang="scss" scoped>
