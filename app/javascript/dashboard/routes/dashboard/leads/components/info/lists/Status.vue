@@ -36,9 +36,6 @@
         </div>
       </div>
       <div class="md-layout">
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
-      </div>
-      <div class="md-layout">
         <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
           <md-field class="field">
             <multiselect :max-height="150" style="color: black;" v-model="leadState.lead.source"
@@ -60,11 +57,6 @@
               open-direction="top"
             />
           </md-field>
-        </div>
-        <div class="md-layout-item md-medium-size-33 md-xsmall-size-100 md-size-33">
-          <md-button type="submit" class="md-success md-raised md-dense">
-            status
-          </md-button>
         </div>
       </div>
     </form>

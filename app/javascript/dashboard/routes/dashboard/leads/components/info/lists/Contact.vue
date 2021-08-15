@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit }">
+  <ValidationObserver ref="contact_prov" v-slot="{ handleSubmit }">
     <form ref="lead_contact_form"
     @submit.prevent="handleSubmit(submit)">
       <div class="md-layout">
@@ -61,9 +61,6 @@
             </md-field>
           </ValidationProvider>
         </div>
-      </div>
-      <div class="md-layout">
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
       </div>
       <md-divider class="md-hr md-theme-demo-light" />
       <div class="md-layout">
@@ -175,6 +172,7 @@
           </div>
         </div>
       </div>
+      <button v-show="false" type="submit" ref="contact_submit" />
     </form>
   </ValidationObserver>
 </template>
@@ -199,13 +197,16 @@
     },
     watch: {
       wSending(newValue, oldValue) {
-        if (newValue) this.$refs.lead_contact_form.submit()
+        if (newValue) 
+          Promise.all([
+            this.$refs.contact_submit.click()
+          ]).then(() => {
+            this.$emit('onSubmit', {contact: this.$refs.contact_prov.flags.valid})
+          })
       }
     },
     methods: {
-      submit() {
-        this.$emit('onSubmit', {contact: true})
-      }
+      submit() {}
     },
   };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit }">
+  <ValidationObserver ref="web_prov" v-slot="{ handleSubmit }">
     <form ref="lead_web_form"
     @submit.prevent="handleSubmit(submit)">
       <div class="md-layout">
@@ -15,9 +15,6 @@
             <md-input name='blog' v-model="leadState.lead.blog" type="text" />
           </md-field>
         </ValidationProvider>
-      </div>
-      <div class="md-layout">
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
       </div>
       <div class="md-layout">
         <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-50">
@@ -79,6 +76,7 @@
           </ValidationProvider>
         </div>
       </div>
+      <button v-show="false" type="submit" ref="web_submit" />
     </form>
   </ValidationObserver>
 </template>
@@ -103,13 +101,16 @@
     },
     watch: {
       wSending(newValue, oldValue) {
-        if (newValue) this.$refs.lead_web_form.submit()
+        if (newValue) 
+          Promise.all([
+            this.$refs.web_submit.click()
+          ]).then(() => {
+            this.$emit('onSubmit', {web: this.$refs.web_prov.flags.valid})
+          })
       }
     },
     methods: {
-      submit() {
-        this.$emit('onSubmit', {web: true})
-      }
+      submit() {}
     },
   };
 </script>

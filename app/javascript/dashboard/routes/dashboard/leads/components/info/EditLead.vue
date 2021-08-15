@@ -8,7 +8,8 @@
           {{leadState.lead.id !== 'new' ? 'Edit Lead' : 'Create Lead'}}
         </md-button>
       </woot-modal-header>
-      <EditDetails :sending="sending" @submit="onSubmit"/>
+      <md-progress-bar md-mode="indeterminate" v-if="sending" />
+      <EditDetails :sending="sending" @onSubmit="onSubmit"/>
     </div>
   </woot-modal>
 </template>
@@ -56,9 +57,14 @@ export default {
     },
     readySubmit() {
       this.sending = true
+      setTimeout(() => {
+        this.sending = false
+      }, 100)
     },
-    async onsubmit(param) {
-      console.log('test onSubmit...', param)
+    async onSubmit(valid) {
+      if (valid) {
+        console.log('final...', this.leadState.lead)
+      }
     }
   },
 };
