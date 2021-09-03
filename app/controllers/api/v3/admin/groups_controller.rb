@@ -7,13 +7,7 @@
 #------------------------------------------------------------------------------
 class Api::V3::Admin::GroupsController < Api::V3::Admin::ApplicationController
 
-  
-  # respond_to :json
-
-  # POST /groups
-  #----------------------------------------------------------------------------
   def create
-    # render json: group_params
     @group = Group.new(group_params)
     if @group.save
       render json: {data: @group.to_json, success: true} , status: 200
@@ -22,28 +16,21 @@ class Api::V3::Admin::GroupsController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # POST /groups
   def index
     @group = Group.all
     render json: {data: @group.to_json(include: [:users]), success: true }, status: 200
-    # render json: {success: true, data: group}
   end
 
-  # GET /admin/groups/1
-  #----------------------------------------------------------------------------
   def show
     @group = Group.find_by_id(params[:id])
     render json: {data: @group.to_json, success: true}, status: 200
   end
 
-  # POST /groups/:id
   def show
     @group = Group.find_by(id: params[:id])
     render json: {data: @group.to_json(include: [:users]), success: true }, status: 200
   end
 
-  # PUT /groups/1
-  #----------------------------------------------------------------------------
   def update
     @group = Group.find(params[:id])
     
@@ -52,12 +39,8 @@ class Api::V3::Admin::GroupsController < Api::V3::Admin::ApplicationController
     else
       render json: @group.errors, status: 500
     end
-
-    
   end
 
-  # DELETE /groups/1
-  #----------------------------------------------------------------------------
   def destroy
     @group = Group.find(params[:id])
     render json: @group.destroy

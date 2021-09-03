@@ -8,15 +8,12 @@
 class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
   # before_action :get_data_for_sidebar, only: :index
 
-  # GET /accounts
-  #----------------------------------------------------------------------------
   def index
     # @accounts = get_accounts(page: page_param, per_page: per_page_param)
     @accounts = get_accouts
     render json: {data: @accounts.to_json(include: [:assignee]), success: true }, status: 200
   end
 
-  # GET /accounts/1
   def show
     # @stage = Setting.unroll(:opportunity_stage)
     # @comment = Comment.new
@@ -26,7 +23,6 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
   end
 
 
-  # POST /accounts
   def create
     @account =Account.new()
     @comment_body = params[:comment_body]
@@ -39,8 +35,6 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
     end
   end
 
-  # PUT /accounts/1
-  #----------------------------------------------------------------------------
   def update
     # respond_with(@account) do |_format|
     @account = Account.find(params[:id])
@@ -57,35 +51,14 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
     # end
   end
 
-  # DELETE /accounts/1
-  #----------------------------------------------------------------------------
   def delete
     if @account.destroy
       render json: {data: @account.to_json, success: true}, status: 200
     else
       render json: {msg: @account.errors.to_json, success: false}, status: 500
     end
-
-    # respond_with(@account) do |format|
-    #   format.html { respond_to_destroy(:html) }
-    #   format.js   { respond_to_destroy(:ajax) }
-    # end
   end
 
-  # PUT /accounts/1/attach
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :attach
-
-  # PUT /accounts/1/discard
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :discard
-
-  # POST /accounts/auto_complete/query                                     AJAX
-  #----------------------------------------------------------------------------
-  # Handled by ApplicationController :auto_complete
-
-  # GET /accounts/redraw                                                   AJAX
-  #----------------------------------------------------------------------------
   def redraw
     current_user.pref[:accounts_per_page] = per_page_param if per_page_param
     current_user.pref[:accounts_sort_by]  = Account.sort_by_map[params[:sort_by]] if params[:sort_by]
@@ -97,8 +70,6 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
     end
   end
 
-  # POST /accounts/filter                                                  AJAX
-  #----------------------------------------------------------------------------
   def filter
     session[:accounts_filter] = params[:category]
     @accounts = get_accounts(page: 1, per_page: per_page_param)
@@ -108,7 +79,6 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
     end
   end
 
-  # GET /accounts/1/edit   
   def edit
     @account = Account.find(params[:id])
     render json: {data: @account.to_json(include: [:tags]), success: true}, status: 200
@@ -116,8 +86,6 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
 
   private
 
-  #----------------------------------------------------------------------------
-  # alias get_accounts get_list_of_records
   def get_accouts
     self.current_page  = params[:page] if params[:page]
     self.current_query = params[:query] if params[:query]
@@ -132,12 +100,10 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
     scope
   end
 
-  #----------------------------------------------------------------------------
   def list_includes
     %i[pipeline_opportunities user tags].freeze
   end
 
-  #----------------------------------------------------------------------------
   def respond_to_destroy(method)
     if method == :ajax
       @accounts = get_accounts
@@ -154,8 +120,6 @@ class Api::V3::Entities::AccountsController < Api::V3::EntitiesController
     end
   end
 
-
-  #----------------------------------------------------------------------------
   def get_data_for_sidebar
     @account_category_total = HashWithIndifferentAccess[
                               Setting.account_category.map do |key|

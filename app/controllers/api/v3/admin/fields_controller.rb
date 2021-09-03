@@ -6,20 +6,12 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class Api::V3::Admin::FieldsController < Api::V3::Admin::ApplicationController
-  # before_action :setup_current_tab, only: [:index]
-  # load_resource except: %i[create subform]
-
-  # GET /fields/1
-  # GET /fields/1.xml                                                    HTML
-  #----------------------------------------------------------------------------
+ 
   def show
     @field = Field.find_by(id: params[:id])
     render json: {data: @field.to_json, success: true}, status: 200
   end
 
-  # POST /fields
-  # POST /fields.xml                                                     AJAX
-  #----------------------------------------------------------------------------
   def create
     as = field_params[:as]
     @field =
@@ -39,9 +31,6 @@ class Api::V3::Admin::FieldsController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # PUT /fields/1
-  # PUT /fields/1.xml                                                    AJAX
-  #----------------------------------------------------------------------------
   def update
     if field_params[:as].match?(/pair/)
       @field = CustomFieldPair.update_pair(params).first
@@ -52,9 +41,6 @@ class Api::V3::Admin::FieldsController < Api::V3::Admin::ApplicationController
     render json: {data: @field, success: true}, status: 200
   end
 
-  # DELETE /fields/1
-  # DELETE /fields/1.xml                                        HTML and AJAX
-  #----------------------------------------------------------------------------
   def destroy
     @field = Field.find(params[:id])
     if @field.destroy
@@ -64,8 +50,6 @@ class Api::V3::Admin::FieldsController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # POST /fields/sort
-  #----------------------------------------------------------------------------
   def sort
     field_group_id = params[:field_group_id].to_i
     field_ids = params["fields_field_group_#{field_group_id}"] || []

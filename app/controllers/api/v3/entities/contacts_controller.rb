@@ -14,16 +14,8 @@ class Api::V3::Entities::ContactsController < Api::V3::EntitiesController
     # @contacts = get_contacts(page: page_param, per_page: per_page_param)
     @contacts = get_contacts
     render json: {data: @contacts.to_json(include: [:tags]), success: true}, status: 200
-
-    # respond_with @contacts do |format|
-    #   format.xls { render layout: 'header' }
-    #   format.csv { render csv: @contacts }
-    # end
   end
 
-  # GET /contacts/1
-  # AJAX /contacts/1
-  #----------------------------------------------------------------------------
   def show
     # @stage = Setting.unroll(:opportunity_stage)
     # @comment = Comment.new
@@ -32,8 +24,6 @@ class Api::V3::Entities::ContactsController < Api::V3::EntitiesController
     # respond_with(@contact)
   end
 
-  # GET /contacts/new
-  #----------------------------------------------------------------------------
   # def new
   #   @contact.attributes = { user: current_user, access: Setting.default_access, assigned_to: nil }
   #   @account = Account.new(user: current_user)
@@ -50,18 +40,12 @@ class Api::V3::Entities::ContactsController < Api::V3::EntitiesController
   #   respond_with(@contact)
   # end
 
-  # GET /contacts/1/edit                                                   AJAX
-  #----------------------------------------------------------------------------
   def edit
     # @account = @contact.account || Account.new(user: current_user)
     # @previous = Contact.my(current_user).find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i if params[:previous].to_s =~ /(\d+)\z/
     render json: {data: @contact.to_json(include: [:tags]), success: true}, status: 200
-
-    # respond_with(@contact)
   end
 
-  # POST /contacts
-  #----------------------------------------------------------------------------
   def create
     @contact = Contact.new()
     @comment_body = params[:comment_body]
@@ -80,39 +64,15 @@ class Api::V3::Entities::ContactsController < Api::V3::EntitiesController
     end
   end
 
-  # PUT /contacts/1
-  #----------------------------------------------------------------------------
   def update
       @account = @contact.account || Account.new(user: current_user) unless @contact.update_with_account_and_permissions(params.permit!)
   end
 
-  # DELETE /contacts/1
-  #----------------------------------------------------------------------------
   def delete
     @contact.destroy
     render json: {data: @contact.to_json, success: true}, status: 200
-
-
-    # respond_with(@contact) do |format|
-    #   format.html { respond_to_destroy(:html) }
-    #   format.js   { respond_to_destroy(:ajax) }
-    # end
   end
 
-  # PUT /contacts/1/attach
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :attach
-
-  # POST /contacts/1/discard
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :discard
-
-  # POST /contacts/auto_complete/query                                     AJAX
-  #----------------------------------------------------------------------------
-  # Handled by ApplicationController :auto_complete
-
-  # GET /contacts/redraw                                                   AJAX
-  #----------------------------------------------------------------------------
   def redraw
     current_user.pref[:contacts_per_page] = per_page_param if per_page_param
 
@@ -136,8 +96,6 @@ class Api::V3::Entities::ContactsController < Api::V3::EntitiesController
 
   private
 
-  #----------------------------------------------------------------------------
-  # alias get_contacts get_list_of_records
   def get_contacts
     self.current_page  = params[:page] if params[:page]
     self.current_query = params[:query] if params[:query]

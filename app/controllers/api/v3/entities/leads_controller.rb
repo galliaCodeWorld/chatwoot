@@ -6,17 +6,11 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
-  # before_action :get_data_for_sidebar, only: :index
-  # autocomplete :account, :name, full: true
-
-  # GET /leads
-  #----------------------------------------------------------------------------
   def index
     @leads = get_leads
     render json: {data: @leads.to_json(), success: true}, status: 200
   end
 
-  # GET /leads/1
   def show
     # @comment = Comment.new
     # @timeline = timeline(@lead)
@@ -25,8 +19,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     render json: {data: @lead.to_json(include: [:assignee, :campaign, :addresses]), success: true}, status: 200
   end
 
-  # GET /leads/new
-  #----------------------------------------------------------------------------
   def new
     @lead.attributes = { user: current_user, access: Setting.default_access, assigned_to: nil }
     get_campaigns
@@ -43,19 +35,13 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     respond_with(@lead)
   end
 
-  # GET /leads/1/edit                                                      AJAX
-  #----------------------------------------------------------------------------
   def edit
     get_campaigns
-
     # @previous = Lead.my(current_user).find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i if params[:previous].to_s =~ /(\d+)\z/
-
     # respond_with(@lead)
     render json: {data: @lead.to_json(include: [:tags])}, success: true
   end
 
-  # POST /leads
-  #----------------------------------------------------------------------------
   def create
     # get_campaigns
     @comment_body = params[:comment_body]
@@ -70,8 +56,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
 
   end
 
-  # PUT /leads/1
-  #----------------------------------------------------------------------------
   def update
     # Must set access before user_ids, because user_ids= method depends on access value.
     @lead = Lead.find(params[:id])
@@ -87,8 +71,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     end
   end
 
-  # DELETE /leads/1
-  #----------------------------------------------------------------------------
   def destroy
     @lead = Lead.find(params[:id])
     puts @lead
@@ -100,8 +82,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
   end
 
 
-  # POST /leads/1/convert
-  #----------------------------------------------------------------------------
   def convert
     @lead = Lead.find(params[:id])
     @account = Account.new(user: current_user, name: @lead.company, access: "Lead")
@@ -131,8 +111,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
       end
   end
 
-  # POST /leads/1/reject
-  #----------------------------------------------------------------------------
   def reject
     @lead = Lead.find(params[:id])
     if @lead.reject
@@ -142,8 +120,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     end
   end
 
-  # GET /leads/redraw                                                      AJAX
-  #----------------------------------------------------------------------------
   def redraw
     current_user.pref[:leads_per_page] = per_page_param if per_page_param
 
@@ -165,8 +141,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     end
   end
 
-  # POST /leads/filter                                                     AJAX
-  #----------------------------------------------------------------------------
   def filter
     session[:leads_filter] = params[:status]
     @leads = get_leads(page: 1, per_page: per_page_param) # Start one the first page.
@@ -177,9 +151,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
   end
 
   private
-
-  #----------------------------------------------------------------------------
-  # alias get_leads get_list_of_records
 
   def get_leads
     self.current_page  = params[:page] if params[:page]
@@ -195,12 +166,10 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     scope
   end
 
-  #----------------------------------------------------------------------------
   def list_includes
     %i[tags].freeze
   end
 
-  #----------------------------------------------------------------------------
   def get_campaigns
     puts Campaign
     @campaigns = Campaign.my(current_user).order('name')
@@ -211,7 +180,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     @naming = (current_user.pref[:leads_naming] || Lead.first_name_position) unless params[:cancel].true?
   end
 
-  #----------------------------------------------------------------------------
   def respond_to_destroy(method)
     if method == :ajax
       if called_from_index_page? # Called from Leads index.
@@ -236,7 +204,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     end
   end
 
-  #----------------------------------------------------------------------------
   def get_data_for_sidebar(related = false)
     if related
       instance_variable_set("@#{related}", @lead.send(related)) if called_from_landing_page?(related.to_s.pluralize)
@@ -260,7 +227,6 @@ class Api::V3::Entities::LeadsController < Api::V3::EntitiesController
     end
   end
 
-  #----------------------------------------------------------------------------
   def update_sidebar
     if called_from_index_page?
       get_data_for_sidebar

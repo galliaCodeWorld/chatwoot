@@ -7,21 +7,16 @@
 #------------------------------------------------------------------------------
 class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
 
-  # GET /admin/users
-  # GET /admin/users.xml                                                   HTML
-  #----------------------------------------------------------------------------
   def index
     @users = get_users(page: params[:page])
     render json: @users.to_json(include: [:groups]), status: 200
   end
 
-  # GET /admin/users/1
   def show
     @user = User.find_by_id(params[:id])
     render json: @user.to_json(include: [:groups]), status: 200
   end
 
-  # POST /admin/users
   def create
     @user = User.new(user_params)
     @user.suspend_if_needs_approval
@@ -32,7 +27,6 @@ class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # POST /admin/users/1
   def update
     @user = User.find(params[:id])
     @user.attributes = user_params
@@ -43,13 +37,11 @@ class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # GET /admin/users/1/confirm                                             AJAX
   def confirm
     @user = User.find_by_id(params[:id])
     render json: @user, status: 200
   end
 
-  # DELETE /admin/users/1
   def delete
     @user = User.find_by_id(params[:id])
     if @user.destroy
@@ -59,14 +51,12 @@ class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # PUT /admin/users/1/suspend
   def suspend
     @user = User.find_by_id(params[:id])
     @user.update_attribute(:suspended_at, Time.now)
     render json: @user, status: 200
   end
 
-  # PUT /admin/users/1/reactivate
   def reactivate
     @user = User.find_by_id(params[:id])
     @user.update_attribute(:suspended_at, nil)
@@ -108,10 +98,8 @@ class Api::V3::Admin::UsersController < Api::V3::Admin::ApplicationController
   def get_users(options = {})
     self.current_page  = options[:page] if options[:page]
     self.current_query = params[:query] if params[:query]
-
     @search = klass.ransack(params[:q])
     @search.build_grouping unless @search.groupings.any?
-
     wants = request.format
     scope = User.by_id
     scope = scope.merge(@search.result)

@@ -6,11 +6,7 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class Api::V3::Admin::SettingsController < Api::V3::Admin::ApplicationController
-  # before_action :setup_current_tab, only: [:index]
 
-  # GET /admin/settings
-  # GET /admin/settings.xml
-  #----------------------------------------------------------------------------
   def index
   end
 

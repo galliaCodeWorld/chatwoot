@@ -39,6 +39,9 @@ import adTags from './modules/admin/tags';
 import adUsers from './modules/admin/users';
 ////////////////////// entity ///////////////////////////////////
 import enLeads from './modules/entity/leads';
+import enCampaines from './modules/entity/campaines';
+import enOpportunities from './modules/entity/opportunities';
+import enAccounts from './modules/entity/accounts';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -81,5 +84,8 @@ export default new Vuex.Store({
     adUsers,
     ////////entity-----------------
     enLeads,
+    enCampaines,
+    enAccounts,
+    enOpportunities
   },
 });
