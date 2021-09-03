@@ -203,6 +203,33 @@ export default {
       editID: 'MEEditID',
       editing: 'MEEditing',
       page: 'MEPage'
+    },
+    campaines: {
+      get: 'MECampainesGet',
+      getone: 'MECampaineGetOne',
+      query: 'MECampaineQuery',
+      queryHistory: 'MECampaineQueryHis',
+      editID: 'MEEditID',
+      editing: 'MEEditing',
+      page: 'MEPage'
+    },
+    accounts: {
+      get: 'MEAccountsGet',
+      getone: 'MEAccountGetOne',
+      query: 'MEAccountQuery',
+      queryHistory: 'MEAccountQueryHis',
+      editID: 'MEEditID',
+      editing: 'MEEditing',
+      page: 'MEPage'
+    },
+    opportunities: {
+      get: 'MEOpportunitiesGet',
+      getone: 'MEOpportunityGetOne',
+      query: 'MEOpportunityQuery',
+      queryHistory: 'MEOpportunityQueryHis',
+      editID: 'MEEditID',
+      editing: 'MEEditing',
+      page: 'MEPage'
     }
   }
 };

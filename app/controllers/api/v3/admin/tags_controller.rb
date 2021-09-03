@@ -7,24 +7,16 @@
 #------------------------------------------------------------------------------
 class Api::V3::Admin::TagsController < Api::V3::Admin::ApplicationController
  
-  # GET /admin/tags
-  # GET /admin/tags.xml                                                   HTML
-  #----------------------------------------------------------------------------
   def index
     @tag = Tag.all
     render json: {data: @tag.to_json, success: true}, status: 200
   end
-
-  # GET /admin/tags/1
-  #----------------------------------------------------------------------------
+ 
   def show
     @tag = Tag.find_by_id(params[:id])
     render json: {data: @tag.to_json, success: true}, status: 200
   end
-
-  # POST /admin/tags
-  # POST /admin/tags.xml                                                  AJAX
-  #-----------------------------------------------------------------------------
+  
   def create
     @tag = Tag.new(tag_params)
     if @tag.save
@@ -34,9 +26,6 @@ class Api::V3::Admin::TagsController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # PUT /admin/tags/1
-  # PUT /admin/tags/1.xml                                                 AJAX
-  #----------------------------------------------------------------------------
   def update
     @tag = Tag.find_by_id(params[:id])
 
@@ -56,8 +45,6 @@ class Api::V3::Admin::TagsController < Api::V3::Admin::ApplicationController
     end
   end
 
-  # GET /admin/tags/1/confirm                                             AJAX
-  #----------------------------------------------------------------------------
   protected
 
   def tag_params

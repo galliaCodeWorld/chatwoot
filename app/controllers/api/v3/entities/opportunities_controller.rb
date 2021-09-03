@@ -10,29 +10,18 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
   # before_action :get_data_for_sidebar, only: :index
   # before_action :set_params, only: %i[index redraw filter]
 
-  # GET /opportunities
-  #----------------------------------------------------------------------------
   def index
     # @opportunities = get_opportunities(page: page_param, per_page: per_page_param)
     @opportunities = get_opportunities
     render json: {data: @opportunities.to_json(include: [:account, :tags]), success: true}, status: 500
-    # respond_with @opportunities do |format|
-    #   format.xls { render layout: 'header' }
-    #   format.csv { render csv: @opportunities }
-    # end
   end
 
-  # GET /opportunities/1
-  # AJAX /opportunities/1
-  #----------------------------------------------------------------------------
   def show
     # @comment = Comment.new
     # @timeline = timeline(@opportunity)
     render json: {data: @opportunity.to_json(include: [:account, :tasks, :contacts]), success: true}, status: 200
   end
 
-  # GET /opportunities/new
-  #----------------------------------------------------------------------------
   # def new
   #   @opportunity.attributes = { user: current_user, stage: Opportunity.default_stage, access: Setting.default_access, assigned_to: nil }
   #   @account = Account.new(user: current_user, access: Setting.default_access)
@@ -52,8 +41,6 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
   #   respond_with(@opportunity)
   # end
 
-  # GET /opportunities/1/edit                                              AJAX
-  #----------------------------------------------------------------------------
   def edit
     @account  = @opportunity.account || Account.new(user: current_user)
     @accounts = Account.my(current_user).order('name')
@@ -63,8 +50,6 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     render json: {data: @opportunity.to_json(incldue: [:tags]), success: true}, status: 200
   end
 
-  # POST /opportunities
-  #----------------------------------------------------------------------------
   def create
     @opportunity = Opportunity.new()
     @comment_body = params[:comment_body]
@@ -88,8 +73,6 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     end
   end
 
-  # PUT /opportunities/1
-  #----------------------------------------------------------------------------
   def update
     if @opportunity.update_with_account_and_permissions(params.permit!)
       # if called_from_index_page?
@@ -110,8 +93,6 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     end
   end
 
-  # DELETE /opportunities/1
-  #----------------------------------------------------------------------------
   def delete
     # if called_from_landing_page?(:accounts)
     #   @account = @opportunity.account   # Reload related account if any.
@@ -123,27 +104,8 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     else
       render json:{msg: @opportunity.errors.to_json, success: false}, status: 500
     end
-
-    # respond_with(@opportunity) do |format|
-    #   format.html { respond_to_destroy(:html) }
-    #   format.js   { respond_to_destroy(:ajax) }
-    # end
   end
 
-  # PUT /opportunities/1/attach
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :attach
-
-  # POST /opportunities/1/discard
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :discard
-
-  # POST /opportunities/auto_complete/query                                AJAX
-  #----------------------------------------------------------------------------
-  # Handled by ApplicationController :auto_complete
-
-  # GET /opportunities/redraw                                              AJAX
-  #----------------------------------------------------------------------------
   def redraw
     @opportunities = get_opportunities(page: 1, per_page: per_page_param)
     set_options # Refresh options
@@ -153,8 +115,6 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     end
   end
 
-  # POST /opportunities/filter                                             AJAX
-  #----------------------------------------------------------------------------
   def filter
     @opportunities = get_opportunities(page: 1, per_page: per_page_param)
     respond_with(@opportunities) do |format|
@@ -168,8 +128,6 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     scope.weighted_sort.order(order)
   end
 
-  #----------------------------------------------------------------------------
-  # alias get_opportunities get_list_of_records
   def get_opportunities
     self.current_query = params[:query] if params[:query]
 
@@ -182,12 +140,10 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     # scope = scope.paginate(page: current_page) if wants.html? || wants.js? || wants.xml?
     scope
   end
-  #----------------------------------------------------------------------------
   def list_includes
     %i[account user tags].freeze
   end
 
-  #----------------------------------------------------------------------------
   def respond_to_destroy(method)
     if method == :ajax
       if called_from_index_page?
@@ -208,7 +164,6 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     end
   end
 
-  #----------------------------------------------------------------------------
   def get_data_for_sidebar(related = false)
     if related
       instance_variable_set("@#{related}", @opportunity.send(related)) if called_from_landing_page?(related.to_s.pluralize)
@@ -232,12 +187,10 @@ class Api::V3::Entities::OpportunitiesController < Api::V3::EntitiesController
     end
   end
 
-  #----------------------------------------------------------------------------
   def load_settings
     @stage = Setting.unroll(:opportunity_stage)
   end
 
-  #----------------------------------------------------------------------------
   def set_params
     current_user.pref[:opportunities_per_page] = per_page_param if per_page_param
     current_user.pref[:opportunities_sort_by]  = Opportunity.sort_by_map[params[:sort_by]] if params[:sort_by]

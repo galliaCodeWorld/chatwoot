@@ -8,28 +8,12 @@
 class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
   # before_action :get_data_for_sidebar, only: :index
 
-  # GET /campaigns
-  #----------------------------------------------------------------------------
   def index
     # @campaigns = get_campaigns(page: page_param, per_page: per_page_param)
     @campaigns = get_campaigns
-
     render json: {data: @campaigns.to_json, success: true}, status: 200
-
-    # respond_with @campaigns do |format|
-    #   format.xls { render layout: 'header' }
-    #   format.csv { render csv: @campaigns }
-    # end
   end
 
-  # GET /campaigns/1
-  # AJAX /campaigns/1
-  # XLS /campaigns/1
-  # XLS /campaigns/1
-  # CSV /campaigns/1
-  # RSS /campaigns/1
-  # ATOM /campaigns/1
-  #----------------------------------------------------------------------------
   def show
     # respond_with(@campaign) do |format|
     #   format.html do
@@ -66,10 +50,6 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
     render json: {data: @campaign.to_json(include: [:tasks, :leads, :opportunities]), success: true}, status:500
   end
 
-  # GET /campaigns/new
-  # GET /campaigns/new.json
-  # GET /campaigns/new.xml                                                 AJAX
-  #----------------------------------------------------------------------------
   def new
     @campaign.attributes = { user: current_user, access: Setting.default_access, assigned_to: nil }
 
@@ -85,16 +65,12 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
     respond_with(@campaign)
   end
 
-  # GET /campaigns/1/edit                                                  AJAX
-  #----------------------------------------------------------------------------
   def edit
     # @previous = Campaign.my(current_user).find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i if params[:previous].to_s =~ /(\d+)\z/
 
     render json: {data:@campaign.to_json, success: true}, status:200
   end
 
-  # POST /campaigns
-  #----------------------------------------------------------------------------
   def create
     @comment_body = params[:comment_body]
     @campaign = Campaign.new(params[:campaign])
@@ -108,8 +84,6 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
     end
   end
 
-  # PUT /campaigns/1
-  #----------------------------------------------------------------------------
   def update
     @campaign = Campaign.find(params[:id])
     # Must set access before user_ids, because user_ids= method depends on access value.
@@ -122,35 +96,14 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
     end
   end
 
-  # DELETE /campaigns/1
-  #----------------------------------------------------------------------------
   def delete
     if @campaign.destroy
       render json: {data: @campaign, success: true}, status: 200
     else
       render json: {msg: @campaign.errors.to_json, success: false}, status: 500
     end
-
-    # respond_with(@campaign) do |format|
-    #   format.html { respond_to_destroy(:html) }
-    #   format.js   { respond_to_destroy(:ajax) }
-    # end
   end
 
-  # PUT /campaigns/1/attach
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :attach
-
-  # PUT /campaigns/1/discard
-  #----------------------------------------------------------------------------
-  # Handled by EntitiesController :discard
-
-  # POST /campaigns/auto_complete/query                                    AJAX
-  #----------------------------------------------------------------------------
-  # Handled by ApplicationController :auto_complete
-
-  # GET /campaigns/redraw                                                  AJAX
-  #----------------------------------------------------------------------------
   def redraw
     current_user.pref[:campaigns_per_page] = per_page_param if per_page_param
     current_user.pref[:campaigns_sort_by]  = Campaign.sort_by_map[params[:sort_by]] if params[:sort_by]
@@ -162,8 +115,6 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
     end
   end
 
-  # POST /campaigns/filter                                                 AJAX
-  #----------------------------------------------------------------------------
   def filter
     session[:campaigns_filter] = params[:status]
     @campaigns = get_campaigns(page: 1, per_page: per_page_param)
@@ -175,8 +126,6 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
 
   private
 
-  #----------------------------------------------------------------------------
-  # alias get_campaigns get_list_of_records
   def get_campaigns
     self.current_page  = params[:page] if params[:page]
     self.current_query = params[:query] if params[:query]
@@ -191,12 +140,10 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
     scope
   end
 
-  #----------------------------------------------------------------------------
   def list_includes
     %i[tags].freeze
   end
 
-  #----------------------------------------------------------------------------
   def respond_to_destroy(method)
     if method == :ajax
       get_data_for_sidebar
@@ -213,7 +160,6 @@ class Api::V3::Entities::CampaignsController < Api::V3::EntitiesController
     end
   end
 
-  #----------------------------------------------------------------------------
   def get_data_for_sidebar
     @campaign_status_total = HashWithIndifferentAccess[
                              all: Campaign.my(current_user).count,

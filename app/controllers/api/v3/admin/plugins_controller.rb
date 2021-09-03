@@ -6,14 +6,9 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class Api::V3::Admin::PluginsController < Api::V3::Admin::ApplicationController
-  # before_action :setup_current_tab, only: [:index]
-
-  # GET /admin/plugins
-  # GET /admin/plugins.xml
-  #----------------------------------------------------------------------------
+ 
   def index
     @plugins = FatFreeCRM::Plugin.list
-
     respond_with(@plugins)
   end
 end
