@@ -3,28 +3,22 @@
 # Table name: accounts
 #
 #  id                    :integer          not null, primary key
-#  access                :string(8)        default("Public")
-#  assigned_to           :integer
 #  auto_resolve_duration :integer
 #  background_info       :string
+#  billing_address       :string
 #  category              :string(32)
-#  contacts_count        :integer          default(0)
 #  deleted_at            :datetime
 #  domain                :string(100)
 #  email                 :string(254)
-#  fax                   :string(32)
 #  feature_flags         :integer          default(0), not null
 #  locale                :integer          default("en")
-#  name                  :string(64)       default(""), not null
-#  opportunities_count   :integer          default(0)
-#  phone                 :string(32)
+#  name                  :string           not null
 #  rating                :integer          default(0), not null
 #  settings_flags        :integer          default(0), not null
+#  shipping_address      :string
 #  subscribed_users      :text
 #  support_email         :string(100)
-#  toll_free_phone       :string(32)
 #  uuid                  :string
-#  website               :string(64)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  user_id               :integer
@@ -32,9 +26,7 @@
 #
 # Indexes
 #
-#  index_accounts_on_assigned_to                      (assigned_to)
-#  index_accounts_on_user_id_and_name_and_deleted_at  (user_id,name,deleted_at) UNIQUE
-#  index_accounts_on_users_id                         (users_id)
+#  index_accounts_on_users_id  (users_id)
 #
 
 class Account < ApplicationRecord

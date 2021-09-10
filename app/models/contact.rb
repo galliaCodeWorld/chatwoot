@@ -3,47 +3,27 @@
 # Table name: contacts
 #
 #  id                    :integer          not null, primary key
-#  access                :string(8)        default("Public")
 #  additional_attributes :jsonb
+#  address               :string
 #  alt_email             :string(254)
-#  assigned_to           :integer
 #  background_info       :string
-#  blog                  :string(128)
-#  born_on               :date
 #  custom_attributes     :jsonb
 #  deleted_at            :datetime
-#  department            :string(64)
-#  do_not_call           :boolean          default(FALSE), not null
 #  email                 :string(254)
-#  facebook              :string(128)
-#  fax                   :string(32)
-#  first_name            :string(64)       default(""), not null
 #  identifier            :string
 #  last_activity_at      :datetime
-#  last_name             :string(64)       default(""), not null
-#  linkedin              :string(128)
-#  mobile                :string(32)
 #  name                  :string
-#  phone                 :string(32)
 #  phone_number          :string
 #  pubsub_token          :string
-#  reports_to            :integer
 #  skype                 :string(128)
-#  source                :string(32)
 #  subscribed_users      :text
-#  title                 :string(64)
-#  twitter               :string(128)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
-#  lead_id               :integer
-#  user_id               :integer
 #
 # Indexes
 #
-#  id_last_name_deleted                 (user_id,last_name,deleted_at) UNIQUE
 #  index_contacts_on_account_id         (account_id)
-#  index_contacts_on_assigned_to        (assigned_to)
 #  index_contacts_on_pubsub_token       (pubsub_token) UNIQUE
 #  uniq_email_per_account_contact       (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact  (identifier,account_id) UNIQUE

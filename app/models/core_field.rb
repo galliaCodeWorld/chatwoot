@@ -11,10 +11,9 @@
 #
 #  id             :integer          not null, primary key
 #  as             :string(32)
-#  collection     :string
+#  collection     :text
 #  disabled       :boolean
 #  hint           :string
-#  klass_name     :string(32)
 #  label          :string(128)
 #  maxlength      :integer
 #  minlength      :integer
@@ -22,15 +21,16 @@
 #  placeholder    :string
 #  position       :integer
 #  required       :boolean
+#  settings       :text
 #  type           :string
-#  created_at     :datetime
-#  updated_at     :datetime
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #  field_group_id :integer
+#  pair_id        :integer
 #
 # Indexes
 #
 #  index_fields_on_field_group_id  (field_group_id)
-#  index_fields_on_klass_name      (klass_name)
 #  index_fields_on_name            (name)
 #
 

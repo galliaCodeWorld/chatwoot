@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
   end
 
   create_table "accounts", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "locale", default: 0
@@ -66,26 +67,17 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
+    t.integer "user_id"
     t.bigint "users_id"
+    t.string "uuid"
+    t.string "email", limit: 254
+    t.string "background_info"
     t.integer "rating", default: 0, null: false
     t.string "category", limit: 32
     t.text "subscribed_users"
-    t.string "uuid"
-    t.integer "user_id"
-    t.integer "assigned_to"
-    t.string "name", limit: 64, default: "", null: false
-    t.string "access", limit: 8, default: "Public"
-    t.string "website", limit: 64
-    t.string "toll_free_phone", limit: 32
-    t.string "phone", limit: 32
-    t.string "fax", limit: 32
     t.datetime "deleted_at"
-    t.string "email", limit: 254
-    t.string "background_info"
-    t.integer "contacts_count", default: 0
-    t.integer "opportunities_count", default: 0
-    t.index ["assigned_to"], name: "index_accounts_on_assigned_to"
-    t.index ["user_id", "name", "deleted_at"], name: "index_accounts_on_user_id_and_name_and_deleted_at", unique: true
+    t.string "billing_address"
+    t.string "shipping_address"
     t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
@@ -335,6 +327,7 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
 
   create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name"
+    t.string "email", limit: 254
     t.string "phone_number"
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
@@ -344,37 +337,16 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at"
-    t.integer "user_id"
-    t.integer "lead_id"
-    t.integer "assigned_to"
-    t.integer "reports_to"
-    t.string "first_name", limit: 64, default: "", null: false
-    t.string "last_name", limit: 64, default: "", null: false
-    t.string "access", limit: 8, default: "Public"
-    t.string "title", limit: 64
-    t.string "department", limit: 64
-    t.string "source", limit: 32
-    t.string "email", limit: 254
-    t.string "alt_email", limit: 254
-    t.string "phone", limit: 32
-    t.string "mobile", limit: 32
-    t.string "fax", limit: 32
-    t.string "blog", limit: 128
-    t.string "linkedin", limit: 128
-    t.string "facebook", limit: 128
-    t.string "twitter", limit: 128
-    t.date "born_on"
-    t.boolean "do_not_call", default: false, null: false
     t.string "background_info"
     t.string "skype", limit: 128
     t.text "subscribed_users"
+    t.string "alt_email", limit: 254
+    t.string "address"
     t.datetime "deleted_at"
     t.index ["account_id"], name: "index_contacts_on_account_id"
-    t.index ["assigned_to"], name: "index_contacts_on_assigned_to"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
-    t.index ["user_id", "last_name", "deleted_at"], name: "id_last_name_deleted", unique: true
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -476,22 +448,22 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
   create_table "fields", id: :serial, force: :cascade do |t|
     t.string "type"
     t.integer "field_group_id"
-    t.string "klass_name", limit: 32
     t.integer "position"
     t.string "name", limit: 64
     t.string "label", limit: 128
     t.string "hint"
     t.string "placeholder"
     t.string "as", limit: 32
-    t.string "collection"
+    t.text "collection"
     t.boolean "disabled"
     t.boolean "required"
     t.integer "maxlength"
     t.integer "minlength"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "pair_id"
+    t.text "settings"
     t.index ["field_group_id"], name: "index_fields_on_field_group_id"
-    t.index ["klass_name"], name: "index_fields_on_klass_name"
     t.index ["name"], name: "index_fields_on_name"
   end
 
@@ -914,42 +886,37 @@ ActiveRecord::Schema.define(version: 2021_08_10_193747) do
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.string "name", null: false
     t.string "display_name"
+    t.string "email", limit: 254
     t.json "tokens"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "pubsub_token"
     t.integer "availability", default: 0
     t.jsonb "ui_settings", default: {}
-    t.string "username", limit: 32, default: "", null: false
-    t.string "email", limit: 254, default: "", null: false
-    t.string "first_name", limit: 32
-    t.string "last_name", limit: 32
-    t.string "title", limit: 64
-    t.string "company", limit: 64
-    t.string "alt_email", limit: 254
-    t.string "phone", limit: 32
-    t.string "mobile", limit: 32
-    t.string "aim", limit: 32
-    t.string "yahoo", limit: 32
-    t.string "google", limit: 32
-    t.string "skype", limit: 32
-    t.string "encrypted_password", default: "", null: false
-    t.string "password_salt", default: "", null: false
-    t.datetime "last_sign_in_at"
-    t.datetime "current_sign_in_at"
-    t.string "last_sign_in_ip"
-    t.string "current_sign_in_ip"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "confirmed_at"
     t.boolean "admin", default: false, null: false
     t.datetime "suspended_at"
+    t.string "alt_email", limit: 254
+    t.string "username"
+    t.string "first_name"
+    t.string "last_name"
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 

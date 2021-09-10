@@ -4,47 +4,42 @@
 #
 #  id                     :integer          not null, primary key
 #  admin                  :boolean          default(FALSE), not null
-#  aim                    :string(32)
 #  alt_email              :string(254)
 #  availability           :integer          default("online")
-#  company                :string(64)
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string
 #  confirmed_at           :datetime
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
-#  deleted_at             :datetime
 #  display_name           :string
-#  email                  :string(254)      default(""), not null
+#  email                  :string(254)
 #  encrypted_password     :string           default(""), not null
-#  first_name             :string(32)
-#  google                 :string(32)
-#  last_name              :string(32)
+#  first_name             :string
+#  last_name              :string
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
-#  mobile                 :string(32)
 #  name                   :string           not null
-#  password_salt          :string           default(""), not null
-#  phone                  :string(32)
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
+#  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
-#  skype                  :string(32)
 #  suspended_at           :datetime
-#  title                  :string(64)
 #  tokens                 :json
 #  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
-#  username               :string(32)       default(""), not null
-#  yahoo                  :string(32)
-#  created_at             :datetime
-#  updated_at             :datetime
+#  unconfirmed_email      :string
+#  username               :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 # Indexes
 #
-#  index_users_on_email             (email)
-#  index_users_on_pubsub_token      (pubsub_token) UNIQUE
-#  index_users_on_uid_and_provider  (uid,provider) UNIQUE
+#  index_users_on_email                 (email)
+#  index_users_on_pubsub_token          (pubsub_token) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
 
 class User < ApplicationRecord
